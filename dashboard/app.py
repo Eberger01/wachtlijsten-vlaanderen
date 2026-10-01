@@ -189,8 +189,11 @@ with tab_budget:
             # Som van de uitgavenartikelen op departementsniveau (code ..0-1....) per kolom: robuuster dan de
             # 'Totaal'-regel van de synthesetabel, die in oudere/afwijkend opgemaakte BBT's soms verkeerd gelezen wordt.
             art = kk[kk["artikel_code"].str.match(r"^[A-Z]{2}0-1") & kk["kolom"].str.match(r"^(BO|BA|Uitvoering|Realisatie)\s*\d{4}", case=False)].copy()
-            tot = art.groupby(["kolom", "kredietsoort"], as_index=False).agg(bedrag_keur=("bedrag_keur", "sum"), stuk=("stuk", "first"),
-                                                                              pagina=("pagina", "first"), controlestatus=("controlestatus", "first"))
+            # Eerst per document sommeren (een kolom als 'BA 2024' staat in twee stukken: opmaak 2025 én uitvoering 2024),
+            # daarna één waarde per kolom houden — anders worden BA-bedragen dubbel geteld.
+            per_doc = art.groupby(["pfile_id", "stuk", "kolom", "kredietsoort"], as_index=False).agg(
+                bedrag_keur=("bedrag_keur", "sum"), pagina=("pagina", "first"), controlestatus=("controlestatus", "first"))
+            tot = per_doc.sort_values("stuk").drop_duplicates(["kolom", "kredietsoort"], keep="first")
             tot["kolomjaar"] = tot["kolom"].str.extract(r"(\d{4})").astype(int)
             tot["kolomtype"] = tot["kolom"].str.extract(r"^(\w+)")[0].str.upper()
             # Per begrotingsjaar één waarde: BO uit de BBT van dat jaar; BA/uitvoering uit het document van het jaar zelf of erna.
