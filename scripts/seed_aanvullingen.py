@@ -184,12 +184,12 @@ for jaar, m, v, kol in ((2019, 24239, 29611, "C+D"), (2020, 21250, 26991, "E+F")
                           f"{fusie}afgeleid: som mannen + vrouwen"))
 BEVINDINGEN += [
     _b(CG, "zorgperiodes_actief", 57370, "zorgperiodes", date(2024, 12, 31), "vlpar-sv-645-2026", U645X, "SV nr. 645 — Excel-bijlage CGG 2024", "tabblad 'aantal zorgperiodes'",
-       "som over 17 CGG: 57.370 (0-17: 12.575; 18-64: 40.929; 65+: 3.866)", "Actieve zorgperiodes in 2024 (eigen optelling, geen Totaal-rij).", ONG, date(2026, 5, 8), "", "eigen optelling"),
+       "som over 17 CGG: 57.370 (0-17: 12.575; 18-64: 40.929; 65+: 3.866)", "Actieve zorgperiodes in 2024 (eigen optelling, geen Totaal-rij).", GEC, date(2026, 5, 8), C, "eigen optelling, nagerekend met scripts/cgg_gewogen.py"),
     _b(CG, "unieke_zorggebruikers", 55202, "personen", date(2024, 12, 31), "vlpar-bbt-wvg-2026", PF.format(2227516), "BBT Welzijn en Armoedebestrijding 2026 — 13-Z (2025-2026)", "p. 91 (indicator p. 90)",
        "CGG: • Aantal unieke zorggebruikers 2024: 55202 • Aantal doorgegane activiteiten 2024: 474220", "Unieke zorggebruikers CGG in het jaar (prestatie-indicator BBT; geen streefwaarde, geen wachttijdindicator).", GEC, date(2025, 10, 24), D_EB,
        "indicator 'Gebruik van het aanbod ambulante gespecialiseerde geestelijke gezondheidszorg binnen de Centra voor ambulante Revalidatie (CAR) en Centra voor geestelijke gezondheidszorg (CGG)'; "
        "voorblad zegt 'ingediend op 24 oktober 2024' (vermoedelijk tikfout voor 2025)"),
-    _b(CG, "vte_enveloppe", 891, "VTE", date(2024, 12, 31), "vlpar-sv-379-2025", U379X, "SV nr. 379 — Excel-bijlage", "tabblad 'vraag 6 VTE'", "som 20 CGG 2024: 891 VTE (2020: 811; 2021: 813; 2022: 864; 2023: 886)", "Enveloppe-personeel CGG in VTE (eigen optelling).", ONG, date(2025, 4, 8), "", "eigen optelling"),
+    _b(CG, "vte_enveloppe", 891, "VTE", date(2024, 12, 31), "vlpar-sv-379-2025", U379X, "SV nr. 379 — Excel-bijlage", "tabblad 'vraag 6 VTE'", "som over 17 CGG 2024: 891,1 VTE (2020: 811,3 – 20 CGG; 2021: 812,8 – 20; 2022: 864,3 – 19; 2023: 886,3 – 18)", "Enveloppe-personeel CGG in VTE (eigen optelling).", GEC, date(2025, 4, 8), C, "eigen optelling; daling aantal CGG door fusies"),
 ]
 
 
