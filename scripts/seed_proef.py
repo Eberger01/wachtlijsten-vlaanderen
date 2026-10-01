@@ -212,6 +212,7 @@ U57023 = "https://publicaties.vlaanderen.be/view-file/57023"
 U50259 = "https://publicaties.vlaanderen.be/view-file/50259"
 U42019 = "https://publicaties.vlaanderen.be/view-file/42019"
 U22T = "https://extranet.vaph.be/jaarverslag/2022/pages/54/"
+D_EB = "onderzoeksagent + 2e lezing Claude + EB (2026-10-01)"
 
 BEVINDINGEN: list[Bevinding] = []
 BEVINDINGEN += _pg_set(
@@ -236,7 +237,7 @@ BEVINDINGEN += _pg_set(
     "vaph-jaarverslag-2024-h1", U24H1, "VAPH jaarverslag 2024 eerste jaarhelft — Prioriteitengroepen", "pages/25",
     "Op 30 juni 2024 waren 17.848 personen met in totaal 17.889 vragen geregistreerd in de prioriteitengroepen: 371 vragen in "
     "prioriteitengroep 1, 7633 vragen in prioriteitengroep 2 en 9885 vragen in prioriteitengroep 3.",
-    GEL, None, "onderzoeksagent (2026-10-01)",
+    GEC, None, D_EB,
 )
 BEVINDINGEN += _pg_set(
     date(2023, 12, 31), 17648, 17678, (261, 7255, 10162), (date(2023, 10, 1), date(2016, 10, 1), date(2002, 1, 16)),
@@ -248,10 +249,13 @@ BEVINDINGEN += _pg_set(
 )
 BEVINDINGEN += _pg_set(
     date(2022, 12, 31), 16702, 16727, (210, 6172, 10345), (date(2022, 10, 1), date(2016, 10, 1), date(2002, 1, 16)),
-    "vaph-cijfers-2022", U57023, "Het VAPH in cijfers 2022", "sectie 'Vragen geregistreerd in prioriteitengroepen'",
-    "16.727 vragen geregistreerd in prioriteitengroepen … 16.702 personen … De eerstvolgende wachtende in elke prioriteitengroep had op "
-    "31.12.2022 de volgende prioriteringsdatum: PG1 1 oktober 2022, PG2 1 oktober 2016, PG3 16 januari 2002.",
-    GEL, date(2023, 6, 19), "onderzoeksagent (2026-10-01)",
+    "vaph-cijfers-2022", U57023, "Het VAPH in cijfers 2022", "sectie 'Vragen geregistreerd in prioriteitengroepen' (PDF p. 20-21)",
+    "Op 31 december 2022 waren 16.702 personen met in totaal 16.727 vragen geregistreerd in de prioriteitengroepen (eenzelfde persoon kan "
+    "in twee prioriteitengroepen voorkomen met een hoofd- en een deelvraag naar ondersteuning): • 210 vragen in prioriteitengroep 1 "
+    "• 6.172 vragen in prioriteitengroep 2 • 10.345 vragen in prioriteitengroep 3 … De eerstvolgende wachtende in elke prioriteitengroep "
+    "had op 31.12.2022 de volgende prioriteringsdatum: • prioriteitengroep 1: 01.10.2022 • prioriteitengroep 2: 01.10.2016 "
+    "• prioriteitengroep 3: 16.01.2002",
+    GEC, date(2023, 6, 19), D_EB,
 )
 # 2021: PDF geeft enkel vragen per PG (geen personen/totaal expliciet gelezen) -> aparte rijen
 for pg, n in ((1, 328), (2, 5034), (3, 10590)):
@@ -294,10 +298,13 @@ for pd_, pgs in ((date(2021, 6, 30), (1909, 4424, 10765)), (date(2020, 6, 30), (
                           "artikeltekst", "halfjaarcijfers VAPH geciteerd door GRIP", DEF_VRAGEN, ONG, date(2022, 5, 6), "", "secundaire bron"))
 # Terbeschikkingstellingen en budgethouders
 BEVINDINGEN += [
-    _b("terbeschikkingstellingen_budgetten", 5201, "budgetten", date(2025, 12, 31), "vaph-cijfers-2025", U85057, "Het VAPH in cijfers 2025", "p. 36",
-       "In 2025: 5.201 budgetten aan 4.551 personen; PG1 1.125; PG2 1.151; automatische toekenningsgroepen 2.925.", DEF_TBS, GEL, date(2026, 6, 1), "onderzoeksagent (2026-10-01)"),
-    _b("terbeschikkingstellingen_personen", 4551, "personen", date(2025, 12, 31), "vaph-cijfers-2025", U85057, "Het VAPH in cijfers 2025", "p. 36",
-       "5.201 budgetten aan 4.551 personen", DEF_TBS, GEL, date(2026, 6, 1), "onderzoeksagent (2026-10-01)"),
+    _b("terbeschikkingstellingen_budgetten", 5201, "budgetten", date(2025, 12, 31), "vaph-cijfers-2025", U85057, "Het VAPH in cijfers 2025", "p. 37",
+       "Tabel: aantal terbeschikkingstellingen in 2025 … Terbeschikkingstelling in prioriteitengroep 1 1.125 21,63% · Terbeschikkingstelling "
+       "in prioriteitengroep 2 1.151 22,13% · Totaal aantal terbeschikkingstellingen 5.201 100,00% · Totaal unieke personen** 4.551",
+       DEF_TBS, GEC, date(2026, 6, 1), D_EB,
+       "automatische toekenningsgroepen 2.925 = afgeleid (som van de zes overige tabelrijen 832+792+669+121+329+182), niet als totaal in de bron"),
+    _b("terbeschikkingstellingen_personen", 4551, "personen", date(2025, 12, 31), "vaph-cijfers-2025", U85057, "Het VAPH in cijfers 2025", "p. 37",
+       "Totaal aantal terbeschikkingstellingen 5.201 100,00% · Totaal unieke personen** 4.551", DEF_TBS, GEC, date(2026, 6, 1), D_EB),
     _b("terbeschikkingstellingen_budgetten", 3692, "budgetten", date(2024, 12, 31), "vaph-jaarverslag-2024", "https://extranet.vaph.be/jaarverslag/2024/pages/26",
        "VAPH jaarverslag 2024 — Terbeschikkingstellingen", "pages/26", "In 2024 werden 3692 persoonsvolgende budgetten ter beschikking gesteld aan 3056 personen.", DEF_TBS, GEL, None, "onderzoeksagent (2026-10-01)"),
     _b("terbeschikkingstellingen_personen", 3056, "personen", date(2024, 12, 31), "vaph-jaarverslag-2024", "https://extranet.vaph.be/jaarverslag/2024/pages/26",
@@ -457,11 +464,11 @@ BEVINDINGEN += [
         "Een kandidaat-huurder die in 2025 een sociale huurwoning kreeg toegewezen stond gemiddeld 5 jaren op de wachtlijst.", DEF_WT, GEC, date(2026, 6, 30), D2),
     _bv(SH, "sociale_huurwoningen", 178743, "woningen", date(2025, 12, 31), "wiv-jaarverslag-2025-aanbod", U25A, "Jaarverslag 2025 WiV — Woonaanbod afgestemd op de vraag", "hoofdstuk 2",
         "Op 31 december 2025 waren er in het Vlaamse Gewest in totaal 178.743 sociale huurwoningen: 166.077 woningen in eigendom van de woonmaatschappij en 12.666 ingehuurde woningen",
-        "Sociale huurwoningen (eigendom + ingehuurd) van woonmaatschappijen op 31/12.", GEL, date(2026, 6, 30), "onderzoeksagent (2026-10-01)"),
+        "Sociale huurwoningen (eigendom + ingehuurd) van woonmaatschappijen op 31/12.", GEC, date(2026, 6, 30), D_EB),
     _bv(SH, "huurpremie_gerechtigden", 23353, "huishoudens", date(2025, 12, 31), "wiv-jaarverslag-2025-betaalbaar",
         "https://www.vlaanderen.be/wonen-in-vlaanderen/onderzoek-en-cijfers-wonen/jaarverslag-2025/betaalbaar-wonen", "Jaarverslag 2025 WiV — Betaalbaar wonen", "hoofdstuk 1",
         "23.353 private huurders die minstens vier jaar wachten op een sociale huurwoning kregen eind 2025 een Vlaamse huurpremie", "Private huurders met ≥ 4 jaar ononderbroken inschrijving die de huurpremie ontvangen (wachtlijst-afgeleid recht).",
-        GEL, date(2026, 6, 30), "onderzoeksagent (2026-10-01)"),
+        GEC, date(2026, 6, 30), D_EB),
     # --- eind 2024 (jaarverslag 2024 + SV 213)
     _bv(SH, "wachtenden_kandidaten", 187874, "kandidaten", date(2024, 12, 31), "wiv-jaarverslag-2024-toegang", U24T, "Jaarverslag 2024 Wonen in Vlaanderen — Gelijke toegang tot wonen", "hoofdstuk 3",
         "Eind 2024 stonden er 187.874 kandidaten op de wachtlijst voor een sociale woning. Eén op drie kandidaten woont in provincie Antwerpen.", DEF_KH_CIR, GEC, date(2025, 7, 1), D2),
