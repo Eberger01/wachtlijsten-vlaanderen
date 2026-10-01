@@ -118,7 +118,7 @@ na herverdelingen; subsidies stedelijke agentschappen SJ0-1SFC2DA-WT 56,5 → 51
 
 Geen centrale wachtlijst (EPD pas vanaf eerste contact; "elk CGG beheert zelf zijn wachtlijst"). Wel wachttijden in dagen uit Excel-bijlagen
 bij schriftelijke vragen (379, 382, 645, 107), per CGG × leeftijd × geslacht; sectorgemiddelden hieronder zijn een **eigen berekening, gewogen naar actieve zorgperiodes**
-per cel (`scripts/cgg_gewogen.py`, status `bron_gelezen`); het officiële sectorgemiddelde staat enkel in het ZorgAtlas-Tableau-dashboard (niet exporteerbaar).
+per cel (`scripts/cgg_gewogen.py`, status `gecontroleerd`); het officiële sectorgemiddelde staat enkel in het ZorgAtlas-Tableau-dashboard (niet exporteerbaar).
 Gewogen en ongewogen verschillen hooguit ± 3 dagen.
 
 | Aanmelding → 1e contact (dagen) | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 |

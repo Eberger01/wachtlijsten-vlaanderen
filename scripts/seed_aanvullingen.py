@@ -156,24 +156,24 @@ DEF_W1 = "Gemiddeld aantal dagen tussen aanmelding en eerste direct cliëntencon
 DEF_W2 = "Gemiddeld aantal dagen tussen eerste (FTF1) en tweede (FTF2) direct cliëntencontact, per registratiejaar. " + DEF_W
 U379X = PF.format(2132648)
 U645X = PF.format(2307491)
-C = "Claude (2026-10-01)"
+C = "Claude (berekening) + EB (2026-10-01)"
 # (gewogen, ongewogen) per leeftijdsgroep 0-17 / 18-59 / 60+
 for jaar, rij in zip(range(2019, 2024), (((54.2, 56.2), (46.9, 45.5), (31.4, 30.8)), ((59.9, 59.5), (51.5, 49.9), (35.7, 34.6)), ((61.2, 63.5), (49.7, 46.8), (29.5, 29.5)),
                                          ((47.1, 48.0), (39.1, 37.3), (25.9, 26.2)), ((42.1, 42.2), (38.7, 36.9), (27.5, 27.6)))):
     for m, (val, ong), lab in zip(("wachttijd_ftf1_0_17_dagen", "wachttijd_ftf1_18_59_dagen", "wachttijd_ftf1_60plus_dagen"), rij, ("0-17 jaar", "18-59 jaar", "60+")):
         BEVINDINGEN.append(_b(CG, m, val, "dagen", date(jaar, 12, 31), "vlpar-sv-379-2025", U379X, "SV nr. 379 — Excel-bijlage wachttijden CGG (gewichten: SV 382-bijlage)",
                               "tabblad 'wachtijd tot eerste FTF' × SV 382 tabblad 'Zorgperiodes'",
-                              f"gewogen gemiddelde {lab} {jaar} over alle CGG × geslacht: {val} dagen", DEF_W1, GEL, date(2025, 4, 8), C,
+                              f"gewogen gemiddelde {lab} {jaar} over alle CGG × geslacht: {val} dagen", DEF_W1, GEC, date(2025, 4, 8), C,
                               f"eigen berekening; ongewogen: {ong} dagen; officieel sectorgemiddelde enkel in ZorgAtlas (niet exporteerbaar)"))
 for jaar, rij in zip(range(2019, 2024), (((63.3, 63.3), (59.7, 60.9), (44.6, 45.7)), ((67.4, 70.3), (65.8, 69.0), (46.7, 45.3)), ((60.4, 62.9), (60.1, 61.9), (46.5, 46.0)),
                                          ((57.5, 58.2), (48.5, 48.5), (38.9, 37.0)), ((56.6, 57.8), (48.5, 48.4), (37.7, 37.1)))):
     for m, (val, ong), lab in zip(("wachttijd_ftf2_0_17_dagen", "wachttijd_ftf2_18_59_dagen", "wachttijd_ftf2_60plus_dagen"), rij, ("0-17 jaar", "18-59 jaar", "60+")):
         BEVINDINGEN.append(_b(CG, m, val, "dagen", date(jaar, 12, 31), "vlpar-sv-379-2025", U379X, "SV nr. 379 — Excel-bijlage wachttijden CGG (gewichten: SV 382-bijlage)",
                               "tabblad 'wachttijd FTF1 en FTF2' × SV 382 tabblad 'Zorgperiodes'",
-                              f"gewogen gemiddelde {lab} {jaar}: {val} dagen", DEF_W2, GEL, date(2025, 4, 8), C, f"eigen berekening; ongewogen: {ong} dagen"))
+                              f"gewogen gemiddelde {lab} {jaar}: {val} dagen", DEF_W2, GEC, date(2025, 4, 8), C, f"eigen berekening; ongewogen: {ong} dagen"))
 for m, val, ong, lab in (("wachttijd_ftf1_0_17_dagen", 42.3, 42.0, "jongeren 0-17"), ("wachttijd_ftf1_18_64_dagen", 37.6, 37.0, "volwassenen 18-64"), ("wachttijd_ftf1_65plus_dagen", 24.6, 25.3, "ouderen 65+")):
     BEVINDINGEN.append(_b(CG, m, val, "dagen", date(2024, 12, 31), "vlpar-sv-645-2026", U645X, "SV nr. 645 — Excel-bijlage CGG 2024", "tabblad 'wachttijd tot FTF1' × tabblad 'aantal zorgperiodes'",
-                          f"gewogen gemiddelde {lab} 2024 over 17 CGG: {val} dagen", DEF_W1 + " Leeftijdsgroepen gewijzigd in 2024 (18-64 / 65+).", GEL, date(2026, 5, 8), C,
+                          f"gewogen gemiddelde {lab} 2024 over 17 CGG: {val} dagen", DEF_W1 + " Leeftijdsgroepen gewijzigd in 2024 (18-64 / 65+).", GEC, date(2026, 5, 8), C,
                           f"eigen berekening; ongewogen: {ong} dagen; cijfers 2025 nog niet beschikbaar"))
 # CGG: officiële totalen
 for jaar, m, v, kol in ((2019, 24239, 29611, "C+D"), (2020, 21250, 26991, "E+F"), (2021, 21999, 28573, "G+H"), (2022, 24931, 33272, "I+J"), (2023, 24381, 32460, "K+L")):
