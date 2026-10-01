@@ -4,18 +4,22 @@ Onderzoeksproject: *welke overheidsdiensten van de Vlaamse overheid (Gemeenschap
 
 Python-pipeline voor verzamelen en controleren, los van een Streamlit-dashboard dat enkel gepubliceerde, gecontroleerde gegevens toont.
 
-## Snel starten (volledige handleiding: `docs/06-harvesters-lokaal.md`)
+**Dashboard:** https://wachtlijsten-vlaanderen.streamlit.app
+
+## Snel starten (volledige handleiding: `docs/06-harvesters-lokaal.md`, vaste werkwijze: `docs/09-draaiboek.md`)
 
 ```powershell
-cd D:\MVPDev\Wachtlijst
+git clone https://github.com/Eberger01/wachtlijsten-vlaanderen.git
+cd wachtlijsten-vlaanderen
 python -m venv .venv ; .\.venv\Scripts\Activate.ps1
 pip install -e ".[dashboard,dev]"
-python scripts\seed_proef.py          # vult data\curated (bronnenkaart, inventaris, proef VAPH-PVB)
+pytest                                # alle tests moeten slagen
 wachtlijst validate
 wachtlijst publish                    # bouwt data\published + meta.json
 streamlit run dashboard\app.py
-pytest
 ```
+
+`data\curated` zit in de repo; `python scripts\seed_proef.py` bouwt bevindingen, bronnen en budgetten opnieuw op uit het script.
 
 ## Wat zit erin
 
@@ -29,7 +33,9 @@ pytest
 | `docs/06-harvesters-lokaal.md` | **stap-voor-stap PowerShell-handleiding** voor alle harvesters (Parlement-API, VAPH, BBT's, Codex) |
 | `docs/07-streamlit-hosting.md` | deploy op Streamlit Community Cloud (GitHub-repo, main file, requirements) |
 | `docs/08-fase3-resultaten.md` | **resultaten fase 3**: budgetreeksen 2020–2026 per ISE (VAPH, sociale huur, jeugdhulp), interpretatie, parserbeperkingen |
+| `docs/09-draaiboek.md` | eenmalige en terugkerende stappen: publicatiekalender van de bronnen, vaste updatecyclus, beheer |
 | `config/bbt_documenten.yaml` | register van 29 BBT's (WVG + Wonen, 2020–2026) met pfile-id's |
+| `config/kredieten_controles.csv` | tweede lezingen van individuele kredietrijen (audittrail; overleeft een nieuwe BBT-parse) |
 | `data/curated/*.csv` | bronnen (45), voorzieningen (20), bevindingen (90: proef VAPH-PVB 2019–2025 + sociale huur 2018–2025), budgetten (28), kredieten (3.958 BBT-rijen 2020–2026) |
 | `src/wachtlijst/` | `models` (pydantic), `store` (CSV + validatie), `sources/{vlpar,vaph,codex,bbt}`, `publish`, `cli` |
 | `dashboard/app.py` | Streamlit: inventaris, voorziening (tijdreeks + herkomst), budget, bronnen, methodiek |
@@ -49,5 +55,12 @@ Streamlit Community Cloud: repository publiek maken, *main file* `dashboard/app.
 
 ## Bekende beperkingen
 
-- `www.vaph.be` en `ccrek.be` blokkeren bots; gebruik `extranet.vaph.be`, `publicaties.vlaanderen.be` en de Parlement-API. De BBT-harvester is end-to-end gedraaid (1-10-2026); de Parlement-API- en VAPH-harvesters zijn getest op de echte responsstructuur maar nog niet in productie gedraaid — zie `docs/06-harvesters-lokaal.md`.
+- `www.vaph.be` en `ccrek.be` blokkeren bots; gebruik `extranet.vaph.be`, `publicaties.vlaanderen.be` en de Parlement-API. De BBT-, Parlement-API- en VAPH-harvesters zijn alle drie live gedraaid (1-10-2026) — zie `docs/06-harvesters-lokaal.md`.
 - Geen open data van de begroting per artikel: fase 3 is uitgevoerd via PDF-extractie van de 29 BBT's (`data/raw/bbt`, niet in git); ISE-totaalregels van vóór 2022 zijn minder betrouwbaar dan de artikelregels (zie `docs/08-fase3-resultaten.md` §4).
+
+## Licentie en bronvermelding
+
+De code valt onder de [MIT-licentie](LICENSE). De cijfers in `data/` zijn overgenomen uit publicaties van de Vlaamse overheid
+(o.a. VAPH, Wonen in Vlaanderen) en het Vlaams Parlement, die hergebruik toestaan onder de *Modellicentie Gratis Hergebruik*
+met bronvermelding. Elke rij vermeldt haar bron (`bron_url`, documenttitel, pagina); vermeld bij hergebruik die oorspronkelijke bron.
+Secundaire bronnen (pers, middenveld) zijn als zodanig gemarkeerd.
