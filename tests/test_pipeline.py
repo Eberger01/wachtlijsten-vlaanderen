@@ -1,10 +1,10 @@
 from datetime import date
 from pathlib import Path
 
-from wachtlijst.models import Bevinding, Controlestatus
+from wachtlijst.models import Bevinding, Controlestatus, Krediet
 from wachtlijst.publish import load_published, publish
 from wachtlijst.sources.vaph import parse_prioriteitengroepen
-from wachtlijst.store import load, upsert, validate_all, write_rows
+from wachtlijst.store import load, pas_kredietcontroles_toe, upsert, validate_all, write_rows
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -66,3 +66,14 @@ def test_publish_schrijft_meta(tmp_path):
     assert meta["aantallen"]["bevindingen"] > 0
     d = load_published(tmp_path)
     assert "waarde" in d["bevindingen"].columns and d["bevindingen"]["waarde"].notna().all()
+
+
+def test_kredietcontroles_overleven_herhaald_toepassen():
+    k = Krediet(krediet_id="1:x:ISE:bo-2025:Kredietsoort.VAK", beleidsdomein="WVG", begrotingsjaar=2025, fase="BO", stuk="13-A",
+                pfile_id=1, kolom="BO 2025", kredietsoort="VAK", bedrag_keur=10.0, bron_url="http://x",
+                controlestatus=Controlestatus.BRON_GELEZEN, opmerking="automatisch geparsed")
+    controles = {k.krediet_id: {"gecontroleerd_door": "EB", "gecontroleerd_op": "2026-10-01", "opmerking": "p. 3"}}
+    assert pas_kredietcontroles_toe([k], controles) == 1
+    assert pas_kredietcontroles_toe([k], controles) == 1
+    assert k.controlestatus == Controlestatus.GECONTROLEERD
+    assert k.opmerking == "gecontroleerd EB 2026-10-01 (p. 3); automatisch geparsed"

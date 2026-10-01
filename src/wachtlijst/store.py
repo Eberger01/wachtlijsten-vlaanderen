@@ -14,12 +14,43 @@ from typing import Iterable
 
 from pydantic import BaseModel, ValidationError
 
-from . import CURATED_DIR
-from .models import SLEUTELS, TABELLEN
+from . import CONFIG_DIR, CURATED_DIR
+from .models import SLEUTELS, TABELLEN, Controlestatus
+
+# Tweede lezingen van individuele kredietrijen. Staat buiten data/curated zodat een nieuwe bbt-parse +
+# promote-kredieten de controle niet wist; promote-kredieten en controleer-kredieten passen dit bestand toe.
+KREDIETCONTROLES = CONFIG_DIR / "kredieten_controles.csv"
 
 
 def _csv_path(tabel: str, base: Path | None = None) -> Path:
     return (base or CURATED_DIR) / f"{tabel}.csv"
+
+
+def kredietcontroles(pad: Path | None = None) -> dict[str, dict]:
+    """krediet_id -> {gecontroleerd_door, gecontroleerd_op, opmerking}."""
+    pad = pad or KREDIETCONTROLES
+    if not pad.exists():
+        return {}
+    with pad.open(newline="", encoding="utf-8") as fh:
+        return {r["krediet_id"]: r for r in csv.DictReader(fh)}
+
+
+def pas_kredietcontroles_toe(items: Iterable[BaseModel], controles: dict[str, dict] | None = None) -> int:
+    """Zet gecontroleerde kredietrijen op 'gecontroleerd' en noteer wie/wanneer in opmerking. Geeft aantal terug."""
+    controles = kredietcontroles() if controles is None else controles
+    n = 0
+    for it in items:
+        c = controles.get(it.krediet_id)
+        if not c:
+            continue
+        it.controlestatus = Controlestatus.GECONTROLEERD
+        notitie = f"gecontroleerd {c['gecontroleerd_door']} {c['gecontroleerd_op']}"
+        if c.get("opmerking"):
+            notitie += f" ({c['opmerking']})"
+        if notitie not in it.opmerking:
+            it.opmerking = f"{notitie}; {it.opmerking}"
+        n += 1
+    return n
 
 
 def read_rows(tabel: str, base: Path | None = None) -> list[dict]:
@@ -122,5 +153,13 @@ def validate_all(base: Path | None = None) -> ValidatieRapport:
     for v in data["voorzieningen"]:
         if v.publicatie_bron_id and v.publicatie_bron_id not in bron_ids:
             rapport.waarschuwingen.append(f"voorziening {v.voorziening_id}: publicatie_bron_id {v.publicatie_bron_id!r} niet in bronnen")
+
+    if base is None or Path(base).resolve() == CURATED_DIR.resolve():
+        kredieten = {k.krediet_id: k for k in data["kredieten"]}
+        for kid in kredietcontroles():
+            if kid not in kredieten:
+                rapport.fouten.append(f"kredieten_controles.csv: onbekend krediet_id {kid!r}")
+            elif kredieten[kid].controlestatus != Controlestatus.GECONTROLEERD:
+                rapport.waarschuwingen.append(f"krediet {kid}: staat in kredieten_controles.csv maar is niet gecontroleerd; draai 'wachtlijst controleer-kredieten'")
 
     return rapport

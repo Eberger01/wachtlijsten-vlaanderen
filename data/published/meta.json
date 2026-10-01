@@ -1,5 +1,5 @@
 {
-  "gepubliceerd_op": "2026-10-01T16:08:04",
+  "gepubliceerd_op": "2026-10-01T16:15:10",
   "aantallen": {
     "bronnen": 45,
     "voorzieningen": 20,
@@ -21,7 +21,8 @@
       "ongecontroleerd": 1
     },
     "kredieten": {
-      "bron_gelezen": 3958
+      "bron_gelezen": 3953,
+      "gecontroleerd": 5
     }
   }
 }

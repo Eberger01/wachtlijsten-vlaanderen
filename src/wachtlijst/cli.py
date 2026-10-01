@@ -6,6 +6,7 @@
   wachtlijst harvest vaph 2024 --pagina 25 parsed de VAPH-jaarverslagpagina -> data/staging/
   wachtlijst harvest codex wachtlijst      zoekt regelgeving in de Vlaamse Codex
   wachtlijst promote <staging-bestand>     neemt gecontroleerde staging-rijen op in data/curated
+  wachtlijst controleer-kredieten          past config/kredieten_controles.csv toe op data/curated
 """
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ import typer
 
 from . import STAGING_DIR
 from .models import Controlestatus
-from .store import load, upsert, validate_all, write_rows
+from .store import kredietcontroles, load, pas_kredietcontroles_toe, upsert, validate_all, write_rows
 
 app = typer.Typer(help="Wachtlijsten en budgetten van Vlaamse sociale voorzieningen — onderzoekspipeline.")
 harvest = typer.Typer(help="Ruwe data ophalen uit publieke bronnen.")
@@ -148,8 +149,24 @@ def promote_kredieten(
     for it in items:
         it.controlestatus = status
         it.opmerking = f"steekproef {door} {date.today().isoformat()}; " + it.opmerking
+    g = pas_kredietcontroles_toe(items)
     n = upsert("kredieten", items)
-    typer.echo(f"{n} kredietrijen opgenomen; draai 'wachtlijst validate' en 'wachtlijst publish'.")
+    typer.echo(f"{n} kredietrijen opgenomen ({g} gecontroleerd volgens config/kredieten_controles.csv); "
+               "draai 'wachtlijst validate' en 'wachtlijst publish'.")
+
+
+@app.command("controleer-kredieten")
+def controleer_kredieten() -> None:
+    """Pas config/kredieten_controles.csv toe op data/curated/kredieten.csv (tweede lezing per rij)."""
+    items = load("kredieten")
+    onbekend = set(kredietcontroles()) - {it.krediet_id for it in items}
+    for kid in sorted(onbekend):
+        typer.secho(f"onbekend krediet_id: {kid}", fg=typer.colors.RED)
+    n = pas_kredietcontroles_toe(items)
+    write_rows("kredieten", items)
+    typer.echo(f"{n} kredietrijen gecontroleerd; draai 'wachtlijst validate' en 'wachtlijst publish'.")
+    if onbekend:
+        raise typer.Exit(code=1)
 
 
 @app.command()
