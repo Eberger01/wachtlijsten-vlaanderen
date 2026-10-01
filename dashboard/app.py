@@ -97,7 +97,7 @@ with tab_detail:
         "wachtenden_advies_cmw": "Werkzoekenden met advies collectief maatwerk (VDAB)", "contingent_open_vte": "Openstaand contingent maatwerkbedrijven (VTE)",
         "contingent_toegekend_vte": "Toegekend contingent (VTE)", "contingent_ingevuld_vte": "Ingevuld contingent (VTE)", "werknemers_cmw": "Werknemers collectief maatwerk (personen)",
         "kalender_nog_te_realiseren_wzc": "Kalender wzc nog te realiseren", "kalender_uitgesteld_wzc_cum": "Kalender wzc uitgesteld (cumulatief)",
-        "kalender_gerealiseerd_wzc_cum": "Kalender wzc gerealiseerd sinds 2015 (cumulatief)", "kalender_vervallen_wzc_cum": "Kalender wzc vervallen (cumulatief)",
+        "kalender_gerealiseerd_wzc_cum": "Kalender wzc gerealiseerd (cumulatief)", "kalender_vervallen_wzc_cum": "Kalender wzc vervallen (cumulatief)",
         "kalender_uitstel_gevraagd_wzc": "Uitstel gevraagd in het jaar (wzc)",
         "leerlingen_buo": "Leerlingen buitengewoon onderwijs", "verkochte_sociale_koopwoningen_nieuw": "Verkochte nieuwe sociale koopwoningen",
     }

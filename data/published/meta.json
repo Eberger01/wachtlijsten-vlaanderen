@@ -1,18 +1,18 @@
 {
-  "gepubliceerd_op": "2026-10-01T18:51:21",
+  "gepubliceerd_op": "2026-10-01T19:07:13",
   "aantallen": {
     "bronnen": 108,
     "voorzieningen": 20,
-    "bevindingen": 304,
+    "bevindingen": 306,
     "budgetten": 68,
     "kredieten": 3958
   },
   "validatie_waarschuwingen": [],
   "controlestatus_verdeling": {
     "bevindingen": {
-      "gecontroleerd": 169,
-      "bron_gelezen": 105,
+      "gecontroleerd": 259,
       "ongecontroleerd": 24,
+      "bron_gelezen": 17,
       "betwist": 6
     },
     "budgetten": {

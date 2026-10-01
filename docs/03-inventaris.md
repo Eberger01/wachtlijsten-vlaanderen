@@ -22,7 +22,7 @@
 
 | Voorziening | Entiteit | Wat is wel publiek |
 |---|---|---|
-| Woonzorgcentra, kortverblijf, dagverzorging, assistentiewoningen | Departement Zorg | erkenningskalender (aanbodzijde): 2.110 wzc nog te realiseren, 4.259 uitgesteld, 509 vervallen (1-1-2026); 'geen zicht op wachtlijsten van een voorziening' (SV 951) — §K |
+| Woonzorgcentra, kortverblijf, dagverzorging, assistentiewoningen | Departement Zorg | erkenningskalender (aanbodzijde): 2.110 wzc nog te realiseren, 4.109 uitgesteld (5 provincies; + Brussel 150), 509 vervallen (1-1-2026); 'geen zicht op wachtlijsten van een voorziening' (SV 951) — §K |
 | Kinderopvang baby's/peuters | Opgroeien | onderzoek 2025: 26.355 van 71.238 ouders zonder plaats (dubbeltellingen); tekort 11.500 plaatsen tegen 2029 |
 | Buitengewoon onderwijs | AGODI / LOP's | geen centrale registratie (SV 1152/1192/1019); capaciteitsmonitor tekort ± 5.700 plaatsen 2030-31; LOP Gent 58 % / Aalst 70 % geen voorkeurschool (2026) — §L |
 | COS (diagnostiek) | Departement Zorg | jan 2023: > 2.000 kinderen, 12 m – 2,5 j |
@@ -165,10 +165,10 @@ Vandecasteele (110, 668):
 
 | Stand kalender (wzc) | eind 2024 | 1-1-2026 |
 |---|---|---|
-| Gerealiseerd sinds 2015 (cumulatief) | 3.088 (+ 322 cvk) | 3.481 (+ 377 cvk) |
+| Gerealiseerd (cumulatief) | 3.088 (+ 322 cvk) | 3.481 (+ 377 cvk) |
 | Nog te realiseren | 2.763 (vanaf Q1 2025) | 2.110 (+ 144 cvk) |
-| Uitgesteld sinds omzendbrief 5-5-2021 (cumulatief) | 3.509 (28-2-2025) | 4.259 (+ 323 cvk) |
-| Vervallen (cumulatief) | 112 (SV 110) / 327 (SV 564) — *betwist* | 509 (+ 40 cvk) |
+| Uitgesteld sinds omzendbrief 5-5-2021 (cumulatief, 5 provincies) | 3.509 (begin 2025) | 4.109 (+ 323 cvk; Brussel 150 apart) |
+| Vervallen (cumulatief, alle kalenders) | 327 (+ 28 cvk; SV 564) | 509 (+ 40 cvk) |
 | Uitstel gevraagd in het jaar | 985 (2020), 418, 401, 659, 1.137 (2024) | — |
 
 Doorlooptijd toekenning → ingebruikname: 2 kwartalen (2020) → 6 → 4 → 8 → 8 (2024). Erkende capaciteit medio 2026 (Excel bij SV 951):
@@ -215,4 +215,4 @@ Gezinszorg, COS (+ CAR), NT2, pleegzorg, justitiehuizen (niet-opgestarte mandate
 4. VAPH halfjaarverslag 2026 (PG-stand 30-06-2026): **nog niet online** op 1-10-2026 (404) — herhalen eind oktober/november met `wachtlijst harvest vaph 2026-eerste-jaarhelft`.
 5. Jaarverslag Jeugdhulp 2018 (exact cijfer 31-12-2018); discrepantie 2022 (7.397/7.448); cijfers lokale loketten kinderopvang 2025.
 6. ~~Collectief maatwerk, woonzorg, buitengewoon onderwijs, sociale koop~~ — uitgewerkt (§J–§M, `scripts/seed_vervolg.py`).
-7. Open na ronde 4: ~~capaciteitsmonitor-pdf lokaal lezen~~ (gedaan 01-10-2026, BuO-tekorten op `bron_gelezen`); LOP-rapport Antwerpen 2026 opvragen; WEWIS-export elk kwartaal herhalen (draaiboek B); nieuwe erkenningskalender wzc (VR zomer 2026) toevoegen; discrepantie vervallen kalenders 112/327 uitklaren.
+7. Open na ronde 4: ~~capaciteitsmonitor-pdf lokaal lezen~~ (gedaan 01-10-2026, BuO-tekorten op `bron_gelezen`); LOP-rapport Antwerpen 2026 opvragen; WEWIS-export elk kwartaal herhalen (draaiboek B); nieuwe erkenningskalender wzc (VR zomer 2026) toevoegen; ~~discrepantie vervallen kalenders 112/327~~ (opgehelderd 01-10-2026: 112 telt enkel de kalender 2020-2025, 327 alle kalenders).

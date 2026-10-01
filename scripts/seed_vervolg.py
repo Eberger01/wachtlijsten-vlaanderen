@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import sys
 from datetime import date
+from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
@@ -163,118 +164,191 @@ def _b(vid, metriek, waarde, eenheid, peildatum, bron_id, url, titel, pagina, pa
 BEVINDINGEN: list[Bevinding] = []
 
 # ------------------------------------------------------------------------------------------------ collectief maatwerk
-D_CMW = "Werkzoekenden zonder werk met een geldig advies collectief maatwerk zonder lager advies (VDAB), stand december (2025: augustus)."
+D_EB = "onderzoeksagent + 2e lezing Claude + EB (2026-10-01)"
+D_CMW = "Werkzoekenden zonder werk met een geldig advies collectief maatwerk zonder lager advies (VDAB), per jaar (2025: augustus)."
 T15, U15 = "SV nr. 15 (2025-2026) Awouters — bijlage 1", PF.format(2225033)
-for jaar, n in ((2019, 4563), (2020, 5111), (2021, 4704), (2022, 4277), (2023, 4554), (2024, 3089)):
-    BEVINDINGEN.append(_b(CM, "wachtenden_advies_cmw", n, "personen", date(jaar, 12, 31), "vlpar-sv-15-2025-cmw", U15, T15, "bijlage 1, rij " + str(jaar),
-                          f"{jaar}: Antwerpen … Totaal {n:,}".replace(",", "."), D_CMW, GEL, date(2025, 11, 18), A))
-BEVINDINGEN.append(_b(CM, "wachtenden_advies_cmw", 3781, "personen", date(2025, 8, 31), "vlpar-sv-15-2025-cmw", PF.format(2229635), "SV nr. 15 (2025-2026) Awouters", "antwoord 1 + bijlage 1",
-                      "In augustus 2025 zijn er 3.781 werkzoekenden met een advies collectief maatwerk, zonder lager advies.", D_CMW, GEL, date(2025, 11, 18), A,
+K15 = "Antwerpen Limburg Oost-Vlaanderen Vlaams-Brabant West-Vlaanderen Brussel Buiten Brussel/Vlaanderen Totaal"
+for jaar, rij in ((2019, "1.276 637 1.004 413 1.184 37 12 4.563"), (2020, "1.533 670 1.084 505 1.267 43 9 5.111"), (2021, "1.449 623 1.012 451 1.112 43 14 4.704"),
+                  (2022, "1.325 551 938 388 1.039 27 9 4.277"), (2023, "1.441 571 1.047 418 1.050 22 5 4.554"), (2024, "1.083 363 690 287 649 14 3 3.089")):
+    n = int(rij.split()[-1].replace(".", ""))
+    BEVINDINGEN.append(_b(CM, "wachtenden_advies_cmw", n, "personen", date(jaar, 12, 31), "vlpar-sv-15-2025-cmw", U15, T15, f"bijlage 1, tabel 1, rij {jaar}",
+                          f"Aantal werkzoekenden zonder werk met een advies collectief maatwerk zonder lager advies (2019-2025) … {K15} … {jaar} {rij}", D_CMW, GEC, date(2025, 11, 18), D_EB,
+                          "peildatum 31/12 aangenomen: de bijlage vermeldt de referentiemaand enkel voor 2025 (augustus)"))
+BEVINDINGEN.append(_b(CM, "wachtenden_advies_cmw", 3781, "personen", date(2025, 8, 31), "vlpar-sv-15-2025-cmw", PF.format(2229635), "SV nr. 15 (2025-2026) Awouters", "antwoord 1 (PDF p. 2) + bijlage 1",
+                      "In augustus 2025 zijn er 3.781 werkzoekenden met een advies collectief maatwerk, zonder lager advies.", D_CMW, GEC, date(2025, 11, 18), D_EB,
                       opm="* Voor het jaartal 2025 kijken we naar de laatste beschikbare maand (augustus 2025)"))
 BEVINDINGEN.append(_b(CM, "wachtenden_advies_cmw", 3019, "personen", date(2025, 6, 30), "vlpar-sv-15-2025-cmw", PF.format(2229635), "SV nr. 15 (2025-2026) Awouters — vraagtekst (SERV)", "vraag",
                       "Uit cijfers van de SERV blijkt dat 11% van de vooropgestelde vte's in de maatwerkbedrijven niet wordt ingevuld, terwijl 3019 werkzoekenden een advies collectief maatwerk hebben.",
                       "SERV-cijfer geciteerd door de vraagsteller; peildatum onbekend (hier medio 2025)", ONG, date(2025, 11, 18), opm="secundair (vraagtekst); afwijkend van VDAB-reeks (3.781 aug 2025)"))
 # open contingent per kwartaal uit WEWIS open data (K4 van elk jaar + laatst beschikbare)
-D_CONT = "Toegekend contingent (VTE) min ingevulde VTE doelgroepwerknemers in maatwerkbedrijven en -afdelingen, afrekening van het kwartaal; som over alle vestigingen (Vlaanderen + Brussel)."
+D_CONT = ("Toegekend contingent (VTE) min ingevulde VTE doelgroepwerknemers in maatwerkbedrijven en -afdelingen, afrekening van het kwartaal; som over alle vestigingen (Vlaanderen + Brussel). "
+          "K4 ligt doorgaans lager dan de andere kwartalen (2025: K1–K3 1.694–2.211 VTE, K4 904 VTE).")
 UW = "https://opendata.wewis.vlaanderen.be/explore/dataset/cmw03_product_v1/"
-for (jaar, kw, d), cont, vte in (((2019, "K4", date(2019, 12, 31)), 19533.8, 18602.7), ((2020, "K4", date(2020, 12, 31)), 19587.8, 18434.0), ((2021, "K4", date(2021, 12, 31)), 19804.8, 18748.9),
-                                 ((2022, "K4", date(2022, 12, 31)), 19929.4, 18828.4), ((2023, "K4", date(2023, 12, 31)), 21421.9, 19790.6), ((2024, "K4", date(2024, 12, 31)), 21318.5, 19800.5),
-                                 ((2025, "K4", date(2025, 12, 31)), 21245.7, 20341.6), ((2026, "K1", date(2026, 3, 31)), 21466.7, 19913.8)):
-    pas = f"som {jaar} {kw}: cmw_aantal_toegekend_vte {cont:,.1f}, cmw_aantal_vte {vte:,.1f}".replace(",", ".")
-    BEVINDINGEN.append(_b(CM, "contingent_toegekend_vte", round(cont, 1), "VTE", d, "wewis-opendata-cmw03", UW, "WEWIS open data CMW03", f"{jaar} {kw}", pas, "Toegekend contingent collectief maatwerk (VTE), som over vestigingen.", GEL, None, A, opm="eigen aggregatie (CSV-export 1-10-2026)"))
-    BEVINDINGEN.append(_b(CM, "contingent_ingevuld_vte", round(vte, 1), "VTE", d, "wewis-opendata-cmw03", UW, "WEWIS open data CMW03", f"{jaar} {kw}", pas, "Ingevulde VTE doelgroepwerknemers collectief maatwerk, som over vestigingen.", GEL, None, A, opm="eigen aggregatie"))
-    BEVINDINGEN.append(_b(CM, "contingent_open_vte", round(cont - vte, 1), "VTE", d, "wewis-opendata-cmw03", UW, "WEWIS open data CMW03", f"{jaar} {kw}", pas, D_CONT, GEL, None, A, opm="eigen berekening: toegekend − ingevuld"))
+
+
+def _nl(x: Decimal) -> str:
+    return f"{x:,.2f}".replace(",", " ").replace(".", ",").replace(" ", ".")
+
+
+def _r1(x: Decimal) -> float:
+    return float(x.quantize(Decimal("0.1"), rounding=ROUND_HALF_UP))
+
+
+# exacte sommen per periode uit de CSV-export van 1-10-2026 (nagerekend bij de tweede lezing)
+for (jaar, kw, d), nvest, cont, vte in (((2019, "K4", date(2019, 12, 31)), 103, "19533.80", "18602.73"), ((2020, "K4", date(2020, 12, 31)), 106, "19587.80", "18433.95"),
+                                        ((2021, "K4", date(2021, 12, 31)), 105, "19804.80", "18748.94"), ((2022, "K4", date(2022, 12, 31)), 99, "19929.40", "18828.37"),
+                                        ((2023, "K4", date(2023, 12, 31)), 84, "21421.94", "19790.62"), ((2024, "K4", date(2024, 12, 31)), 83, "21318.54", "19800.49"),
+                                        ((2025, "K4", date(2025, 12, 31)), 82, "21245.67", "20341.62"), ((2026, "K1", date(2026, 3, 31)), 82, "21466.66", "19913.79")):
+    cont, vte = Decimal(cont), Decimal(vte)
+    pas = f"som periode = {jaar} {kw} ({nvest} vestigingen): cmw_aantal_toegekend_vte {_nl(cont)}; cmw_aantal_vte {_nl(vte)}"
+    pag = f"CSV-export, periode = {jaar} {kw}, alle vestigingen"
+    BEVINDINGEN.append(_b(CM, "contingent_toegekend_vte", _r1(cont), "VTE", d, "wewis-opendata-cmw03", UW, "WEWIS open data CMW03", pag, pas,
+                          "Toegekend contingent collectief maatwerk (VTE), som over vestigingen.", GEC, None, D_EB, opm="eigen aggregatie (CSV-export 1-10-2026)"))
+    BEVINDINGEN.append(_b(CM, "contingent_ingevuld_vte", _r1(vte), "VTE", d, "wewis-opendata-cmw03", UW, "WEWIS open data CMW03", pag, pas,
+                          "Ingevulde VTE doelgroepwerknemers collectief maatwerk, som over vestigingen.", GEC, None, D_EB, opm="eigen aggregatie"))
+    BEVINDINGEN.append(_b(CM, "contingent_open_vte", _r1(cont - vte), "VTE", d, "wewis-opendata-cmw03", UW, "WEWIS open data CMW03", pag, pas, D_CONT, GEC, None, D_EB,
+                          opm=f"eigen berekening: toegekend − ingevuld = {_nl(cont - vte)}" + ("; maatwerkafdelingen gaan per 1-7-2023 op in individueel maatwerk" if jaar <= 2022 else "")))
 # werknemers CMW (personen) uit SV 1
 for jaar, n in ((2019, 23451), (2020, 23386), (2021, 24066), (2022, 24605), (2023, 25815)):
-    BEVINDINGEN.append(_b(CM, "werknemers_cmw", n, "personen", date(jaar, 12, 31), "vlpar-sv-1-2024-cmw", PF.format(2078707), "SV nr. 1 (2024-2025) Awouters", "antwoord 1, tabel 1",
-                          f"COLLECTIEF MAATWERK … Totaal {n:,}".replace(",", "."), "Aantal werknemers in Maatwerk bij Collectieve Inschakeling op jaarbasis (kwartaalafrekeningen, DWSE), incl. Brussel.", GEL, date(2024, 12, 4), A))
+    BEVINDINGEN.append(_b(CM, "werknemers_cmw", n, "personen", date(jaar, 12, 31), "vlpar-sv-1-2024-cmw", PF.format(2078707), "SV nr. 1 (2024-2025) Awouters", "antwoord 1, tabel 1 (PDF p. 2)",
+                          "Totaal 23.451 23.386 24.066 24.605 25.815 24.099 … Tabel 1. Aantal werknemers in Maatwerk bij Collectieve Inschakeling. Bron: Data DWSE … * Data 2019-2023 op jaarbasis",
+                          "Aantal werknemers in Maatwerk bij Collectieve Inschakeling op jaarbasis (kwartaalafrekeningen, DWSE), incl. Brussel.", GEC, date(2024, 12, 4), D_EB,
+                          "jaarcijfer, geen stand op 31/12; Totaal < som provincies (unieke personen)"))
 # doorstroom en indicering uit SV 1115
+D_DOOR = ("Personen die vanuit collectief maatwerk doorstromen naar het reguliere circuit (SV 1115, vraag en antwoord 10b); "
+          "doorstroom naar individueel maatwerk is niet beschikbaar (antwoord 10a).")
+P_DOOR = "In het eerste semester van 2025 stroomden 197 personen uit collectief maatwerk door. In 2024 waren dat er 344, in 2023 513, in 2022 403, in 2021 283 en in 2020 256."
 for jaar, n in ((2020, 256), (2021, 283), (2022, 403), (2023, 513), (2024, 344)):
-    BEVINDINGEN.append(_b(CM, "doorstroom_uit_cmw", n, "personen", date(jaar, 12, 31), "vlpar-sv-1115-2025-cmw", PF.format(2219342), "SV nr. 1115 (2024-2025) Ongena", "antwoord 10b",
-                          "In het eerste semester van 2025 stroomden 197 personen uit collectief maatwerk door. In 2024 waren dat er 344, in 2023 513, in 2022 403, in 2021 283 en in 2020 256.",
-                          "Personen die vanuit collectief maatwerk doorstromen (naar individueel maatwerk of regulier circuit).", GEL, date(2025, 10, 21), A))
-BEVINDINGEN.append(_b(CM, "doorstroom_uit_cmw", 197, "personen", date(2025, 6, 30), "vlpar-sv-1115-2025-cmw", PF.format(2219342), "SV nr. 1115 (2024-2025) Ongena", "antwoord 10b",
-                      "In het eerste semester van 2025 stroomden 197 personen uit collectief maatwerk door.", "Idem, eerste semester 2025.", GEL, date(2025, 10, 21), A))
-BEVINDINGEN.append(_b(CM, "indiceringen_semester", 8425, "aanvragen", date(2025, 6, 30), "vlpar-sv-1115-2025-cmw", PF.format(2219342), "SV nr. 1115 (2024-2025) Ongena", "antwoord 1 en 3",
-                      "Er werden in het eerste semester van 2025 voor individueel of collectief maatwerk samen 8.425 indiceringen verricht. … 2.219 adviesaanvragen voor een advies collectief maatwerk toegekend … 320 geweigerd",
-                      "ICF-indiceringen (adviesaanvragen IMW/CMW) in het eerste semester 2025; gemiddeld traject 16,5 uur.", GEL, date(2025, 10, 21), A))
-BEVINDINGEN.append(_b(CM, "advies_cmw_toegekend_semester", 2219, "adviezen", date(2025, 6, 30), "vlpar-sv-1115-2025-cmw", PF.format(2219342), "SV nr. 1115 (2024-2025) Ongena", "antwoord 3c",
-                      "Er werden in het eerste semester van 2025 2.219 adviesaanvragen voor een advies collectief maatwerk toegekend.", "Toegekende adviezen collectief maatwerk, eerste semester 2025.", GEL, date(2025, 10, 21), A))
-BEVINDINGEN.append(_b(CM, "groeipad_plaatsen_toegekend_vte", 189.5, "VTE", date(2025, 4, 1), "vlpar-bbt-se-uitv-2025", PF.format(2325109), "BBT Sociale Economie, begrotingsuitvoering 2025 — 23-J", "OD 2",
+    BEVINDINGEN.append(_b(CM, "doorstroom_uit_cmw", n, "personen", date(jaar, 12, 31), "vlpar-sv-1115-2025-cmw", PF.format(2219342), "SV nr. 1115 (2024-2025) Ongena", "antwoord 10b (PDF p. 5)",
+                          P_DOOR, D_DOOR, GEC, date(2025, 10, 21), D_EB))
+BEVINDINGEN.append(_b(CM, "doorstroom_uit_cmw", 197, "personen", date(2025, 6, 30), "vlpar-sv-1115-2025-cmw", PF.format(2219342), "SV nr. 1115 (2024-2025) Ongena", "antwoord 10b (PDF p. 5)",
+                      "In het eerste semester van 2025 stroomden 197 personen uit collectief maatwerk door.", D_DOOR + " Eerste semester 2025.", GEC, date(2025, 10, 21), D_EB))
+BEVINDINGEN.append(_b(CM, "indiceringen_semester", 8425, "aanvragen", date(2025, 6, 30), "vlpar-sv-1115-2025-cmw", PF.format(2219342), "SV nr. 1115 (2024-2025) Ongena", "antwoord 1 (PDF p. 4)",
+                      "Er werden in het eerste semester van 2025 voor individueel of collectief maatwerk samen 8.425 indiceringen verricht.",
+                      "ICF-indiceringen (adviesaanvragen IMW/CMW) in het eerste semester 2025; gemiddeld traject 16,5 uur.", GEC, date(2025, 10, 21), D_EB,
+                      "antwoord 3a: 'voor collectief maatwerk 320 adviesaanvragen geweigerd'; 3c: 2.219 toegekend"))
+BEVINDINGEN.append(_b(CM, "advies_cmw_toegekend_semester", 2219, "adviezen", date(2025, 6, 30), "vlpar-sv-1115-2025-cmw", PF.format(2219342), "SV nr. 1115 (2024-2025) Ongena", "antwoord 3c (PDF p. 4)",
+                      "Er werden in het eerste semester van 2025 2.219 adviesaanvragen voor een advies collectief maatwerk toegekend.", "Toegekende adviezen collectief maatwerk, eerste semester 2025.",
+                      GEC, date(2025, 10, 21), D_EB, "3d: alle CMW-adviezen hebben ook een IMW-advies"))
+BEVINDINGEN.append(_b(CM, "groeipad_plaatsen_toegekend_vte", 189.5, "VTE", date(2025, 4, 1), "vlpar-bbt-se-uitv-2025", PF.format(2325109), "BBT Sociale Economie, begrotingsuitvoering 2025 — 23-J", "OD 2, p. 9",
                       "In een eerste fase werden 200 bijkomende plaatsen opengesteld. Na beoordeling van de ingediende aanvragen werden 189,5 VTE effectief toegekend aan 48 maatwerkbedrijven, verspreid over Vlaanderen, met ingang vanaf 1 april 2025.",
-                      "Eerste fase groeipad collectief maatwerk (minstens 1.000 plaatsen tegen 2029).", GEL, date(2026, 5, 13), A))
+                      "Eerste fase groeipad collectief maatwerk (minstens 1.000 plaatsen tegen 2029).", GEC, date(2026, 5, 13), D_EB))
 
 # ------------------------------------------------------------------------------------------------ woonzorg
 S400, U400, T400 = "vlpar-sv-400-2026-wzc", PF.format(2282951), "SV nr. 400 (2025-2026) Schryvers"
 S564, U564, T564 = "vlpar-sv-564-2025-wzc", PF.format(2158189), "SV nr. 564 (2024-2025) Schryvers"
+P564_1 = ("Hierbij een overzicht per provincie van de goedgekeurde erkennings-en omzettingskalender die nog in gebruik moet worden genomen vanaf het 1ste kwartaal van 2025 tot het uitputten van deze kalenders. "
+          "- Provincie Antwerpen: 716 woongelegenheden woonzorgcentrum en 55 verblijfseenheden centrum voor kortverblijf type 1; - Provincie Limburg: 649 woongelegenheden woonzorgcentrum en 35 verblijfseenheden …; "
+          "- Provincie Oost-Vlaanderen: 322 woongelegenheden woonzorgcentrum en 30 verblijfseenheden …; - Provincie Vlaams-Brabant: 493 woongelegenheden woonzorgcentrum en 17 verblijfseenheden …; "
+          "- Provincie West-Vlaanderen: 583 woongelegenheden woonzorgcentrum en 74 verblijfseenheden centrum voor kortverblijf type 1.")
+P564_2 = ("Hierbij een overzicht per provincie van de goedgekeurde erkennings-en omzettingskalenders die werden uitgesteld vanaf het tweede trimester van 2021, na verzending van de betreffende omzendbrief: "
+          "- Provincie Antwerpen: 1078 woongelegenheden woonzorgcentrum en 59 verblijfseenheden …; - Provincie Limburg: 564 … en 39 …; - Provincie Oost-Vlaanderen: 507 … en 40 …; "
+          "- Provincie Vlaams-Brabant: 450 … en 16 …; - Provincie West-Vlaanderen: 910 woongelegenheden woonzorgcentrum en 102 verblijfseenheden centrum voor kortverblijf type 1.")
+P564_6 = ("Hierbij een overzicht van de bijkomende gerealiseerde capaciteit in een woonzorgcentrum of centrum voor kortverblijf type 1, per provincie: "
+          "- Provincie Antwerpen: 990 woongelegenheden woonzorgcentrum en 81 verblijfseenheden …; - Provincie Limburg: 301 … en 53 …; - Provincie Oost-Vlaanderen: 396 … en 75 …; "
+          "- Provincie Vlaams-Brabant: 385 … en 31 …; - Provincie West-Vlaanderen: 866 … en 82 …; - Brussels Hoofdstedelijk Gewest: 150 woongelegenheden woonzorgcentrum.")
+P564_7 = ("Hieronder geef ik een overzicht van alle vervallen (niet-gerealiseerde) capaciteit uit de erkennings- en omzettingskalender tot eind 2024: "
+          "- Provincie Antwerpen: 136 woongelegenheden woonzorgcentrum en 25 verblijfseenheden centrum voor kortverblijf type 1; - Provincie Limburg: 94 woongelegenheden woonzorgcentrum; "
+          "- Provincie Oost-Vlaanderen: 45 woongelegenheden woonzorgcentrum;- Provincie Vlaams-Brabant:20 woongelegenheden woonzorgcentrum en 3 verblijfseenheden centrum voor kortverblijf type 1; "
+          "- Provincie West-Vlaanderen: 17 woongelegenheden woonzorgcentrum; - Brussels Hoofdstedelijk Gewest: 15 woongelegenheden woonzorgcentrum.")
+P400_1 = ("Hieronder geef ik een overzicht per provincie van de goedgekeurde erkennings-en omzettingskalender die nog in gebruik kunnen worden genomen vanaf het eerste kwartaal van 2026 tot het uitputten van deze kalenders: "
+          "- Provincie Antwerpen: 692 woongelegenheden woonzorgcentrum en 44 verblijfseenheden …; - Provincie Limburg: 366 … en 24 …; - Provincie Oost-Vlaanderen: 242 … en 25 …; "
+          "- Provincie Vlaams-Brabant: 317 woongelegenheden woonzorgcentrum; - Provincie West-Vlaanderen: 493 woongelegenheden woonzorgcentrum en 51 verblijfseenheden centrum voor kortverblijf type 1.")
+P400_2 = ("Hieronder geef ik een overzicht per provincie van de goedgekeurde erkennings-en omzettingskalender die werd uitgesteld vanaf het tweede trimester van 2021, na verzending van de betreffende omzendbrief: "
+          "- Provincie Antwerpen: 1247 woongelegenheden woonzorgcentrum en 84 verblijfseenheden …; - Provincie Limburg: 682 … en 44 …; - Provincie Oost-Vlaanderen: 607 … en 67 …; "
+          "- Provincie Vlaams-Brabant: 454 … en 16 …; - Provincie West-Vlaanderen: 1119 … en 112 …; - Brussels Hoofdstedelijk Gewest: 150 woongelegenheden woonzorgcentrum.")
+P400_5 = ("Hieronder vindt u een overzicht van de vervallen capaciteit uit de erkennings- en omzettingskalender tot en met het vierde kwartaal van 2025: "
+          "- Provincie Antwerpen: 166 woongelegenheden woonzorgcentrum en 25 verblijfseenheden centrum voor kortverblijf type 1; - Provincie Limburg: 141 …; - Provincie Oost-Vlaanderen: 79 …; "
+          "- Provincie Vlaams-Brabant: 86 woongelegenheden woonzorgcentrum en 15 verblijfseenheden centrum voor kortverblijf type 1; - Provincie West-Vlaanderen: 22 …; - Brussels Hoofdstedelijk Gewest: 15 woongelegenheden woonzorgcentrum.")
+D_VERV = "Vervallen (niet-gerealiseerde) capaciteit uit de erkennings- en omzettingskalender (alle kalenders), cumulatief, per provincie + Brussel."
+U951X = PF.format(2343662)
 BEVINDINGEN += [
-    _b(WZ, "kalender_goedgekeurd_wzc_2020_2025", 5455, "woongelegenheden", date(2019, 12, 31), "vlpar-sv-110-2024-wzc", PF.format(2113020), "SV nr. 110 (2024-2025) Vandecasteele", "antwoord 1",
-       "Oorspronkelijk werden er in totaal 5.455 woongelegenheden erkenningskalender woonzorgcentrum goedgekeurd voor de periode 2020-2025.", "Goedgekeurde woongelegenheden wzc in de erkenningskalender 2020-2025 (vastgelegd in 2019).", GEL, date(2025, 2, 3), A),
-    _b(WZ, "kalender_gerealiseerd_wzc_cum", 3088, "woongelegenheden", date(2024, 12, 31), S564, U564, T564, "antwoord 6",
-       "Antwerpen 990 … Limburg 301 … Oost-Vlaanderen 396 … Vlaams-Brabant 385 … West-Vlaanderen 866 … Brussels Hoofdstedelijk Gewest 150 woongelegenheden woonzorgcentrum", "Bijkomende gerealiseerde capaciteit wzc uit de erkennings- en omzettingskalender sinds 2015, cumulatief (som provincies + Brussel).", GEL, date(2025, 5, 22), A, opm="eigen som van de provinciecijfers"),
-    _b(WZ, "kalender_gerealiseerd_cvk_cum", 322, "verblijfseenheden", date(2024, 12, 31), S564, U564, T564, "antwoord 6", "81 + 53 + 75 + 31 + 82 verblijfseenheden centrum voor kortverblijf type 1", "Idem, centra voor kortverblijf type 1.", GEL, date(2025, 5, 22), A, opm="eigen som"),
-    _b(WZ, "kalender_gerealiseerd_wzc_cum", 3481, "woongelegenheden", date(2025, 12, 31), S400, U400, T400, "antwoord 4",
-       "In totaal werden er inmiddels 3481 woongelegenheden woonzorgcentrum en 377 verblijfseenheden centrum voor kortverblijf type 1 effectief in gebruik genomen.", "Idem, t/m vierde kwartaal 2025.", GEL, date(2026, 3, 16), A),
-    _b(WZ, "kalender_gerealiseerd_cvk_cum", 377, "verblijfseenheden", date(2025, 12, 31), S400, U400, T400, "antwoord 4", "… en 377 verblijfseenheden centrum voor kortverblijf type 1 effectief in gebruik genomen.", "Idem, cvk type 1, t/m Q4 2025.", GEL, date(2026, 3, 16), A),
-    _b(WZ, "kalender_nog_te_realiseren_wzc", 2763, "woongelegenheden", date(2025, 1, 1), S564, U564, T564, "antwoord 1", "716 + 649 + 322 + 493 + 583 woongelegenheden woonzorgcentrum (nog in gebruik te nemen vanaf het 1ste kwartaal van 2025)",
-       "Goedgekeurde erkennings- en omzettingskalender wzc die nog in gebruik moet worden genomen (aanbodwachtlijst).", GEL, date(2025, 5, 22), A, opm="eigen som"),
-    _b(WZ, "kalender_nog_te_realiseren_wzc", 2110, "woongelegenheden", date(2026, 1, 1), S400, U400, T400, "antwoord 1", "692 + 366 + 242 + 317 + 493 woongelegenheden woonzorgcentrum (vanaf het eerste kwartaal van 2026)", "Idem, stand 1-1-2026.", GEL, date(2026, 3, 16), A, opm="eigen som"),
-    _b(WZ, "kalender_nog_te_realiseren_cvk", 144, "verblijfseenheden", date(2026, 1, 1), S400, U400, T400, "antwoord 1", "44 + 24 + 25 + 51 verblijfseenheden centrum voor kortverblijf type 1", "Idem, cvk type 1.", GEL, date(2026, 3, 16), A, opm="eigen som"),
-    _b(WZ, "kalender_uitgesteld_wzc_cum", 3509, "woongelegenheden", date(2025, 2, 28), S564, U564, T564, "antwoord 2", "1078 + 564 + 507 + 450 + 910 woongelegenheden woonzorgcentrum (uitgesteld vanaf het tweede trimester van 2021)",
-       "Goedgekeurde kalender wzc waarvoor uitstel werd gevraagd sinds de omzendbrief van 5-5-2021, cumulatief.", GEL, date(2025, 5, 22), A, opm="eigen som"),
-    _b(WZ, "kalender_uitgesteld_wzc_cum", 4259, "woongelegenheden", date(2026, 1, 1), S400, U400, T400, "antwoord 2", "1247 + 682 + 607 + 454 + 1119 + 150 woongelegenheden woonzorgcentrum", "Idem, stand 1-1-2026 (incl. Brussel 150).", GEL, date(2026, 3, 16), A, opm="eigen som"),
-    _b(WZ, "kalender_uitgesteld_cvk_cum", 323, "verblijfseenheden", date(2026, 1, 1), S400, U400, T400, "antwoord 2", "84 + 44 + 67 + 16 + 112 verblijfseenheden centrum voor kortverblijf type 1", "Idem, cvk type 1.", GEL, date(2026, 3, 16), A, opm="eigen som"),
-    _b(WZ, "kalender_vervallen_wzc_cum", 112, "woongelegenheden", date(2024, 12, 31), "vlpar-sv-110-2024-wzc", PF.format(2113020), "SV nr. 110 (2024-2025) Vandecasteele", "antwoord 1, tabel",
-       "Totaal 86 (for-profit) + 26 (non-profit) + 0 (openbaar) = 112", "Vervallen (niet-gerealiseerde) woongelegenheden wzc uit de kalender 2020-2025, 2020-2024 per kwartaal en type uitbater.", BET, date(2025, 2, 3), A,
-       opm="SV 564 (mei 2025) telt tot eind 2024 327 vervallen woongelegenheden wzc (136+94+45+20+17+15), vermoedelijk over alle kalenders sinds 2015; definitieverschil"),
-    _b(WZ, "kalender_vervallen_wzc_cum", 509, "woongelegenheden", date(2025, 12, 31), S400, U400, T400, "antwoord 5", "166 + 141 + 79 + 86 + 22 + 15 woongelegenheden woonzorgcentrum (vervallen t/m vierde kwartaal 2025)",
-       "Vervallen capaciteit wzc uit de erkennings- en omzettingskalender, cumulatief t/m Q4 2025.", GEL, date(2026, 3, 16), A, opm="eigen som"),
-    _b(WZ, "kalender_vervallen_cvk_cum", 40, "verblijfseenheden", date(2025, 12, 31), S400, U400, T400, "antwoord 5", "25 + 15 verblijfseenheden centrum voor kortverblijf type 1", "Idem, cvk type 1.", GEL, date(2026, 3, 16), A, opm="eigen som"),
-    _b(WZ, "capaciteit_erkend_wzc", 83923, "woongelegenheden", date(2026, 6, 30), "vlpar-sv-951-2026-wzc", PF.format(2343662), "SV nr. 951 (2025-2026) Warnez — Excel-bijlage", "tabblad 1, Eindtotaal",
-       "Eindtotaal 45319 (vzw) 23853 (openbaar) 14751 (for-profit) 83923", "Erkende woongelegenheden woonzorgcentrum per gemeente en type uitbater, incl. Brussel (1.019), medio 2026.", GEL, date(2026, 7, 13), A),
-    _b(WZ, "capaciteit_erkend_cvk", 2803, "verblijfseenheden", date(2026, 6, 30), "vlpar-sv-951-2026-wzc", PF.format(2343662), "SV nr. 951 (2025-2026) Warnez — Excel-bijlage", "tabblad 2, Eindtotaal",
-       "Eindtotaal 1879 688 236 2803", "Erkende verblijfseenheden centrum voor kortverblijf, medio 2026.", GEL, date(2026, 7, 13), A),
-    _b(WZ, "capaciteit_raming_wzc", 84717, "woongelegenheden", date(2025, 12, 31), "vlpar-sv-110-2024-wzc", PF.format(2113020), "SV nr. 110 (2024-2025) Vandecasteele", "vraagtekst (citaat technisch antwoord BO 2025)",
-       "Op basis van de ramingen in kader van BO2025 zouden er eind 2025, 84.717 woongelegenheden woonzorgcentrum en 2.771 woongelegenheden centrum voor kortverblijf zijn.", "Raming BO 2025 van het aantal woongelegenheden wzc eind 2025.", GEL, date(2025, 2, 3), A, opm="geciteerd in de vraag uit een technisch antwoord van de administratie"),
-    _b(WZ, "doorlooptijd_kalender_ingebruikname_kwartalen", 2, "kwartalen", date(2020, 12, 31), "vlpar-sv-979-2025-wzc", PF.format(2209176), "SV nr. 979 (2024-2025) Schryvers", "antwoord 1", "in 2020 2 kwartalen voor WZC en 3 voor CKV type 1", "Gemiddelde tijd tussen de toegekende periode in de erkenningskalender en de effectieve ingebruikname (wzc).", GEL, date(2025, 10, 7), A),
-    _b(WZ, "doorlooptijd_kalender_ingebruikname_kwartalen", 6, "kwartalen", date(2021, 12, 31), "vlpar-sv-979-2025-wzc", PF.format(2209176), "SV nr. 979 (2024-2025) Schryvers", "antwoord 1", "in 2021 6 kwartalen voor WZC en 3 voor CKV type 1", "Idem.", GEL, date(2025, 10, 7), A),
-    _b(WZ, "doorlooptijd_kalender_ingebruikname_kwartalen", 4, "kwartalen", date(2022, 12, 31), "vlpar-sv-979-2025-wzc", PF.format(2209176), "SV nr. 979 (2024-2025) Schryvers", "antwoord 1", "in 2022 4 kwartalen voor WZC en 7 voor CKV type 1", "Idem.", GEL, date(2025, 10, 7), A),
-    _b(WZ, "doorlooptijd_kalender_ingebruikname_kwartalen", 8, "kwartalen", date(2023, 12, 31), "vlpar-sv-979-2025-wzc", PF.format(2209176), "SV nr. 979 (2024-2025) Schryvers", "antwoord 1", "in 2023 8 kwartalen voor WZC en 8 voor CKV type 1", "Idem.", GEL, date(2025, 10, 7), A),
-    _b(WZ, "doorlooptijd_kalender_ingebruikname_kwartalen", 8, "kwartalen", date(2024, 12, 31), "vlpar-sv-979-2025-wzc", PF.format(2209176), "SV nr. 979 (2024-2025) Schryvers", "antwoord 1", "in 2024 8 kwartalen voor WZC en 7 voor CKV type 1", "Idem.", GEL, date(2025, 10, 7), A),
+    _b(WZ, "kalender_goedgekeurd_wzc_2020_2025", 5455, "woongelegenheden", date(2019, 12, 31), "vlpar-sv-110-2024-wzc", PF.format(2113020), "SV nr. 110 (2024-2025) Vandecasteele", "antwoord 1 (PDF p. 2)",
+       "Oorspronkelijk werden er in totaal 5.455 woongelegenheden erkenningskalender woonzorgcentrum goedgekeurd voor de periode 2020-2025.", "Goedgekeurde woongelegenheden wzc in de erkenningskalender 2020-2025 (vastgelegd in 2019).", GEC, date(2025, 2, 3), D_EB),
+    _b(WZ, "kalender_gerealiseerd_wzc_cum", 3088, "woongelegenheden", date(2024, 12, 31), S564, U564, T564, "antwoord 6 (PDF p. 4)", P564_6,
+       "Bijkomende gerealiseerde capaciteit wzc uit de erkennings- en omzettingskalender, cumulatief, per provincie + Brussel (tabel per jaar 2018-2024).", GEC, date(2025, 5, 22), D_EB, opm="eigen som van de provinciecijfers"),
+    _b(WZ, "kalender_gerealiseerd_cvk_cum", 322, "verblijfseenheden", date(2024, 12, 31), S564, U564, T564, "antwoord 6 (PDF p. 4)", P564_6, "Idem, centra voor kortverblijf type 1.", GEC, date(2025, 5, 22), D_EB,
+       opm="eigen som (81 + 53 + 75 + 31 + 82)"),
+    _b(WZ, "kalender_gerealiseerd_wzc_cum", 3481, "woongelegenheden", date(2025, 12, 31), S400, U400, T400, "antwoord 4 (PDF p. 3)",
+       "In totaal werden er inmiddels 3481 woongelegenheden woonzorgcentrum en 377 verblijfseenheden centrum voor kortverblijf type 1 effectief in gebruik genomen.", "Idem, t/m vierde kwartaal 2025.", GEC, date(2026, 3, 16), D_EB),
+    _b(WZ, "kalender_gerealiseerd_cvk_cum", 377, "verblijfseenheden", date(2025, 12, 31), S400, U400, T400, "antwoord 4 (PDF p. 3)",
+       "In totaal werden er inmiddels 3481 woongelegenheden woonzorgcentrum en 377 verblijfseenheden centrum voor kortverblijf type 1 effectief in gebruik genomen.", "Idem, cvk type 1, t/m Q4 2025.", GEC, date(2026, 3, 16), D_EB),
+    _b(WZ, "kalender_nog_te_realiseren_wzc", 2763, "woongelegenheden", date(2025, 1, 1), S564, U564, T564, "antwoord 1 (PDF p. 3)", P564_1,
+       "Goedgekeurde erkennings- en omzettingskalender wzc die nog in gebruik moet worden genomen (aanbodwachtlijst).", GEC, date(2025, 5, 22), D_EB, opm="eigen som (716 + 649 + 322 + 493 + 583)"),
+    _b(WZ, "kalender_nog_te_realiseren_wzc", 2110, "woongelegenheden", date(2026, 1, 1), S400, U400, T400, "antwoord 1 (PDF p. 2)", P400_1, "Idem, stand 1-1-2026.", GEC, date(2026, 3, 16), D_EB,
+       opm="eigen som (692 + 366 + 242 + 317 + 493)"),
+    _b(WZ, "kalender_nog_te_realiseren_cvk", 144, "verblijfseenheden", date(2026, 1, 1), S400, U400, T400, "antwoord 1 (PDF p. 2)", P400_1, "Idem, cvk type 1.", GEC, date(2026, 3, 16), D_EB,
+       opm="eigen som (44 + 24 + 25 + 51)"),
+    _b(WZ, "kalender_uitgesteld_wzc_cum", 3509, "woongelegenheden", date(2025, 1, 1), S564, U564, T564, "antwoord 2 (PDF p. 3)", P564_2,
+       "Goedgekeurde kalender wzc waarvoor uitstel werd gevraagd sinds de omzendbrief van 5-5-2021, cumulatief; vijf provincies (zonder Brussel).", GEC, date(2025, 5, 22), D_EB,
+       opm="eigen som (1078 + 564 + 507 + 450 + 910); de bron dateert dit antwoord niet, peildatum gelijkgesteld aan antwoord 1 (vanaf Q1 2025)"),
+    _b(WZ, "kalender_uitgesteld_wzc_cum", 4109, "woongelegenheden", date(2026, 1, 1), S400, U400, T400, "antwoord 2 (PDF p. 2)", P400_2,
+       "Idem, stand 1-1-2026; vijf provincies (zonder Brussel), vergelijkbaar met 2025.", GEC, date(2026, 3, 16), D_EB,
+       opm="eigen som (1247 + 682 + 607 + 454 + 1119); SV 400 vermeldt ook Brussel 150 (totaal 4.259), SV 564 niet"),
+    _b(WZ, "kalender_uitgesteld_cvk_cum", 323, "verblijfseenheden", date(2026, 1, 1), S400, U400, T400, "antwoord 2 (PDF p. 2)", P400_2, "Idem, cvk type 1.", GEC, date(2026, 3, 16), D_EB,
+       opm="eigen som (84 + 44 + 67 + 16 + 112)"),
+    _b(WZ, "kalender_vervallen_wzc_2020_2025_kalender", 112, "woongelegenheden", date(2024, 12, 31), "vlpar-sv-110-2024-wzc", PF.format(2113020), "SV nr. 110 (2024-2025) Vandecasteele", "antwoord 1, tabel",
+       "Totaal 86 (for-profit) + 26 (non-profit) + 0 (openbaar) = 112", "Vervallen (niet-gerealiseerde) woongelegenheden wzc uit enkel de kalender 2020-2025, 2020-2024 per kwartaal en type uitbater.", BET, date(2025, 2, 3), A,
+       opm="andere afbakening dan de reeks kalender_vervallen_wzc_cum (alle kalenders: 327 tot eind 2024, SV 564)"),
+    _b(WZ, "kalender_vervallen_wzc_cum", 327, "woongelegenheden", date(2024, 12, 31), S564, U564, T564, "antwoord 7 (PDF p. 4-5)", P564_7, D_VERV, GEC, date(2025, 5, 22), D_EB,
+       opm="eigen som (136 + 94 + 45 + 20 + 17 + 15)"),
+    _b(WZ, "kalender_vervallen_cvk_cum", 28, "verblijfseenheden", date(2024, 12, 31), S564, U564, T564, "antwoord 7 (PDF p. 4-5)", P564_7, "Idem, cvk type 1.", GEC, date(2025, 5, 22), D_EB,
+       opm="eigen som (25 + 3)"),
+    _b(WZ, "kalender_vervallen_wzc_cum", 509, "woongelegenheden", date(2025, 12, 31), S400, U400, T400, "antwoord 5 (PDF p. 3)", P400_5, D_VERV + " T/m Q4 2025.", GEC, date(2026, 3, 16), D_EB,
+       opm="eigen som (166 + 141 + 79 + 86 + 22 + 15)"),
+    _b(WZ, "kalender_vervallen_cvk_cum", 40, "verblijfseenheden", date(2025, 12, 31), S400, U400, T400, "antwoord 5 (PDF p. 3)", P400_5, "Idem, cvk type 1.", GEC, date(2026, 3, 16), D_EB, opm="eigen som (25 + 15)"),
+    _b(WZ, "capaciteit_erkend_wzc", 83923, "woongelegenheden", date(2026, 6, 30), "vlpar-sv-951-2026-wzc", U951X, "SV nr. 951 (2025-2026) Warnez — Excel-bijlage", "tabblad '1. erkendeWZCpergemeente', rij 294 (B-E)",
+       "Vzw Openbaar For-profit Eindtotaal … Eindtotaal 45319 23853 14751 83923", "Erkende woongelegenheden woonzorgcentrum per gemeente en type uitbater, incl. Brussel (1.019), medio 2026.", GEC, date(2026, 7, 13), D_EB,
+       "peildatum afgeleid: de vraag (28-5-2026) vraagt de stand 'vandaag'; Excel laatst opgeslagen 29-6-2026"),
+    _b(WZ, "capaciteit_erkend_cvk", 2803, "verblijfseenheden", date(2026, 6, 30), "vlpar-sv-951-2026-wzc", U951X, "SV nr. 951 (2025-2026) Warnez — Excel-bijlage", "tabblad '2. erkendeCKVpergemeente', rij 253 (B-E)",
+       "Vzw Openbaar For-profit Eindtotaal … Eindtotaal 1879 688 236 2803", "Erkende verblijfseenheden centrum voor kortverblijf, incl. Brussel (13), medio 2026.", GEC, date(2026, 7, 13), D_EB,
+       "peildatum afgeleid (zie capaciteit_erkend_wzc)"),
+    _b(WZ, "capaciteit_raming_wzc", 84717, "woongelegenheden", date(2025, 12, 31), "vlpar-sv-110-2024-wzc", PF.format(2113020), "SV nr. 110 (2024-2025) Vandecasteele", "vraagtekst, PDF p. 1 (citaat technisch antwoord BO 2025)",
+       "Op basis van de ramingen in kader van BO2025 zouden er eind 2025, 84.717 woongelegenheden woonzorgcentrum en 2.771 woongelegenheden centrum voor kortverblijf zijn.", "Raming BO 2025 van het aantal woongelegenheden wzc eind 2025.", GEC, date(2025, 2, 3), D_EB, opm="geciteerd in de vraag uit een technisch antwoord van de administratie"),
 ]
+D_DOORL = ("Gemiddelde tijd tussen de toegekende periode in de erkenningskalender en de effectieve ingebruikname (wzc), per jaar van de toegekende periode, stand oktober 2025; "
+           "recente jaren tellen enkel kalenders die al in gebruik zijn en kunnen nog stijgen.")
+for jaar, n, cvk in ((2020, 2, 3), (2021, 6, 3), (2022, 4, 7), (2023, 8, 8), (2024, 8, 7)):
+    BEVINDINGEN.append(_b(WZ, "doorlooptijd_kalender_ingebruikname_kwartalen", n, "kwartalen", date(jaar, 12, 31), "vlpar-sv-979-2025-wzc", PF.format(2209176), "SV nr. 979 (2024-2025) Schryvers", "antwoord 1 (PDF p. 2)",
+                          f"in {jaar} {n} kwartalen voor WZC en {cvk} voor CKV type 1", D_DOORL, GEC, date(2025, 10, 7), D_EB))
 for jaar, n, nv in ((2020, 985, 25), (2021, 418, 16), (2022, 401, 19), (2023, 659, 17), (2024, 1137, 32)):
-    BEVINDINGEN.append(_b(WZ, "kalender_uitstel_gevraagd_wzc", n, "woongelegenheden", date(jaar, 12, 31), "vlpar-sv-668-2025-wzc", PF.format(2168840), "SV nr. 668 (2024-2025) Vandecasteele", "antwoord a en b",
-                          f"In {jaar} vroegen {nv} woonzorgcentra uitstel op de goedgekeurde erkenningskalender voor {n} woongelegenheden", "Woongelegenheden wzc waarvoor in het jaar uitstel van de erkenningskalender werd gevraagd (per jaar, niet cumulatief).", GEL, date(2025, 6, 12), A))
+    BEVINDINGEN.append(_b(WZ, "kalender_uitstel_gevraagd_wzc", n, "woongelegenheden", date(jaar, 12, 31), "vlpar-sv-668-2025-wzc", PF.format(2168840), "SV nr. 668 (2024-2025) Vandecasteele", "antwoord a en b (PDF p. 2)",
+                          f"In {jaar} vroegen {nv} woonzorgcentra uitstel op de goedgekeurde erkenningskalender voor {n} woongelegenheden",
+                          "Woongelegenheden wzc waarvoor in het jaar uitstel van de erkenningskalender werd gevraagd (per jaar, niet cumulatief).", GEC, date(2025, 6, 12), D_EB,
+                          "uitstel kon pas vanaf de omzendbrief van mei 2021; '2020' volgt de formulering van de bron" if jaar == 2020 else ""))
 
 # ------------------------------------------------------------------------------------------------ buitengewoon onderwijs
 RH, URH = "rekenhof-buo-2025", PF.format(2102664)
 BEVINDINGEN += [
-    _b(BU, "leerlingen_buo", 47468, "leerlingen", date(2019, 2, 1), RH, URH, "Rekenhof — Buitengewoon onderwijs: toegang en uitstroom (jan 2025)", "p. 35, §2.2.2",
-       "het aantal leerlingen in het buitengewoon onderwijs gestegen van 47.468 leerlingen in 2018-2019 tot 53.573 in 2022-2023. Dat is een stijging met 12,9 % in 4 jaar.", "Leerlingen buitengewoon basis- en secundair onderwijs, schooljaar 2018-2019 (telling 1 februari).", GEL, date(2025, 1, 9), A),
-    _b(BU, "leerlingen_buo", 53573, "leerlingen", date(2023, 2, 1), RH, URH, "Rekenhof — Buitengewoon onderwijs: toegang en uitstroom (jan 2025)", "p. 35, §2.2.2",
-       "… tot 53.573 in 2022-2023. Dat is een stijging met 12,9 % in 4 jaar.", "Idem, schooljaar 2022-2023.", GEL, date(2025, 1, 9), A, opm="actuelere cijfers per schooljaar via Dataloep (onderwijs.vlaanderen.be)"),
-    _b(BU, "tekort_plaatsen_2030_basis", 2184, "plaatsen", date(2030, 9, 1), "capaciteitsmonitor-2025", "https://hiva.kuleuven.be/sites/capaciteitsmonitor/docs/capaciteitsmonitor-rapport-27-augustus-2025.pdf", "Capaciteitsmonitor schoolinfrastructuur leerplichtonderwijs, 4e editie (HIVA-KU Leuven & VUB, 27-08-2025)", "PDF p. 83-84, tabel 3.12",
+    _b(BU, "leerlingen_buo", 47468, "leerlingen", date(2019, 2, 1), RH, URH, "Rekenhof — Buitengewoon onderwijs: toegang en uitstroom (verslag september 2024, gepubliceerd januari 2025)", "PDF p. 35 (gedrukt p. 32), §2.2.2",
+       "het aantal leerlingen in het buitengewoon onderwijs gestegen van 47.468 leerlingen in 2018-2019 tot 53.573 in 2022-2023. Dat is een stijging met 12,9 % in 4 jaar.", "Leerlingen buitengewoon basis- en secundair onderwijs, schooljaar 2018-2019 (Datawarehouse Leerplicht).", GEC, date(2025, 1, 9), D_EB,
+       opm="peildatum 1 februari = projectconventie voor een schooljaar; de bron noemt enkel het schooljaar"),
+    _b(BU, "leerlingen_buo", 53573, "leerlingen", date(2023, 2, 1), RH, URH, "Rekenhof — Buitengewoon onderwijs: toegang en uitstroom (verslag september 2024, gepubliceerd januari 2025)", "PDF p. 35 (gedrukt p. 32), §2.2.2",
+       "… tot 53.573 in 2022-2023. Dat is een stijging met 12,9 % in 4 jaar.", "Idem, schooljaar 2022-2023.", GEC, date(2025, 1, 9), D_EB,
+       opm="= 2.739 kleuter + 27.117 lager + 23.717 secundair (PDF p. 20); peildatum 1 februari = projectconventie; actuelere cijfers via Dataloep"),
+    _b(BU, "tekort_plaatsen_2030_basis", 2184, "plaatsen", date(2030, 9, 1), "capaciteitsmonitor-2025", "https://hiva.kuleuven.be/sites/capaciteitsmonitor/docs/capaciteitsmonitor-rapport-27-augustus-2025.pdf", "Capaciteitsmonitor 2024 – Analyse van capaciteitsnoden en pendelbewegingen in Vlaanderen (BRISPO-VUB & HIVA-KU Leuven, mei 2025; gepubliceerd 27-08-2025)", "PDF p. 83-84, tabel 3.12",
        "Er wordt een tekort verwacht van 2184 plaatsen, of in relatieve termen 7,3% van het verwachte aanbod. … Basisonderwijs 32 098 29 914 -2 184 -7,3%",
-       "Verwacht tekort aan plaatsen buitengewoon basisonderwijs in 2030-2031: vraagprognose (32.098) min aanbodprognose (29.914); % t.o.v. het verwachte aanbod.", GEL, date(2025, 8, 27), "Claude (2026-10-01)",
+       "Verwacht tekort aan plaatsen buitengewoon basisonderwijs in 2030-2031: vraagprognose (32.098) min aanbodprognose (29.914); % t.o.v. het verwachte aanbod.", GEC, date(2025, 8, 27), "Claude + 2e lezing EB (2026-10-01)",
        opm="tekort enkel in het buitengewoon lager onderwijs (tekst: 2 307 of 8,4 %; tabel: -8,6 %); VRT 27-08-2025 noemde het % foutief 'van totale vraag'"),
-    _b(BU, "tekort_plaatsen_2030_secundair", 3731, "plaatsen", date(2030, 9, 1), "capaciteitsmonitor-2025", "https://hiva.kuleuven.be/sites/capaciteitsmonitor/docs/capaciteitsmonitor-rapport-27-augustus-2025.pdf", "Capaciteitsmonitor schoolinfrastructuur leerplichtonderwijs, 4e editie (HIVA-KU Leuven & VUB, 27-08-2025)", "PDF p. 93-94, tabel 3.17",
+    _b(BU, "tekort_plaatsen_2030_secundair", 3731, "plaatsen", date(2030, 9, 1), "capaciteitsmonitor-2025", "https://hiva.kuleuven.be/sites/capaciteitsmonitor/docs/capaciteitsmonitor-rapport-27-augustus-2025.pdf", "Capaciteitsmonitor 2024 – Analyse van capaciteitsnoden en pendelbewegingen in Vlaanderen (BRISPO-VUB & HIVA-KU Leuven, mei 2025; gepubliceerd 27-08-2025)", "PDF p. 93-94, tabel 3.17",
        "In 2030-2031 wordt een tekort verwacht van 3 731 plaatsen, of 15,1% van het verwachte aanbod.",
-       "Verwacht tekort aan plaatsen buitengewoon secundair onderwijs in 2030-2031: vraagprognose (28.386) min aanbodprognose (24.654); % t.o.v. het verwachte aanbod.", GEL, date(2025, 8, 27), "Claude (2026-10-01)",
+       "Verwacht tekort aan plaatsen buitengewoon secundair onderwijs in 2030-2031 (tekstwaarde; tabel: vraagprognose 28.386 min aanbodprognose 24.654 = 3.732); % t.o.v. het verwachte aanbod.", GEC, date(2025, 8, 27), "Claude + 2e lezing EB (2026-10-01)",
        opm="tabel 3.17 geeft -3 732 (afronding); besluit (PDF p. 128) noemt 15,2 %; tekort in elke opleidingsvorm, grootst in OV4 (-1 635, -31,8 %)"),
     _b(BU, "lop_antwerpen_zonder_plaats", 680, "kinderen", date(2026, 5, 18), "vlpar-sv-829-2026-buo", PF.format(2353372), "SV nr. 829 (2025-2026) D'Hose — vraagtekst (LOP Antwerpen / VRT)", "vraag",
        "In totaal staan volgens dezelfde berichtgeving 680 kinderen op een wachtlijst voor het buitengewoon onderwijs in Antwerpen, goed voor ongeveer 66 procent van de aanmeldingen.", "Aangemelde kinderen zonder toegewezen plaats in het buitengewoon basisonderwijs, LOP Antwerpen, aanmeldingen 2026-2027.", ONG, date(2026, 7, 15), opm="secundair (vraagtekst, VRT); LOP-rapport zelf nog op te vragen"),
     _b(BU, "lop_gent_pct_geen_voorkeurschool", 58, "procent", date(2026, 5, 18), "vlpar-sv-829-2026-buo", PF.format(2353372), "SV nr. 829 (2025-2026) D'Hose", "antwoord 2a",
-       "In totaal vond 58% van de leerlingen geen plaats in de school van voorkeur via het aanmeldingssysteem. Vooral in type 2 en type 4 is dit aandeel het grootst.", "Aandeel aangemelde leerlingen zonder plaats in de school van voorkeur, buitengewoon basisonderwijs samenwerkingsverband LOP Gent (Beveren-Kruibeke-Zwijndrecht, Dendermonde, Gent, Lokeren, Sint-Niklaas, Zele), 2026-2027.", GEL, date(2026, 7, 15), A),
+       "In totaal vond 58% van de leerlingen geen plaats in de school van voorkeur via het aanmeldingssysteem. Vooral in type 2 en type 4 is dit aandeel het grootst.", "Aandeel aangemelde leerlingen zonder plaats in de school van voorkeur, buitengewoon basisonderwijs samenwerkingsverband LOP Gent (Beveren-Kruibeke-Zwijndrecht, Dendermonde, Gent, Lokeren, Sint-Niklaas, Zele); schooljaar 2026-2027 afgeleid uit de vraag.", GEC, date(2026, 7, 15), D_EB, opm="peildatum = datum van de vraag; het antwoord dateert de resultaten niet"),
     _b(BU, "lop_aalst_pct_geen_voorkeurschool", 70, "procent", date(2026, 5, 18), "vlpar-sv-829-2026-buo", PF.format(2353372), "SV nr. 829 (2025-2026) D'Hose", "antwoord 2b",
-       "In totaal vond 70% van de leerlingen geen plaats in de school van voorkeur via het aanmeldingssysteem. De grootste tekorten zitten bij type 2 en type 9.", "Idem, LOP Aalst (Aalst en Erpe-Mere).", GEL, date(2026, 7, 15), A),
+       "In totaal vond 70% van de leerlingen geen plaats in de school van voorkeur via het aanmeldingssysteem. De grootste tekorten zitten bij type 2 en type 9.", "Idem, LOP Aalst (Aalst en Erpe-Mere).", GEC, date(2026, 7, 15), D_EB, opm="peildatum = datum van de vraag"),
     _b(BU, "ov1_limburg_21plus", 117, "leerlingen", date(2025, 2, 1), "vlpar-sv-1019-2026-buo", PF.format(2366058), "SV nr. 1019 (2025-2026) Peeters", "antwoord 11",
-       "In het schooljaar 2024-2025 schreven 117 leerlingen van 21 jaar of ouder zich in Limburg in opleidingsvorm 1 (OV1) van het buitengewoon secundair onderwijs in.", "Leerlingen ≥ 21 jaar in OV1 buso Limburg (indicator voor ontbrekende vervolgcapaciteit in zorg/dagopvang).", GEL, date(2026, 9, 28), A),
+       "In het schooljaar 2024-2025 schreven 117 leerlingen van 21 jaar of ouder zich in Limburg in opleidingsvorm 1 (OV1) van het buitengewoon secundair onderwijs in.", "Leerlingen ≥ 21 jaar in OV1 buso Limburg, schooljaar 2024-2025.", GEC, date(2026, 9, 28), D_EB,
+       opm="eigen duiding: mogelijke indicator voor ontbrekende vervolgcapaciteit in zorg/dagopvang (de minister legt dat verband niet); peildatum 1 februari = projectconventie"),
 ]
 
 # ------------------------------------------------------------------------------------------------ sociale koop
 for jaar, n in ((2014, 867), (2015, 775), (2016, 860), (2017, 960), (2018, 1053), (2019, 825), (2020, 569), (2021, 735), (2022, 665), (2023, 505)):
     BEVINDINGEN.append(_b(SK, "verkochte_sociale_koopwoningen_nieuw", n, "woningen", date(jaar, 12, 31), "vlpar-sv-448-2025-koop", PF.format(2161755), "SV nr. 448 (2024-2025) Mertens — bijlage 1", "tabblad 'vraag 7', rij 'Aantal verkochte sociale koopwoningen (nieuw)'",
-                          f"Aantal verkochte sociale koopwoningen (nieuw) {jaar}: {n}", "Nieuwe sociale koopwoningen (eerste ingebruikname) verkocht door de woonmaatschappijen in het jaar; excl. middelgrote koopwoningen en wederinkoop.", GEL, date(2025, 6, 11), A))
+                          f"Aantal verkochte sociale koopwoningen (nieuw) {jaar}: {n}", "Nieuwe sociale koopwoningen (eerste ingebruikname, via nieuwbouw of renovatie) verkocht door de woonmaatschappijen in het jaar; excl. middelgrote koopwoningen en wederinkoop.", GEC, date(2025, 6, 11), D_EB))
 
 
 def _bu(vid, jaar, fase, niveau, bedrag, bron_id, url, titel, pagina, passage, status, door="", krediet=Kredietsoort.NVT, artikel="", programma="", ise="", label="", opm=""):
