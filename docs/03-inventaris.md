@@ -188,7 +188,7 @@ over kwaliteitsvolle data beschikt over weigeringen van inschrijvingen".
 | Indicator | Waarde | Bron | Status |
 |---|---|---|---|
 | Leerlingen BuO | 47.468 (2018-19) → 53.573 (2022-23), +12,9 % | Rekenhof p. 35 | bron_gelezen |
-| Verwacht tekort 2030-31 | basis 2.184 (7,3 %), secundair 3.731 (15,1 %) = ± 5.700 plaatsen | capaciteitsmonitor 4e editie (via VRT) | ongecontroleerd |
+| Verwacht tekort 2030-31 | basis 2.184 (7,3 % van het verwachte aanbod), secundair 3.731 (15,1 %) = ± 5.700 plaatsen | capaciteitsmonitor 4e editie, PDF p. 83-84 en 93-94 | bron_gelezen |
 | LOP Antwerpen 2026 | 680 kinderen zonder plaats, ± 66 % van de aanmeldingen | vraagtekst SV 829 (VRT) | ongecontroleerd |
 | LOP Gent / LOP Aalst 2026 | 58 % resp. 70 % geen plaats in school van voorkeur (type 2, 4, 9) | SV 829 | bron_gelezen |
 | OV1 Limburg ≥ 21 jaar | 117 leerlingen (2024-25) | SV 1019 | bron_gelezen |
@@ -215,4 +215,4 @@ Gezinszorg, COS (+ CAR), NT2, pleegzorg, justitiehuizen (niet-opgestarte mandate
 4. VAPH halfjaarverslag 2026 (PG-stand 30-06-2026): **nog niet online** op 1-10-2026 (404) — herhalen eind oktober/november met `wachtlijst harvest vaph 2026-eerste-jaarhelft`.
 5. Jaarverslag Jeugdhulp 2018 (exact cijfer 31-12-2018); discrepantie 2022 (7.397/7.448); cijfers lokale loketten kinderopvang 2025.
 6. ~~Collectief maatwerk, woonzorg, buitengewoon onderwijs, sociale koop~~ — uitgewerkt (§J–§M, `scripts/seed_vervolg.py`).
-7. Open na ronde 4: capaciteitsmonitor-pdf lokaal lezen (BuO-tekorten van `ongecontroleerd` naar `bron_gelezen`); LOP-rapport Antwerpen 2026 opvragen; WEWIS-export elk kwartaal herhalen (draaiboek B); nieuwe erkenningskalender wzc (VR zomer 2026) toevoegen; discrepantie vervallen kalenders 112/327 uitklaren.
+7. Open na ronde 4: ~~capaciteitsmonitor-pdf lokaal lezen~~ (gedaan 01-10-2026, BuO-tekorten op `bron_gelezen`); LOP-rapport Antwerpen 2026 opvragen; WEWIS-export elk kwartaal herhalen (draaiboek B); nieuwe erkenningskalender wzc (VR zomer 2026) toevoegen; discrepantie vervallen kalenders 112/327 uitklaren.
