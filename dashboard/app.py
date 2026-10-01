@@ -94,6 +94,12 @@ with tab_detail:
         "wachttijd_ftf1_0_17_dagen": "Wachttijd tot 1e contact, 0-17 j (dagen)", "wachttijd_ftf1_18_59_dagen": "Wachttijd tot 1e contact, 18-59 j (dagen)",
         "wachttijd_ftf1_60plus_dagen": "Wachttijd tot 1e contact, 60+ (dagen)", "wachttijd_ftf1_18_64_dagen": "Wachttijd tot 1e contact, 18-64 j (dagen, vanaf 2024)",
         "wachttijd_ftf1_65plus_dagen": "Wachttijd tot 1e contact, 65+ (dagen, vanaf 2024)",
+        "wachtenden_advies_cmw": "Werkzoekenden met advies collectief maatwerk (VDAB)", "contingent_open_vte": "Openstaand contingent maatwerkbedrijven (VTE)",
+        "contingent_toegekend_vte": "Toegekend contingent (VTE)", "contingent_ingevuld_vte": "Ingevuld contingent (VTE)", "werknemers_cmw": "Werknemers collectief maatwerk (personen)",
+        "kalender_nog_te_realiseren_wzc": "Kalender wzc nog te realiseren", "kalender_uitgesteld_wzc_cum": "Kalender wzc uitgesteld (cumulatief)",
+        "kalender_gerealiseerd_wzc_cum": "Kalender wzc gerealiseerd sinds 2015 (cumulatief)", "kalender_vervallen_wzc_cum": "Kalender wzc vervallen (cumulatief)",
+        "kalender_uitstel_gevraagd_wzc": "Uitstel gevraagd in het jaar (wzc)",
+        "leerlingen_buo": "Leerlingen buitengewoon onderwijs", "verkochte_sociale_koopwoningen_nieuw": "Verkochte nieuwe sociale koopwoningen",
     }
     PALET = [SERIES["pg1"], SERIES["pg2"], SERIES["pg3"], "#eda100", "#e87ba4", "#008300", SERIES["totaal"], "#e34948"]
     REEKS_KLEUR = {
@@ -104,6 +110,10 @@ with tab_detail:
         "wachtenden_geen_passend_aanbod": PALET[0], "wachtenden_6_maanden": PALET[1],
         "wachttijd_ftf1_0_17_dagen": PALET[0], "wachttijd_ftf1_18_59_dagen": PALET[1], "wachttijd_ftf1_60plus_dagen": PALET[2],
         "wachttijd_ftf1_18_64_dagen": PALET[3], "wachttijd_ftf1_65plus_dagen": PALET[4],
+        "wachtenden_advies_cmw": PALET[0], "contingent_open_vte": PALET[1], "contingent_toegekend_vte": PALET[2], "contingent_ingevuld_vte": PALET[3], "werknemers_cmw": PALET[4],
+        "kalender_nog_te_realiseren_wzc": PALET[0], "kalender_uitgesteld_wzc_cum": PALET[1], "kalender_gerealiseerd_wzc_cum": PALET[2], "kalender_vervallen_wzc_cum": PALET[7],
+        "kalender_uitstel_gevraagd_wzc": PALET[3],
+        "leerlingen_buo": PALET[0], "verkochte_sociale_koopwoningen_nieuw": PALET[0],
     }
     reeks = b[b["metriek"].isin(list(REEKS_LABELS))]
     if len(reeks):

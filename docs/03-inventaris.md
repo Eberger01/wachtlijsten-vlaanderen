@@ -1,6 +1,6 @@
 # Inventaris wachtlijsten (brede scan, stand 1 oktober 2026)
 
-*Machineleesbaar: `data/curated/voorzieningen.csv`. Cijfers hieronder zijn eerste lezingen; enkel VAPH-PVB is als proef volledig gedocumenteerd in `bevindingen.csv`.*
+*Machineleesbaar: `data/curated/voorzieningen.csv`. Tien dossiers zijn volledig gedocumenteerd in `bevindingen.csv` (§E–§M); de overige rijen in §A–§D zijn eerste lezingen.*
 
 ## A. Centraal beheerd én gepubliceerd
 
@@ -15,21 +15,21 @@
 
 | Voorziening | Entiteit | Wat bestaat | Laatst bekend |
 |---|---|---|---|
-| Collectief maatwerk | VDAB / DWSE (Gewest) | advies CMW zonder job vs vacatures | dec 2024: 3.086 vs 751 vacatures; individueel maatwerk 9.615 (feb 2025) |
+| Collectief maatwerk | VDAB / DWSE (Gewest) | werkzoekenden met advies CMW (VDAB, via SV) vs openstaand contingent (open data WEWIS) | aug 2025: 3.781 wachtenden; 2025 K4: 904 VTE open op 21.246 toegekend — §J |
 | CGG | Departement Zorg (Gemeenschap) | wachttijden uit EPD per leeftijdsgroep (bijlage SV 379) | trend licht dalend sinds 2023 |
 
 ## C. Decentraal — Vlaamse overheid houdt geen centrale lijst bij
 
 | Voorziening | Entiteit | Wat is wel publiek |
 |---|---|---|
-| Woonzorgcentra, kortverblijf, dagverzorging, assistentiewoningen | Departement Zorg | erkenningskalender (aanbodzijde), aanbodcijfers; geen bewonerswachtlijst |
+| Woonzorgcentra, kortverblijf, dagverzorging, assistentiewoningen | Departement Zorg | erkenningskalender (aanbodzijde): 2.110 wzc nog te realiseren, 4.259 uitgesteld, 509 vervallen (1-1-2026); 'geen zicht op wachtlijsten van een voorziening' (SV 951) — §K |
 | Kinderopvang baby's/peuters | Opgroeien | onderzoek 2025: 26.355 van 71.238 ouders zonder plaats (dubbeltellingen); tekort 11.500 plaatsen tegen 2029 |
-| Buitengewoon onderwijs | AGODI / LOP's | capaciteitsmonitor (tekort ± 5.700 plaatsen 2030-31); Antwerpen mei 2026: 680 kinderen zonder plaats |
+| Buitengewoon onderwijs | AGODI / LOP's | geen centrale registratie (SV 1152/1192/1019); capaciteitsmonitor tekort ± 5.700 plaatsen 2030-31; LOP Gent 58 % / Aalst 70 % geen voorkeurschool (2026) — §L |
 | COS (diagnostiek) | Departement Zorg | jan 2023: > 2.000 kinderen, 12 m – 2,5 j |
 | Pleegzorg | Opgroeien | vervat in NRTJ (2.707 verblijfsvragen pleeggezin) |
 | Gezinszorg | Departement Zorg | urencontingent per dienst; besparing 2026 ± 30 mln |
 | NT2 | AgII / CVO / Ligo | afsprakenkader vraagt inventaris; geen cijfer |
-| Sociale koop | woonmaatschappijen | SV 448: geen centrale data |
+| Sociale koop | woonmaatschappijen | SV 448/450: kandidaten niet centraal → afgerond; verkochte nieuwe sociale koopwoningen 1.053 (2018) → 505 (2023) — §M |
 
 ## D. Geen wachtlijstmechanisme
 
@@ -132,9 +132,80 @@ Trend bevestigd door de minister ("daalt licht"); breuken: ZorgAtlas 2022 (telef
 (2024, BBT-indicator — zonder wachttijdindicator). Budget: enveloppe CGG 71,8 mln (2019) → 93,0 mln (2024, +30 %), binnen artikel
 GB0-1GCF2LA-WT 146,7 mln (BO 2026, ISE Gespecialiseerde zorg).
 
+## J. Dossier collectief maatwerk (VDAB / DWSE, uitgewerkt 1-10-2026)
+
+Twee kanten van dezelfde schaarste. **Vraagzijde**: werkzoekenden zonder werk met een geldig advies collectief maatwerk (zonder lager advies),
+VDAB-data, enkel via parlementaire vraag (bijlage 1 bij SV 15, Awouters, nov 2025). **Aanbodzijde**: het toegekende contingent in
+maatwerkbedrijven en -afdelingen min de ingevulde VTE, per kwartaal op het **open-dataplatform van het Departement WEWIS**
+(dataset `cmw03_product_v1`, CSV-export) — de eerste wachtlijst-reeks in dit onderzoek met echte open data.
+
+| Stand | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+|---|---|---|---|---|---|---|---|
+| Wachtenden met advies CMW (dec; 2025 = aug) | 4.563 | 5.111 | 4.704 | 4.277 | 4.554 | 3.089 | 3.781 |
+| Toegekend contingent K4 (VTE) | 19.534 | 19.588 | 19.805 | 19.929 | 21.422 | 21.319 | 21.246 |
+| Openstaand contingent K4 (VTE) | 931 | 1.154 | 1.056 | 1.101 | 1.631 | 1.518 | 904 |
+| Werknemers CMW (personen) | 23.451 | 23.386 | 24.066 | 24.605 | 25.815 | — | — |
+| Doorstroom uit CMW | — | 256 | 283 | 403 | 513 | 344 | 197 (S1) |
+
+Status: wachtenden en contingent `bron_gelezen` (één lezing + eigen aggregatie van de open data); het SERV-cijfer 3.019 uit de vraagtekst
+`ongecontroleerd`. Paradox volgens de minister: "In theorie zijn er voldoende werkzoekenden met een ticket collectief maatwerk om het
+beschikbare contingent in te vullen. De uitdaging ligt dus niet in de aantallen, maar in de kwaliteit van de match" (mobiliteit,
+gezondheid, taal, functievereisten). Indicering: 8.425 ICF-indiceringen in S1 2025 (gemiddeld 16,5 uur; 2.219 adviezen CMW toegekend);
+conceptnota VR 2025 1807 moet het vierogenprincipe loslaten. Groeipad regeerakkoord: ≥ 1.000 extra plaatsen tegen 2029; eerste fase
+2025: 200 plaatsen opengesteld, 189,5 VTE toegekend aan 48 bedrijven. Budget: artikel Collectief Maatwerk 466,7 mln (uitv. 2022) →
+526,7 (2023) → 552,3 (2024) → 572,5 (2025) → BO 2026 600,7 mln (VAK = VEK; BA 2025 eenmalig −30 mln VEK); ISE Activering
+(Sociale economie) BO 2026 756,8 mln. Afgerekende subsidie volgens open data: 386 mln (2019) → 561 mln (2025).
+
+## K. Dossier woonzorg — erkenningskalender (Departement Zorg, uitgewerkt 1-10-2026)
+
+"De Vlaamse overheid heeft geen zicht op de eventuele wachtlijsten van een voorziening" (SV 951, Warnez, juli 2026). Er is dus geen
+bewonerswachtlijst; wat wél centraal bestaat is de **aanbodwachtlijst**: de erkennings- en omzettingskalender (sinds 2015; kalender
+2020-2025 vastgelegd in 2019 met 5.455 goedgekeurde woongelegenheden wzc). Reeks uit de SV's Schryvers (564, 1047, 400, 979) en
+Vandecasteele (110, 668):
+
+| Stand kalender (wzc) | eind 2024 | 1-1-2026 |
+|---|---|---|
+| Gerealiseerd sinds 2015 (cumulatief) | 3.088 (+ 322 cvk) | 3.481 (+ 377 cvk) |
+| Nog te realiseren | 2.763 (vanaf Q1 2025) | 2.110 (+ 144 cvk) |
+| Uitgesteld sinds omzendbrief 5-5-2021 (cumulatief) | 3.509 (28-2-2025) | 4.259 (+ 323 cvk) |
+| Vervallen (cumulatief) | 112 (SV 110) / 327 (SV 564) — *betwist* | 509 (+ 40 cvk) |
+| Uitstel gevraagd in het jaar | 985 (2020), 418, 401, 659, 1.137 (2024) | — |
+
+Doorlooptijd toekenning → ingebruikname: 2 kwartalen (2020) → 6 → 4 → 8 → 8 (2024). Erkende capaciteit medio 2026 (Excel bij SV 951):
+83.923 woongelegenheden wzc (vzw 45.319, openbaar 23.853, for-profit 14.751; incl. Brussel 1.019) en 2.803 verblijfseenheden cvk;
+raming BO 2025: 84.717 wzc eind 2025. Programmatiestop tot eind 2026; nieuwe erkenningskalender aan de VR "voor de zomer" 2026;
+zorgprognosemodel operationeel tegen 2029. Budget: residentiële ouderenzorg 2,777 mld (2024, SV 110; minderuitgave door vervallen
+kalenders 2,966 mln = 0,1 %); artikel GM0-AGCF2VD-WT (VSB) BA 2025 2.714,3 → BO 2026 2.765,6 mln. Status: `bron_gelezen`; sommen
+over provincies zijn eigen berekeningen (opmerking per rij).
+
+## L. Dossier buitengewoon onderwijs (AGODI / LOP's, uitgewerkt 1-10-2026)
+
+"Er is geen centrale structurele registratie of monitoring van de wachtlijsten" (SV 1152, dec 2025; herhaald in SV 1192, 1003, 1019).
+Scholen noteren niet-gerealiseerde inschrijvingen chronologisch op een weigeringslijst, maar AGODI heeft "geen volledig zicht op alle
+weigeringen" (geen rijksregisternummer; onvolledige zelfrapportering). Het Rekenhof (jan 2025, p. 84) bevestigt dat de overheid "niet
+over kwaliteitsvolle data beschikt over weigeringen van inschrijvingen".
+
+| Indicator | Waarde | Bron | Status |
+|---|---|---|---|
+| Leerlingen BuO | 47.468 (2018-19) → 53.573 (2022-23), +12,9 % | Rekenhof p. 35 | bron_gelezen |
+| Verwacht tekort 2030-31 | basis 2.184 (7,3 %), secundair 3.731 (15,1 %) = ± 5.700 plaatsen | capaciteitsmonitor 4e editie (via VRT) | ongecontroleerd |
+| LOP Antwerpen 2026 | 680 kinderen zonder plaats, ± 66 % van de aanmeldingen | vraagtekst SV 829 (VRT) | ongecontroleerd |
+| LOP Gent / LOP Aalst 2026 | 58 % resp. 70 % geen plaats in school van voorkeur (type 2, 4, 9) | SV 829 | bron_gelezen |
+| OV1 Limburg ≥ 21 jaar | 117 leerlingen (2024-25) | SV 1019 | bron_gelezen |
+
+Budget: buitengewoon onderwijs is niet afgesplitst in de BBT Onderwijs; vanaf 2026-27 wordt het extra werkingsbudget voor IAC-verslagen
+type 2 automatisch toegekend. Capaciteitsmonitor-pdf (hiva.kuleuven.be) was niet bereikbaar vanuit de cloud — lokaal lezen (draaiboek).
+
+## M. Sociale koop (woonmaatschappijen, afgerond 1-10-2026)
+
+"De gegevens met betrekking tot kandidaat-kopers worden door de woonmaatschappijen beheerd. Wonen in Vlaanderen beschikt dan ook niet
+over deze data" (SV 448 en 450, Mertens, juni 2025). Geen centrale wachtlijst → status `afgerond` (decentraal). Aanbodreeks (bijlage 1
+bij SV 448): verkochte nieuwe sociale koopwoningen 867 (2014), 775, 860, 960, **1.053 (2018)**, 825, 569, 735, 665, **505 (2023)**;
+verkoop sociale kavels dalend. Eventueel later: steekproef bij de grootste woonmaatschappijen.
+
 ## Te onderzoeken (open)
 
-Justitiehuizen (niet-opgestarte mandaten), forensische zorg, CAW/verslavingszorg, CAR (ambulante revalidatie), VAPH-PAB minderjarigen (zit bij Opgroeien).
+Gezinszorg, COS (+ CAR), NT2, pleegzorg, justitiehuizen (niet-opgestarte mandaten); kandidaten buiten de inventaris: forensische zorg, CAW/verslavingszorg, VAPH-PAB minderjarigen (zit bij Opgroeien), VAPH RTH/hulpmiddelen, art. 60/wijk-werken.
 
 ## Vervolgstappen
 
@@ -143,4 +214,5 @@ Justitiehuizen (niet-opgestarte mandaten), forensische zorg, CAW/verslavingszorg
 3. ~~Bijlage SV 379~~ — Excel-bijlagen 379/382/645/107 verwerkt (§I); gewogen sectorgemiddelde uitgewerkt (`scripts/cgg_gewogen.py`, 01-10-2026); ZorgAtlas biedt geen CSV-export van de datatabbladen.
 4. VAPH halfjaarverslag 2026 (PG-stand 30-06-2026): **nog niet online** op 1-10-2026 (404) — herhalen eind oktober/november met `wachtlijst harvest vaph 2026-eerste-jaarhelft`.
 5. Jaarverslag Jeugdhulp 2018 (exact cijfer 31-12-2018); discrepantie 2022 (7.397/7.448); cijfers lokale loketten kinderopvang 2025.
-6. Volgende kandidaten: collectief maatwerk (VDAB, SV-reeks), woonzorg (erkenningskalender als aanbodzijde-lijst), buitengewoon onderwijs (capaciteitsmonitor).
+6. ~~Collectief maatwerk, woonzorg, buitengewoon onderwijs, sociale koop~~ — uitgewerkt (§J–§M, `scripts/seed_vervolg.py`).
+7. Open na ronde 4: capaciteitsmonitor-pdf lokaal lezen (BuO-tekorten van `ongecontroleerd` naar `bron_gelezen`); LOP-rapport Antwerpen 2026 opvragen; WEWIS-export elk kwartaal herhalen (draaiboek B); nieuwe erkenningskalender wzc (VR zomer 2026) toevoegen; discrepantie vervallen kalenders 112/327 uitklaren.
