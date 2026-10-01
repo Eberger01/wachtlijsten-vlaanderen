@@ -7,14 +7,15 @@ en `themis.vlaanderen.be` geblokkeerd — dan mislukt elke download met een 403/
 ## 0. Eenmalige installatie
 
 ```powershell
-cd D:\MVPDev\Wachtlijst
+git clone https://github.com/Eberger01/wachtlijsten-vlaanderen.git
+cd wachtlijsten-vlaanderen
 python --version                      # 3.10 of hoger
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1          # bij 'running scripts is disabled': Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 python -m pip install --upgrade pip
 pip install -e ".[dashboard,dev]"
 wachtlijst --help                     # toont: validate, publish, promote, promote-kredieten, harvest …
-pytest                                # 9 tests groen
+pytest                                # alle tests groen
 ```
 
 ## 1. Basisdata (her)genereren en controleren

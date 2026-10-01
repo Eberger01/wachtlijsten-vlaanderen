@@ -6,7 +6,7 @@ Streamlit-account gekoppeld aan GitHub.
 ## 1. Repository
 
 ```powershell
-cd D:\MVPDev\Wachtlijst
+cd <projectmap>                       # map met de code (nog geen git-repo)
 git init
 git add .
 git commit -m "Wachtlijsten Vlaanderen: pipeline, dashboard, proef VAPH-PVB + sociale huur"

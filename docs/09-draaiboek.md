@@ -6,7 +6,7 @@
 
 | # | Stap | Commando / actie | Waarom |
 |---|---|---|---|
-| A1 | Lokale omgeving | `python -m venv .venv` · `.\.venv\Scripts\Activate.ps1` · `pip install -e ".[dashboard,dev]"` · `pytest` | Zonder dit werken `wachtlijst …`-commando's niet. 9 tests moeten groen zijn. |
+| A1 | Lokale omgeving | `python -m venv .venv` · `.\.venv\Scripts\Activate.ps1` · `pip install -e ".[dashboard,dev]"` · `pytest` | Zonder dit werken `wachtlijst …`-commando's niet. Alle tests moeten groen zijn. |
 | A2 | Lokale rookproef | `wachtlijst validate` · `wachtlijst publish` · `streamlit run dashboard\app.py` | Bevestigt dat de lokale kopie identiek is aan wat online staat. |
 | A3 | Steekproef VAPH-PVB en sociale huur | Open 5 rijen in `data\curated\bevindingen.csv`, klik de `bron_url`, vergelijk de `passage` | Jouw tweede lezing: wijzig `controlestatus` naar `gecontroleerd` en `gecontroleerd_door` naar je initialen (in `scripts\seed_proef.py`, daarna `python scripts\seed_proef.py` · `python scripts\seed_opgroeien.py`). |
 | A4 | Steekproef kredieten (fase 3) | Open `data\curated\kredieten.csv`, kies 5 rijen van ISE "Personen met een beperking" en "Aanbodzijde woningmarkt", open de PDF in `data\raw\bbt\` op de vermelde `pagina` | Bevestigt de parser voor de reeksen die je naar buiten brengt. Status blijft `bron_gelezen` tot jij `gecontroleerd` zet: regel toevoegen in `config\kredieten_controles.csv`, dan `wachtlijst controleer-kredieten`. |
@@ -30,7 +30,7 @@ Kalender van de bronnen:
 | ± eind oktober | BBT begrotingsopmaak (stuk 13-x) | kolom "BO <volgend jaar>" en "BA <dit jaar>" |
 | doorlopend | Schriftelijke vragen Vlaams Parlement | nieuwe cijfers voor decentrale lijsten (CGG, buitengewoon onderwijs, kinderopvang, …) |
 
-Vaste cyclus per update (± 30 min, alles in `D:\MVPDev\Wachtlijst` met geactiveerde venv):
+Vaste cyclus per update (± 30 min, alles in de projectmap (je clone van de repo) met geactiveerde venv):
 
 ```powershell
 # 1. verzamelen
