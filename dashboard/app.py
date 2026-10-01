@@ -100,6 +100,10 @@ with tab_detail:
         "kalender_gerealiseerd_wzc_cum": "Kalender wzc gerealiseerd (cumulatief)", "kalender_vervallen_wzc_cum": "Kalender wzc vervallen (cumulatief)",
         "kalender_uitstel_gevraagd_wzc": "Uitstel gevraagd in het jaar (wzc)",
         "leerlingen_buo": "Leerlingen buitengewoon onderwijs", "verkochte_sociale_koopwoningen_nieuw": "Verkochte nieuwe sociale koopwoningen",
+        "uren_gezinszorg_gepresteerd": "Gepresteerde uren gezinszorg", "gebruikers_gezinszorg": "Gebruikers gezinszorg (gezinnen)", "urencontingent_toegekend": "Toegekend urencontingent (uren)",
+        "wachttijd_antwerpen_maanden": "Wachttijd COS Antwerpen (maanden)", "wachttijd_brussel_maanden": "Wachttijd COS Brussel (maanden)", "wachttijd_gent_maanden": "Wachttijd COS Gent (maanden)", "wachttijd_leuven_maanden": "Wachttijd COS Leuven (maanden)",
+        "wachtenden_pleeggezin": "Kinderen wachtend op een pleeggezin", "wachttijd_werkstraf_aanstelling_dagen": "Wachttijd werkstraf → justitieassistent (dagen)", "doorlooptijd_werkstraf_opstart_dagen": "Aanstelling → opstart werkstraf (dagen)",
+        "daders_in_begeleiding": "Daders in begeleiding justitiehuizen", "wachtenden_pab_vaph_incl_prior": "Wachtenden PAB (VAPH-telling incl. prior)", "nieuwe_vragen_pab": "Nieuwe PAB-vragen", "toekenningen_pab": "Toegekende PAB's", "budgethouders_pab": "PAB-budgethouders",
     }
     PALET = [SERIES["pg1"], SERIES["pg2"], SERIES["pg3"], "#eda100", "#e87ba4", "#008300", SERIES["totaal"], "#e34948"]
     REEKS_KLEUR = {
@@ -114,6 +118,10 @@ with tab_detail:
         "kalender_nog_te_realiseren_wzc": PALET[0], "kalender_uitgesteld_wzc_cum": PALET[1], "kalender_gerealiseerd_wzc_cum": PALET[2], "kalender_vervallen_wzc_cum": PALET[7],
         "kalender_uitstel_gevraagd_wzc": PALET[3],
         "leerlingen_buo": PALET[0], "verkochte_sociale_koopwoningen_nieuw": PALET[0],
+        "uren_gezinszorg_gepresteerd": PALET[0], "gebruikers_gezinszorg": PALET[1], "urencontingent_toegekend": PALET[2],
+        "wachttijd_antwerpen_maanden": PALET[0], "wachttijd_brussel_maanden": PALET[1], "wachttijd_gent_maanden": PALET[2], "wachttijd_leuven_maanden": PALET[3],
+        "wachtenden_pleeggezin": PALET[0], "wachttijd_werkstraf_aanstelling_dagen": PALET[0], "doorlooptijd_werkstraf_opstart_dagen": PALET[1], "daders_in_begeleiding": PALET[2],
+        "wachtenden_pab_vaph_incl_prior": PALET[1], "nieuwe_vragen_pab": PALET[2], "toekenningen_pab": PALET[3], "budgethouders_pab": PALET[4],
     }
     reeks = b[b["metriek"].isin(list(REEKS_LABELS))]
     if len(reeks):

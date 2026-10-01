@@ -19,7 +19,7 @@ wachtlijst publish                    # bouwt data\published + meta.json
 streamlit run dashboard\app.py
 ```
 
-`data\curated` zit in de repo; `python scripts\seed_proef.py` (daarna `seed_opgroeien.py`, `seed_aanvullingen.py`, `seed_vervolg.py`) bouwt bevindingen, bronnen en budgetten opnieuw op uit de scripts.
+`data\curated` zit in de repo; `python scripts\seed_proef.py` (daarna `seed_opgroeien.py`, `seed_aanvullingen.py`, `seed_vervolg.py`, `seed_ronde5.py`) bouwt bevindingen, bronnen en budgetten opnieuw op uit de scripts.
 
 ## Wat zit erin
 
@@ -41,6 +41,7 @@ streamlit run dashboard\app.py
 | `dashboard/app.py` | Streamlit: inventaris, voorziening (tijdreeks + herkomst), budget, bronnen, methodiek |
 | `scripts/seed_aanvullingen.py` | dossiers inburgering MO (AgII) en CGG-wachttijden (upsert, ná seed_opgroeien) |
 | `scripts/seed_vervolg.py` | dossiers collectief maatwerk, woonzorg (erkenningskalender), buitengewoon onderwijs, sociale koop (upsert, ná seed_aanvullingen) |
+| `scripts/seed_ronde5.py` | gezinszorg, COS/CAR, NT2, pleegzorg, justitiehuizen, PAB minderjarigen + zes nieuwe voorzieningen (upsert, ná seed_vervolg) |
 | `scripts/seed_opgroeien.py` | proefdossiers jeugdhulp NRTJ en kinderopvang (upsert, ná seed_proef) |
 | `scripts/seed_proef.py` | reproduceerbare seed van de gecureerde data |
 | `scripts/harvest_bbt.py` | downloadt de BBT-PDF's (alleen stdlib) |

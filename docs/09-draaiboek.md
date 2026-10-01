@@ -8,7 +8,7 @@
 |---|---|---|---|
 | A1 | Lokale omgeving | `python -m venv .venv` · `.\.venv\Scripts\Activate.ps1` · `pip install -e ".[dashboard,dev]"` · `pytest` | Zonder dit werken `wachtlijst …`-commando's niet. Alle tests moeten groen zijn. |
 | A2 | Lokale rookproef | `wachtlijst validate` · `wachtlijst publish` · `streamlit run dashboard\app.py` | Bevestigt dat de lokale kopie identiek is aan wat online staat. |
-| A3 | Steekproef VAPH-PVB en sociale huur | Open 5 rijen in `data\curated\bevindingen.csv`, klik de `bron_url`, vergelijk de `passage` | Jouw tweede lezing: wijzig `controlestatus` naar `gecontroleerd` en `gecontroleerd_door` naar je initialen (in `scripts\seed_proef.py`, daarna `python scripts\seed_proef.py` · `python scripts\seed_opgroeien.py` · `python scripts\seed_aanvullingen.py` · `python scripts\seed_vervolg.py`). |
+| A3 | Steekproef VAPH-PVB en sociale huur | Open 5 rijen in `data\curated\bevindingen.csv`, klik de `bron_url`, vergelijk de `passage` | Jouw tweede lezing: wijzig `controlestatus` naar `gecontroleerd` en `gecontroleerd_door` naar je initialen (in `scripts\seed_proef.py`, daarna `python scripts\seed_proef.py` · `python scripts\seed_opgroeien.py` · `python scripts\seed_aanvullingen.py` · `python scripts\seed_vervolg.py` · `python scripts\seed_ronde5.py`). |
 | A4 | Steekproef kredieten (fase 3) | Open `data\curated\kredieten.csv`, kies 5 rijen van ISE "Personen met een beperking" en "Aanbodzijde woningmarkt", open de PDF in `data\raw\bbt\` op de vermelde `pagina` | Bevestigt de parser voor de reeksen die je naar buiten brengt. Status blijft `bron_gelezen` tot jij `gecontroleerd` zet: regel toevoegen in `config\kredieten_controles.csv`, dan `wachtlijst controleer-kredieten`. |
 | A5 | Reeks sociale huur 2018–2022 | Download Excel "Tabel 1 Totaal kandidaat-huurders per jaar" (link in `06-harvesters-lokaal.md` §6) en vergelijk met de VRT-cijfers | Die vijf rijen zijn nu `ongecontroleerd` (secundaire bron). |
 | A6 | Eerste live-run Parlement-API en VAPH-harvester | `wachtlijst harvest vlpar wachtlijst --pages 2` · `wachtlijst harvest vaph 2025` | Zonder `--pagina` zoekt `vaph` zelf de pagina Prioriteitengroepen (2024: 25, 2025: 27). |
@@ -30,6 +30,8 @@ Kalender van de bronnen:
 | ± mei | AgII jaarverslag | contracten, MO-cursussen (wacht-KPI niet meer gepubliceerd; via commissie/SV) |
 | per kwartaal (± 3 maanden na afrekening) | WEWIS open data CMW03 (CSV-export, zie `scripts\seed_vervolg.py`) | toegekend en ingevuld contingent collectief maatwerk; wachtenden met advies CMW enkel via nieuwe SV (Awouters) |
 | ± maart (SV Schryvers) en ± juli | SV-reeks erkenningskalender wzc/cvk; nieuwe erkenningskalender VR (zomer 2026) | gerealiseerd / nog te realiseren / uitgesteld / vervallen; erkende capaciteit |
+| ± januari | SV-reeksen Schryvers: pleegzorg-wachtenden (jaar N−2) en werkstraffen (wachttijd justitiehuizen) | wachtenden op een pleeggezin; wachttijd dossier → justitieassistent, aanstelling → opstart |
+| januari–juli | Opgroeien cijferrapport NRTJ + cijfers op maat (PAB) | wachtenden PAB 31/12 en nieuwe PAB-vragen (exact cijfer in Power BI) |
 | ± augustus (driejaarlijks) + jaarlijks mei–juli | Capaciteitsmonitor onderwijs (HIVA/VUB); LOP-toewijzingsresultaten BuO (Antwerpen, Gent, Aalst) | tekort plaatsen BuO; aandeel aangemelde kinderen zonder (voorkeurs)plaats |
 | ± mei | BBT begrotingsuitvoering (stuk 23-x) | kolom "Uitvoering <vorig jaar>" |
 | ± eind oktober | BBT begrotingsopmaak (stuk 13-x) | kolom "BO <volgend jaar>" en "BA <dit jaar>" |

@@ -1,6 +1,6 @@
 # Inventaris wachtlijsten (brede scan, stand 1 oktober 2026)
 
-*Machineleesbaar: `data/curated/voorzieningen.csv`. Tien dossiers zijn volledig gedocumenteerd in `bevindingen.csv` (§E–§M); de overige rijen in §A–§D zijn eerste lezingen.*
+*Machineleesbaar: `data/curated/voorzieningen.csv`. Vijftien dossiers zijn gedocumenteerd in `bevindingen.csv` (§E–§S); de overige rijen in §A–§D zijn eerste lezingen. Inventaris: 26 voorzieningen (ronde 5: +6).*
 
 ## A. Centraal beheerd én gepubliceerd
 
@@ -10,6 +10,7 @@
 | NRTJ jeugdhulp (incl. MFC, pleegzorg; excl. PAB) | Opgroeien (Gemeenschap) | wachtenden per typemodule | 31-12-2025: 9.748 (+6 %; 2024: 9.194) | opgroeien.be cijferrapport (Power BI) |
 | Sociale huurwoning | Wonen in Vlaanderen (Gewest) | Centraal inschrijvingsregister | april 2025: 199.085 kandidaat-huurders; 2024: 8.864 toewijzingen, gem. wachttijd 4,8 j | SV 213 (30-01-2026), VRT |
 | Inburgering MO | AgII (Gemeenschap) | KPI zonder passend aanbod / > 6 m | 2023: 1.229 resp. 1.588 | AgII jaarverslag 2023 |
+| PAB minderjarigen (nieuw, afgesplitst van NRTJ) | Opgroeien / VAPH (Gemeenschap) | wachtenden PAB, foto 31/12 | 1.763 (31-12-2024); +39 % in 2025; VAPH-telling 1.958 (84,4 mln nodig) | Opgroeien cijferrapport; SV 1010 — §S |
 
 ## B. Centraal bekend, niet periodiek gepubliceerd
 
@@ -17,6 +18,8 @@
 |---|---|---|---|
 | Collectief maatwerk | VDAB / DWSE (Gewest) | werkzoekenden met advies CMW (VDAB, via SV) vs openstaand contingent (open data WEWIS) | aug 2025: 3.781 wachtenden; 2025 K4: 904 VTE open op 21.246 toegekend — §J |
 | CGG | Departement Zorg (Gemeenschap) | wachttijden uit EPD per leeftijdsgroep (bijlage SV 379) | trend licht dalend sinds 2023 |
+| Justitiehuizen (werkstraf) | AJH (Gemeenschap) | wachttijd dossier → justitieassistent (SIPAR), SV-reeks Schryvers | 49 d (jan 2023) → 23 d (jan 2026); opstart +121 d — §R |
+| Pleegzorg | Opgroeien (Gemeenschap) | wachtenden op een pleeggezin (Domino), SV-reeks Schryvers | 1.307 (31-12-2024), +86 % sinds 2018 — §Q |
 
 ## C. Decentraal — Vlaamse overheid houdt geen centrale lijst bij
 
@@ -25,10 +28,13 @@
 | Woonzorgcentra, kortverblijf, dagverzorging, assistentiewoningen | Departement Zorg | erkenningskalender (aanbodzijde): 2.110 wzc nog te realiseren, 4.109 uitgesteld (5 provincies; + Brussel 150), 509 vervallen (1-1-2026); 'geen zicht op wachtlijsten van een voorziening' (SV 951) — §K |
 | Kinderopvang baby's/peuters | Opgroeien | onderzoek 2025: 26.355 van 71.238 ouders zonder plaats (dubbeltellingen); tekort 11.500 plaatsen tegen 2029 |
 | Buitengewoon onderwijs | AGODI / LOP's | geen centrale registratie (SV 1152/1192/1019); capaciteitsmonitor tekort ± 5.700 plaatsen 2030-31; LOP Gent 58 % / Aalst 70 % geen voorkeurschool (2026) — §L |
-| COS (diagnostiek) | Departement Zorg | jan 2023: > 2.000 kinderen, 12 m – 2,5 j |
-| Pleegzorg | Opgroeien | vervat in NRTJ (2.707 verblijfsvragen pleeggezin) |
-| Gezinszorg | Departement Zorg | urencontingent per dienst; besparing 2026 ± 30 mln |
-| NT2 | AgII / CVO / Ligo | afsprakenkader vraagt inventaris; geen cijfer |
+| COS (diagnostiek) | Departement Zorg | 'geen centrale, uniforme registratie' (SV 633); wachttijd 15-34 maanden (dec 2021); 'geen cijfers beschikbaar' (SV 504, 2025) — §O |
+| CAR (ambulante revalidatie) | Departement Zorg | 'geen gevalideerde cijfers over de wachttijden' (SV 234, 2026) — nieuw in inventaris |
+| VAPH RTH / hulpmiddelen | VAPH | geen centrale RTH-wachtlijst; RTH = 'vangnet' voor nRTH-wachtenden; cesuur 15,29 punten (SV 1054) — nieuw |
+| CAW en verslavingszorg | Departement Zorg | geen gecentraliseerd overzicht aanmeldstops (SV 561); monitoringssysteem GGZ aangekondigd — nieuw |
+| Pleegzorg | Opgroeien | wachtenden op een pleeggezin 702 (2018) → 1.307 (2024), enkel via SV-reeks Schryvers — §Q (centraal, niet gepubliceerd) |
+| Gezinszorg | Departement Zorg | geen wachtlijst, rantsoenering via urencontingent (2022: 18,86 mln uur toegekend, 15,95 mln gepresteerd) — §N |
+| NT2 | AgII / CVO / Ligo | aanbodbevraging Ahovoks sept 2025: 0 wachtenden met intake bij CBE/CVO → afgerond — §P |
 | Sociale koop | woonmaatschappijen | SV 448/450: kandidaten niet centraal → afgerond; verkochte nieuwe sociale koopwoningen 1.053 (2018) → 505 (2023) — §M |
 
 ## D. Geen wachtlijstmechanisme
@@ -203,9 +209,101 @@ over deze data" (SV 448 en 450, Mertens, juni 2025). Geen centrale wachtlijst �
 bij SV 448): verkochte nieuwe sociale koopwoningen 867 (2014), 775, 860, 960, **1.053 (2018)**, 825, 569, 735, 665, **505 (2023)**;
 verkoop sociale kavels dalend. Eventueel later: steekproef bij de grootste woonmaatschappijen.
 
+## N. Gezinszorg (Departement Zorg, uitgewerkt 1-10-2026)
+
+Geen wachtlijst maar **rantsoenering**: elke erkende dienst (104 in 2022-2023, 103 in 2024) krijgt jaarlijks bij ministerieel besluit een
+subsidiabel urencontingent per zorgregio; uren die een dienst niet realiseert, kunnen niet naar een andere dienst, en de realisatie is pas
+in het jaar X+1 gekend bij de saldering (SV 630). Lokale wachtlijsten per dienst worden niet centraal geregistreerd.
+
+| Gezinszorg | 2018 | 2019 | 2020 | 2021 | 2022 |
+|---|---|---|---|---|---|
+| Gepresteerde uren (mln) | 16,20 | 16,42 | 16,49 | 16,34 | 15,95 |
+| Gebruikers (gezinnen) | 118.280 | 121.208 | 123.144 | 123.384 | 126.570 |
+| Toegekend urencontingent (mln uur) | — | — | — | — | 18,86 |
+
+Onderbenutting van het contingent (SV 293, 2026): coronagevolgen, personeelskrapte en verminderde vraag; 42 % van de dossiers 2022 bij zwaar
+zorgbehoevenden. Hervorming: inkanteling in de Vlaamse sociale bescherming (regeerakkoord 2024-2029). Budget: ISE Woonzorg en eerste lijn
+(`kredieten.csv`); de "besparing 2026 ± 30 mln" uit de eerste scan is niet teruggevonden in een primaire bron en uit de opmerking gehaald.
+
+## O. Centra voor ontwikkelingsstoornissen (COS) en CAR (Departement Zorg / Opgroeien, uitgewerkt 1-10-2026)
+
+"De COS kennen geen centrale, uniforme registratie van wachtenden" (SV 633, juli 2022) en "Er zijn geen cijfers m.b.t. de wachtlijsten
+beschikbaar" (SV 504, mei 2025); de COS bepalen zelf hun opnamebeleid en prioriteren de allerkleinsten. Laatste wachttijden (volledig
+multidisciplinair onderzoek, oudste leeftijdsgroep): COS Antwerpen 34 → 33 maanden (feb 2020 → dec 2021; aanmeldingsstop > 3 jaar sinds
+sept 2020), Brussel 12 → 15, Gent 22 → 34, Leuven 12 → 15. Trajecten 0-6 jaar bij de vier COS: 4.426 (2022), 4.353 (2023), 4.368 (2024)
+kinderen (SV 1007). Projectmiddelen brugzorg en tijdelijke capaciteitsuitbreiding liepen tot eind 2025; nieuw organisatiemodel diagnostiek
+in voorbereiding; uitbreiding diagnostische bilans COS in 2026 (SV 234). CAR: "geen gevalideerde cijfers over de wachttijden" (SV 234,
+jan 2026), geen budgettaire analyse; CAR-CGG-hervormingstraject; federale stopzetting terugbetaling monodisciplinaire logopedie (juni 2025)
+verhoogt de druk. Beide decentraal; CAR nieuw in de inventaris (`zorg-car`, in onderzoek).
+
+## P. NT2 (Ahovoks / AgII, afgerond 1-10-2026)
+
+De CBE's en CVO's vullen twee keer per jaar de **aanbodbevraging NT2** van Ahovoks in. "Uit de cijfers van de aanbodbevraging NT2 van
+10 september 2025 blijkt dat er geen cursisten (die een intakeprocedure achter de rug hebben bij een Agentschap Integratie en Inburgering
+of het Huis van het Nederlands Brussel) op de wachtlijst staan bij een CBE of CVO" (SV 34, dec 2025). Centraal bekend, niet gepubliceerd,
+geen wachtenden → afgerond; herbevragen bij signalen (Brussel, dagaanbod). Cursistenaantallen via Dataloep.
+
+## Q. Pleegzorg (Opgroeien, uitgewerkt 1-10-2026)
+
+Kinderen en jongeren die op 31/12 wachten op een pleeggezin (perspectiefzoekende en -biedende pleegzorg, NRTJ, registratie Domino;
+ondersteunende pleegzorg is RTJ en wordt niet geteld). SV-reeks Schryvers (75, 203, 789, 1003, 194); cijfers van jaar N verschijnen pas
+± januari N+2 ("niet beschikbaar" in juli en september 2025).
+
+| 31/12 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 |
+|---|---|---|---|---|---|---|---|
+| Wachtenden op een pleeggezin | 702 | 727 | 833 | 872 | 961 | 1.189 | **1.307** |
+
++86 % in zes jaar; 2024: 479 jonger dan 6, 468 in Oost-Vlaanderen. 10.676 pleegzorgsituaties op 31-12-2024 (8.221 perspectiefbiedend); de
+minister: "De stijging is geen toeval. De Vlaamse overheid zette sterk in op pleegzorg … eerste te overwegen optie bij een uithuisplaatsing".
+Verhouding tot §F: de NRTJ-wachtlijst telt 2.707 verblijfsvragen pleeggezin (2025, andere teleenheid). Budget: binnen artikel jeugdhulp
+(§F); BO 2026 +11,1 mln kostendrijver pleegzorg. Status `bron_gelezen`; sommen 2018-2022 zijn eigen optellingen van 20 cellen.
+
+## R. Justitiehuizen — werkstraffen (Agentschap Justitie en Handhaving, uitgewerkt 1-10-2026)
+
+Enige wachtcijfer: de SV-reeks Schryvers over werkstraffen (348, 212, 369, 386). Twee maten:
+
+| | jan 2023 | dec 2023 | dec 2024 | jan 2026 |
+|---|---|---|---|---|
+| Ontvangst dossier → aanstelling justitieassistent (dagen, gemiddeld) | 49 | 26,3 | 22 | 23 |
+| Aanstelling → effectieve opstart werkstraf (dagen, afgesloten dossiers) | — | — | 126 (2024) | 121 (2025) |
+
+Spreiding dec 2024: Antwerpen 66 dagen, Brussel 42, Turnhout 40, Veurne 0. Daders in begeleiding 17.206 (2019) → 24.430 (2025, +42 %, BBT
+2026); federale noodwet overbevolking (aug 2025) en nieuw Strafwetboek (april 2026) doen de instroom verder stijgen (voorlopige hechtenis
++24,6 %, autonome straf ET +41 % in 2025). Andere mandaten (probatie, ET, slachtofferonthaal): geen wachtcijfers gevonden. Budget: lonen AJH
+BO 2026 164,9 mln (incl. 72,1 mln overheveling gemeenschapsinstellingen), ET-werkingskosten 7,0 mln.
+
+## S. PAB minderjarigen (Opgroeien / VAPH, eigen dossier sinds 1-10-2026)
+
+Afgesplitst van §F omdat het een eigen budget (uitbreidingsbeleid PAB) en eigen toekenningslogica heeft (geen prioriteitengroepen; "prior"
+= budget de maand nadien). Twee tellingen: Opgroeien (foto 31/12 in INSISTO, cijferrapport NRTJ en cijfers op maat) en het VAPH (unieke
+wachtenden per budgetcategorie incl. priors, SV 1010).
+
+| | 2022 | 2024 | 2025 |
+|---|---|---|---|
+| Wachtenden PAB (Opgroeien) | 1.478 | 1.763 | +39 % (≈ 2.450, afgeleid — exact cijfer in cijfers op maat) |
+| Wachtenden PAB (VAPH incl. prior) | — | 1.958 (benodigd 84,4 mln/jaar) | — |
+| Nieuwe PAB-vragen | 540 | — | 1.074 |
+| Toegekende PAB's | — | 244 (± 9 mln) | 372 (13,3 mln) |
+| Budgethouders 31/12 | — | — | 2.554 |
+
+27,6 % van de wachtenden krijgt intussen NRTJ-hulp van een voorziening (45 % twee jaar eerder). Uitbreidingsbeleid PAB 13 mln (2025), waarvan
+7,3 mln VEK naar 2026; daarnaast 12,9 mln voor MFC (71 verblijfsplaatsen) en RTH (3.410 punten) minderjarigen, ingezet vanaf 2026.
+Nieuw in §E-reeks VAPH-PVB (SV 1010): kostprijs om PG2 volledig te bedienen 332 mln/jaar en PG3 284,2 mln/jaar (prijzen 2025); 2.407
+PVB-wachtenden vallen onder de nieuwe RTH-cesuur (SV 1054).
+
+## T. Nieuw in de inventaris, nog niet uitgewerkt (eerste scan 1-10-2026)
+
+| Voorziening | Status | Eerste scan |
+|---|---|---|
+| VAPH RTH / hulpmiddelen (`vaph-rth-hulpmiddelen`) | in onderzoek | geen centrale RTH-wachtlijst; RTH als vangnet voor nRTH-wachtenden; 3.410 RTH-punten minderjarigen 2025-26; hervorming zorgniveaus (cesuur 15,29) |
+| CAR (`zorg-car`) | in onderzoek | zie §O |
+| CAW en verslavingszorg (`zorg-caw-verslavingszorg`) | te onderzoeken | geen gecentraliseerd overzicht aanmeldstops (SV 561); koepels: geen aanmeldstops (maart 2025); monitoringssysteem wachtlijsten GGZ in beleidsnota |
+| Forensische zorg (`zorg-forensisch`) | te onderzoeken | geen SV's met wachtcijfers 2024-2026; bevoegdheid gedeeld (FPC/internering federaal); afbakening nodig |
+| Art. 60 / wijk-werken (`dwse-art60-wijkwerken`) | te onderzoeken | geen SV's gevonden; toekenning per OCMW resp. via VDAB; vermoedelijk geen wachtlijstmechanisme |
+
 ## Te onderzoeken (open)
 
-Gezinszorg, COS (+ CAR), NT2, pleegzorg, justitiehuizen (niet-opgestarte mandaten); kandidaten buiten de inventaris: forensische zorg, CAW/verslavingszorg, VAPH-PAB minderjarigen (zit bij Opgroeien), VAPH RTH/hulpmiddelen, art. 60/wijk-werken.
+Alle 20 oorspronkelijke voorzieningen zijn uitgewerkt of afgesloten (§E–§S). Open: de vijf nieuwe rijen uit §T (RTH, CAR, CAW/verslavingszorg, forensische zorg, art. 60/wijk-werken).
 
 ## Vervolgstappen
 
@@ -216,3 +314,4 @@ Gezinszorg, COS (+ CAR), NT2, pleegzorg, justitiehuizen (niet-opgestarte mandate
 5. Jaarverslag Jeugdhulp 2018 (exact cijfer 31-12-2018); discrepantie 2022 (7.397/7.448); cijfers lokale loketten kinderopvang 2025.
 6. ~~Collectief maatwerk, woonzorg, buitengewoon onderwijs, sociale koop~~ — uitgewerkt (§J–§M, `scripts/seed_vervolg.py`).
 7. Open na ronde 4: ~~capaciteitsmonitor-pdf lokaal lezen~~ (gedaan 01-10-2026, BuO-tekorten op `bron_gelezen`); LOP-rapport Antwerpen 2026 opvragen; WEWIS-export elk kwartaal herhalen (draaiboek B); nieuwe erkenningskalender wzc (VR zomer 2026) toevoegen; ~~discrepantie vervallen kalenders 112/327~~ (opgehelderd 01-10-2026: 112 telt enkel de kalender 2020-2025, 327 alle kalenders).
+8. Ronde 5 (1-10-2026): ~~gezinszorg, COS, NT2, pleegzorg, justitiehuizen~~ uitgewerkt (§N–§R, `scripts/seed_ronde5.py`); PAB minderjarigen als eigen dossier (§S); zes nieuwe voorzieningen (§T). Open: exact PAB-cijfer 2025 uit 'cijfers op maat' (Power BI); SV-reeks pleegzorg (jan 2027) en werkstraffen (jan 2027); COS/CAR na het nieuwe organisatiemodel diagnostiek; tweede lezing van de 55 nieuwe rijen.
