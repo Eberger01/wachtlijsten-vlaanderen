@@ -264,6 +264,11 @@ with tab_bronnen:
 # ------------------------------------------------------------------------------------------ Methodiek
 with tab_methode:
     st.markdown((ROOT / "docs" / "01-afbakening.md").read_text(encoding="utf-8") if (ROOT / "docs" / "01-afbakening.md").exists() else "Zie docs/.")
+    m1, m2 = st.columns(2)
+    m1.markdown("**Voorzieningen per wachtlijsttype en bevoegdheid**")
+    m1.dataframe(pd.crosstab(voorz["wachtlijst_type"], voorz["bevoegdheid"], margins=True, margins_name="totaal"), width="stretch")
+    m2.markdown("**Stand van het onderzoek (`scan_status`)**")
+    m2.dataframe(pd.crosstab(voorz["scan_status"], voorz["bevoegdheid"], margins=True, margins_name="totaal"), width="stretch")
     verdeling = meta.get("controlestatus_verdeling", {})
     if verdeling:
         st.markdown("**Controlestatus van de gepubliceerde cijfers**")
