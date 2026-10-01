@@ -292,19 +292,19 @@ Reeks wachtenden PAB (Opgroeien, cijfers op maat): 1.769 (2019) · 1.749 (2020) 
 Nieuw in §E-reeks VAPH-PVB (SV 1010): kostprijs om PG2 volledig te bedienen 332 mln/jaar en PG3 284,2 mln/jaar (prijzen 2025); 2.407
 PVB-wachtenden vallen onder de nieuwe RTH-cesuur (SV 1054).
 
-## T. Nieuw in de inventaris, nog niet uitgewerkt (eerste scan 1-10-2026)
+## T. Nieuw in de inventaris (eerste scan 1-10-2026, ronde 5b: alle vijf in onderzoek)
 
-| Voorziening | Status | Eerste scan |
+| Voorziening | Status | Wat we weten (ronde 5b, `scripts/seed_ronde5b.py`) |
 |---|---|---|
-| VAPH RTH / hulpmiddelen (`vaph-rth-hulpmiddelen`) | in onderzoek | geen centrale RTH-wachtlijst; RTH als vangnet voor nRTH-wachtenden; 3.410 RTH-punten minderjarigen 2025-26; hervorming zorgniveaus (cesuur 15,29) |
-| CAR (`zorg-car`) | in onderzoek | zie §O |
-| CAW en verslavingszorg (`zorg-caw-verslavingszorg`) | te onderzoeken | geen gecentraliseerd overzicht aanmeldstops (SV 561); koepels: geen aanmeldstops (maart 2025); monitoringssysteem wachtlijsten GGZ in beleidsnota |
-| Forensische zorg (`zorg-forensisch`) | te onderzoeken | geen SV's met wachtcijfers 2024-2026; bevoegdheid gedeeld (FPC/internering federaal); afbakening nodig |
-| Art. 60 / wijk-werken (`dwse-art60-wijkwerken`) | te onderzoeken | geen SV's gevonden; toekenning per OCMW resp. via VDAB; vermoedelijk geen wachtlijstmechanisme |
+| VAPH RTH / hulpmiddelen (`vaph-rth-hulpmiddelen`) | in onderzoek | geen centrale RTH-wachtlijst; RTH als vangnet voor nRTH-wachtenden; 3.410 RTH-punten minderjarigen 2025-26; hervorming zorgniveaus (cesuur 15,29): 2.407 PVB-wachtenden erondert |
+| CAR (`zorg-car`) | in onderzoek | zie §O: 'geen gevalideerde cijfers over de wachttijden' (SV 234) |
+| CAW en verslavingszorg (`zorg-caw-verslavingszorg`) | in onderzoek | 'geen structurele monitoring van de wachttijden over alle sectoren heen' (SV 568, 2025); enig cijfer: CGG-verslavingszorgteams gemiddeld 45 dagen tot eerste contact (2021-2023); geen gecentraliseerd overzicht aanmeldstops (SV 561); monitoringssysteem wachtlijsten GGZ in beleidsnota |
+| Forensische zorg (`zorg-forensisch`) | in onderzoek, centraal niet gepubliceerd | CGG forensische zorg: wachttijd tot eerste contact 111 d (2018) → 48 d (2024); hulp in de gevangenis (CGG) 150 → 29 d; actieve forensische zorgperiodes 5.731 → 6.992 (SV 844); CAW justitieel welzijnswerk: geen overkoepelende wachtlijst, per gevangenis 209 wachtenden/ingeplanden (juni 2023, SV 815). Federale kant (FPC, internering) buiten scope |
+| Art. 60 / wijk-werken (`dwse-art60-wijkwerken`) | in onderzoek, type 'geen' | geen wachtlijst; VDAB-indicator 'tijdig werk' (art. 60-tewerkstelling binnen 2 maanden na start TWE-OCMW): 9.222 trajecten (2024), 9.763 (t/m nov 2025); uitstroom naar werk 28,8 %; 3.365 actieve wijk-werkers (eind 2025); VDAB-budget wijk-werken 9,17 mln (2026) (SV 319/171/420). Vermoedelijk af te sluiten |
 
 ## Te onderzoeken (open)
 
-Alle 20 oorspronkelijke voorzieningen zijn uitgewerkt of afgesloten (§E–§S). Open: de vijf nieuwe rijen uit §T (RTH, CAR, CAW/verslavingszorg, forensische zorg, art. 60/wijk-werken).
+Alle 20 oorspronkelijke voorzieningen zijn uitgewerkt of afgesloten (§E–§S). De vijf nieuwe rijen uit §T staan op 'in onderzoek' met eerste reeksen; volledige uitwerking of afsluiting volgt (RTH: SV over wachtenden per aanbieder; forensisch: VAPH-units; art. 60: afsluiten als 'geen').
 
 ## Vervolgstappen
 
@@ -316,3 +316,4 @@ Alle 20 oorspronkelijke voorzieningen zijn uitgewerkt of afgesloten (§E–§S).
 6. ~~Collectief maatwerk, woonzorg, buitengewoon onderwijs, sociale koop~~ — uitgewerkt (§J–§M, `scripts/seed_vervolg.py`).
 7. Open na ronde 4: ~~capaciteitsmonitor-pdf lokaal lezen~~ (gedaan 01-10-2026, BuO-tekorten op `bron_gelezen`); LOP-rapport Antwerpen 2026 opvragen; WEWIS-export elk kwartaal herhalen (draaiboek B); nieuwe erkenningskalender wzc (VR zomer 2026) toevoegen; ~~discrepantie vervallen kalenders 112/327~~ (opgehelderd 01-10-2026: 112 telt enkel de kalender 2020-2025, 327 alle kalenders).
 8. Ronde 5 (1-10-2026): ~~gezinszorg, COS, NT2, pleegzorg, justitiehuizen~~ uitgewerkt (§N–§R, `scripts/seed_ronde5.py`); PAB minderjarigen als eigen dossier (§S); zes nieuwe voorzieningen (§T). Open: exact PAB-cijfer 2025 uit 'cijfers op maat' (Power BI); SV-reeks pleegzorg (jan 2027) en werkstraffen (jan 2027); COS/CAR na het nieuwe organisatiemodel diagnostiek; tweede lezing van de 55 nieuwe rijen.
+9. Ronde 5b (1-10-2026): CAW/verslavingszorg, forensische zorg en art. 60/wijk-werken van 'te onderzoeken' naar 'in onderzoek' met eerste reeksen (§T, `scripts/seed_ronde5b.py`, 35 rijen `bron_gelezen`).

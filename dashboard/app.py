@@ -104,6 +104,8 @@ with tab_detail:
         "wachttijd_antwerpen_maanden": "Wachttijd COS Antwerpen (maanden)", "wachttijd_brussel_maanden": "Wachttijd COS Brussel (maanden)", "wachttijd_gent_maanden": "Wachttijd COS Gent (maanden)", "wachttijd_leuven_maanden": "Wachttijd COS Leuven (maanden)",
         "wachtenden_pleeggezin": "Kinderen wachtend op een pleeggezin", "wachttijd_werkstraf_aanstelling_dagen": "Wachttijd werkstraf → justitieassistent (dagen)", "doorlooptijd_werkstraf_opstart_dagen": "Aanstelling → opstart werkstraf (dagen)",
         "daders_in_begeleiding": "Daders in begeleiding justitiehuizen", "wachtenden_pab_vaph_incl_prior": "Wachtenden PAB (VAPH-telling incl. prior)", "nieuwe_vragen_pab": "Nieuwe PAB-vragen", "toekenningen_pab": "Toegekende PAB's", "budgethouders_pab": "PAB-budgethouders",
+        "wachttijd_cgg_forensisch_dagen": "Wachttijd CGG forensische zorg (dagen)", "wachttijd_cgg_gevangenis_dagen": "Wachttijd CGG hulp in gevangenis (dagen)", "forensische_zorgperiodes_actief": "Actieve forensische zorgperiodes (CGG)",
+        "wachttijd_cgg_verslavingsteams_dagen": "Wachttijd CGG-verslavingsteams (dagen)", "twe_ocmw_trajecten_tijdig_werk": "TWE-OCMW-trajecten met tijdig werk (art. 60)", "wijkwerkers_actief": "Actieve wijk-werkers",
     }
     PALET = [SERIES["pg1"], SERIES["pg2"], SERIES["pg3"], "#eda100", "#e87ba4", "#008300", SERIES["totaal"], "#e34948"]
     REEKS_KLEUR = {
@@ -122,6 +124,8 @@ with tab_detail:
         "wachttijd_antwerpen_maanden": PALET[0], "wachttijd_brussel_maanden": PALET[1], "wachttijd_gent_maanden": PALET[2], "wachttijd_leuven_maanden": PALET[3],
         "wachtenden_pleeggezin": PALET[0], "wachttijd_werkstraf_aanstelling_dagen": PALET[0], "doorlooptijd_werkstraf_opstart_dagen": PALET[1], "daders_in_begeleiding": PALET[2],
         "wachtenden_pab_vaph_incl_prior": PALET[1], "nieuwe_vragen_pab": PALET[2], "toekenningen_pab": PALET[3], "budgethouders_pab": PALET[4],
+        "wachttijd_cgg_forensisch_dagen": PALET[0], "wachttijd_cgg_gevangenis_dagen": PALET[1], "forensische_zorgperiodes_actief": PALET[2],
+        "wachttijd_cgg_verslavingsteams_dagen": PALET[0], "twe_ocmw_trajecten_tijdig_werk": PALET[0], "wijkwerkers_actief": PALET[1],
     }
     reeks = b[b["metriek"].isin(list(REEKS_LABELS))]
     if len(reeks):

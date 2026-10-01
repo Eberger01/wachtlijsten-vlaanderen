@@ -1,22 +1,22 @@
 {
-  "gepubliceerd_op": "2026-10-01T19:55:55",
+  "gepubliceerd_op": "2026-10-01T19:59:11",
   "aantallen": {
-    "bronnen": 131,
+    "bronnen": 137,
     "voorzieningen": 26,
-    "bevindingen": 366,
-    "budgetten": 74,
+    "bevindingen": 401,
+    "budgetten": 75,
     "kredieten": 3958
   },
   "validatie_waarschuwingen": [],
   "controlestatus_verdeling": {
     "bevindingen": {
       "gecontroleerd": 313,
+      "bron_gelezen": 58,
       "ongecontroleerd": 24,
-      "bron_gelezen": 23,
       "betwist": 6
     },
     "budgetten": {
-      "bron_gelezen": 71,
+      "bron_gelezen": 72,
       "gecontroleerd": 2,
       "ongecontroleerd": 1
     },
