@@ -317,17 +317,19 @@ monitoringssysteem wachtlijsten GGZ aangekondigd in de beleidsnota.
 
 **Forensische zorg** (`zorg-forensisch`, centraal niet gepubliceerd — Vlaamse kant). CGG forensische zorg: wachttijd aanmelding → eerste
 contact 111 d (2018) → 48 d (2024); hulp- en dienstverlening in de gevangenis (CGG) 150 → 29 d; actieve forensische zorgperiodes 5.731
-(2019) → 6.992 (2024) (SV 844). CAW justitieel welzijnswerk: geen overkoepelende wachtlijst, 209 wachtenden/ingeplanden per gevangenis
-(juni 2023); 5.789 onthaald en 1.217 begeleid (2022) (SV 815). VAPH-projecten in de gevangenissen: 287 (2021) → 701 (2025) ondersteunde
-personen, 7 projecten, kost 2,1 → 3,2 mln (SV 950). Federale kant (FPC's, internering) buiten scope.
+(2019) → 6.992 (2024) (SV 844). CAW justitieel welzijnswerk: geen overkoepelende wachtlijst, 164 wachtenden per gevangenis
+(juni 2023; plus 45 ingeplande gesprekken in Oost-Vlaanderen, dat niet met een wachtlijst werkt); 5.551 → 5.789 onthaald en 1.232 → 1.217 begeleid
+(2018 → 2022) (SV 815). VAPH-projecten in de gevangenissen: 287 (2021) → 701 (2025) ondersteunde
+personen, 7 projecten, jaarlijkse kostprijs 2,1 mln vóór de uitbreiding van 2024 → ± 3,2 mln (2025); 85 geïnterneerden via directe
+financiering en 49 in een forensische VAPH-unit (31-12-2025) (SV 950). Federale kant (FPC's, internering) buiten scope.
 
 **Art. 60 §7 en wijk-werken** (`dwse-art60-wijkwerken`, type geen). Geen wachtlijstmechanisme: VDAB meet 'tijdig werk' (start binnen
-2 maanden na start TWE-OCMW-traject) 9.222 (2024) / 9.763 (t/m nov 2025), uitstroom naar werk 28,8 %; 3.365 actieve wijk-werkers
-(eind 2025), VDAB-budget wijk-werken 9,17 mln netto (2026); geen begrotingsartikel art. 60 in de BBT Werk 2026.
+2 maanden na start TWE-OCMW-traject) 9.222 (2024) / 9.763 (t/m nov 2025), uitstroom naar werk 28,8 % (2024) en 27,95 % (2025 t/m nov); 3.365 actieve wijk-werkers
+(eind 2025), VDAB-budget wijk-werken 9,17 mln (2026; deelposten in de bron tellen op tot 6.000 euro meer); geen begrotingsartikel art. 60 in de BBT Werk 2026.
 
 ## Te onderzoeken (open)
 
-Alle 20 oorspronkelijke voorzieningen zijn uitgewerkt of afgesloten (§E–§S). Alle 26 voorzieningen zijn uitgewerkt of afgesloten (§E–§T). Open blijven de terugkerende updates (draaiboek B) en de tweede lezing van de rondes 5b en 6.
+Alle 20 oorspronkelijke voorzieningen zijn uitgewerkt of afgesloten (§E–§S). Alle 26 voorzieningen zijn uitgewerkt of afgesloten (§E–§T). Open blijven de terugkerende updates (draaiboek B); de tweede lezing van de rondes 5b en 6 is gedaan (vervolgstap 11).
 
 ## Vervolgstappen
 
@@ -341,3 +343,4 @@ Alle 20 oorspronkelijke voorzieningen zijn uitgewerkt of afgesloten (§E–§S).
 8. Ronde 5 (1-10-2026): ~~gezinszorg, COS, NT2, pleegzorg, justitiehuizen~~ uitgewerkt (§N–§R, `scripts/seed_ronde5.py`); PAB minderjarigen als eigen dossier (§S); zes nieuwe voorzieningen (§T). Open: exact PAB-cijfer 2025 uit 'cijfers op maat' (Power BI); SV-reeks pleegzorg (jan 2027) en werkstraffen (jan 2027); COS/CAR na het nieuwe organisatiemodel diagnostiek; tweede lezing van de 55 nieuwe rijen.
 9. Ronde 5b (1-10-2026): CAW/verslavingszorg, forensische zorg en art. 60/wijk-werken van 'te onderzoeken' naar 'in onderzoek' met eerste reeksen (§T, `scripts/seed_ronde5b.py`, 35 rijen `bron_gelezen`).
 10. Ronde 6 (1-10-2026): ~~RTH/hulpmiddelen, CAR, CAW/verslavingszorg, forensische zorg, art. 60/wijk-werken~~ uitgewerkt (§T, `scripts/seed_ronde6.py`, 24 rijen + 11 budgetrijen `bron_gelezen`). Open: forensische VAPH-units buiten de gevangenis; CAR-wachttijden na de pilootfase (2028); CAW-wachttijden als het GGZ-monitoringssysteem er is.
+11. Tweede lezing rondes 5b en 6 (1-10-2026): 59 bevindingen en 12 budgetrijen `gecontroleerd` (o.a. CAW-wachtlijst gevangenissen 209 → 164, kostprijs VAPH-projecten 2,1 mln naar 2023, SDA-doorlooptijd enkel buiten refertelijst, ISE Welzijnswerk, BBT 2026 ingediend 24-10-2025); toegevoegd als `bron_gelezen`: CAW-gedetineerden 2018-2021, uitstroom TWE-OCMW 2025, directe financiering en forensische VAPH-units (SV 950), uitvoering hulpmiddelenartikel GH0-AGGF2RB-WT 2024-2025.

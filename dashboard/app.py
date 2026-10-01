@@ -111,6 +111,7 @@ with tab_detail:
         "wachttijd_cgg_verslavingsteams_dagen": "Wachttijd CGG-verslavingsteams (dagen)", "twe_ocmw_trajecten_tijdig_werk": "TWE-OCMW-trajecten met tijdig werk (art. 60)", "wijkwerkers_actief": "Actieve wijk-werkers",
         "gebruikers_rth": "Gebruikers rechtstreeks toegankelijke hulp", "goedkeuringen_hulpmiddelen": "Goedkeuringen hulpmiddelen en aanpassingen", "mediaan_doorlooptijd_hulpmiddelen_sda_dagen": "Mediaan doorlooptijd hulpmiddelen SDA (dagen)",
         "caw_bereikte_clienten_totaal": "CAW bereikte cliënten (totaal)", "caw_bereikte_clienten_begeleiding": "CAW cliënten in begeleiding", "vaph_ondersteund_in_gevangenis": "VAPH-ondersteuning in de gevangenis (personen)",
+        "caw_gedetineerden_onthaal": "Gedetineerden onthaald door CAW", "caw_gedetineerden_begeleiding": "Gedetineerden in begeleiding CAW",
     }
     PALET = [SERIES["pg1"], SERIES["pg2"], SERIES["pg3"], "#eda100", "#e87ba4", "#008300", SERIES["totaal"], "#e34948"]
     REEKS_KLEUR = {
@@ -133,6 +134,7 @@ with tab_detail:
         "wachttijd_cgg_verslavingsteams_dagen": PALET[0], "twe_ocmw_trajecten_tijdig_werk": PALET[0], "wijkwerkers_actief": PALET[1],
         "gebruikers_rth": PALET[0], "goedkeuringen_hulpmiddelen": PALET[1], "mediaan_doorlooptijd_hulpmiddelen_sda_dagen": PALET[2],
         "caw_bereikte_clienten_totaal": PALET[1], "caw_bereikte_clienten_begeleiding": PALET[2], "vaph_ondersteund_in_gevangenis": PALET[3],
+        "caw_gedetineerden_onthaal": PALET[4], "caw_gedetineerden_begeleiding": PALET[5],
     }
     reeks = b[b["metriek"].isin(list(REEKS_LABELS))]
     if len(reeks):
@@ -170,7 +172,7 @@ with tab_detail:
     st.dataframe(
         toon, width="stretch", hide_index=True, height=420,
         column_config={"bron_url": st.column_config.LinkColumn("bron"), "peildatum": st.column_config.DateColumn(format="DD-MM-YYYY"),
-                       "waarde": st.column_config.NumberColumn(format="%d")},
+                       "waarde": st.column_config.NumberColumn(format="localized")},
     )
 
 # ------------------------------------------------------------------------------------------ Budget
