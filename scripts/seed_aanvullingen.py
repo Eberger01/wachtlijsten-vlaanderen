@@ -23,7 +23,8 @@ from wachtlijst.store import load, upsert  # noqa: E402
 VANDAAG = date(2026, 10, 1)
 GEC, GEL, ONG, BET = (Controlestatus.GECONTROLEERD, Controlestatus.BRON_GELEZEN, Controlestatus.ONGECONTROLEERD, Controlestatus.BETWIST)
 A = "onderzoeksagent (2026-10-01)"
-PF = "https://docs.vlaamsparlement.be/files/pfile?id={}"
+D_EB = "onderzoeksagent + 2e lezing Claude + EB (2026-10-01)"
+PF ="https://docs.vlaamsparlement.be/files/pfile?id={}"
 
 BRONNEN = [
     Bron(bron_id="agii-jaarverslag-2022", naam="AgII — jaarverslag 2022 (uitvoeringsrapportering)", organisatie="Agentschap Integratie en Inburgering",
@@ -94,37 +95,57 @@ AG, CG = "agii-mo", "zorg-cgg"
 UJV22 = "https://publicaties.vlaanderen.be/view-file/62947"
 UJV23 = "https://integratie-inburgering.be/sites/default/files/2024-06/AgII_Jaarverslag_2023.pdf"
 DEF_GPA = "Inburgeraars met inburgeringscontract die niet ingeschreven zijn in een MO-cursus en wachten op een passend aanbod (locatie, lesmoment, taal, volzet); werkingsgebied AgII."
-DEF_6M = "Inburgeraars die > 6 maanden na ondertekening van het inburgeringscontract nog niet gestart zijn met MO (ingeschreven + niet ingeschreven); > 6 maanden = 'geen aanvaardbare wachttijd'."
+UJV24 = "https://www.integratie-inburgering.be/sites/default/files/2025-05/AgII_Jaarverslag_2024_0.pdf"
+UJV25 = "https://integratie-inburgering.be/sites/default/files/2026-05/AgII_jaarverslag_2025.pdf"
+DEF_EIC = "Eerste inburgeringscontracten in het jaar, werkingsgebied AgII."
+DEF_MO = "Gestarte cursussen maatschappelijke oriëntatie in het jaar."
+DEF_6M ="Inburgeraars die > 6 maanden na ondertekening van het inburgeringscontract nog niet gestart zijn met MO (ingeschreven + niet ingeschreven); > 6 maanden = 'geen aanvaardbare wachttijd'."
 
 BEVINDINGEN = [
-    _b(AG, "wachtenden_geen_passend_aanbod", 2592, "personen", date(2019, 12, 31), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022 — uitvoeringsrapportering", "p. 18, fig. 33",
-       "vanaf het begin van de metingen in 2019 een blijvende daling van 2.592 naar 1.076 in 2022", DEF_GPA, GEL, date(2023, 3, 30), A, "meting begin 2020 over 2019"),
-    _b(AG, "wachtenden_geen_passend_aanbod", 1646, "personen", date(2020, 12, 31), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022", "p. 18, fig. 33", "fig. 33: 2020 = 1.646", DEF_GPA, GEL, date(2023, 3, 30), A),
-    _b(AG, "wachtenden_geen_passend_aanbod", 1313, "personen", date(2021, 12, 31), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022", "p. 18, fig. 33", "fig. 33: 2021 = 1.313", DEF_GPA, GEL, date(2023, 3, 30), A),
-    _b(AG, "wachtenden_geen_passend_aanbod", 1076, "personen", date(2023, 1, 6), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022", "p. 16-17",
-       "Op peildatum van 6 januari 2023 zijn er 23.333 lopende inburgeringstrajecten … Geen Passend Aanbod 1.076 5%", DEF_GPA, GEL, date(2023, 3, 30), A, "= 5 % van 23.333 lopende trajecten"),
-    _b(AG, "wachtenden_6_maanden", 993, "personen", date(2023, 1, 6), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022", "p. 17",
-       "waren er 993 inburgeraars die niet binnen een redelijke termijn kunnen starten met MO, waarvan 570 niet ingeschreven zijn in een cursus en 423 ingeschreven", DEF_6M, GEL, date(2023, 3, 30), A),
-    _b(AG, "wachtenden_geen_passend_aanbod", 632, "personen", date(2023, 4, 27), "vlpar-sv-275-2023", PF.format(1956034), "SV nr. 275 (2022-2023), Janssens → Somers", "tabel 1-3",
-       "GPA 632: locatie 246, lesmoment 196, taal 135, volzet 54; samen met 'onbeschikbaar ≥ 3 maanden' 936", DEF_GPA, GEL, date(2023, 6, 1), A),
+    # 2019-2021: datalabels uit grafiek fig. 33 (onregelmatige tijdas mei/19 … dec/22) -> peildatum benaderend, blijft bron_gelezen
+    _b(AG, "wachtenden_geen_passend_aanbod", 2592, "personen", date(2019, 12, 31), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022 — uitvoeringsrapportering", "p. 19 (PDF p. 81), fig. 33",
+       "vanaf het begin van de metingen in 2019 een blijvende daling van 2.592 naar 1.076 in 2022", DEF_GPA, GEL, date(2023, 3, 30), A, "peildatum benaderend (grafiek); datalabel ± december 2019"),
+    _b(AG, "wachtenden_geen_passend_aanbod", 1646, "personen", date(2020, 12, 31), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022", "p. 19 (PDF p. 81), fig. 33",
+       "fig. 33, datalabels: 2.592 · 1.646 · 1.313 · 1.076 (tijdas mei/19 … dec/22)", DEF_GPA, GEL, date(2023, 3, 30), A, "peildatum benaderend (grafiek); datalabel ± december 2020"),
+    _b(AG, "wachtenden_geen_passend_aanbod", 1313, "personen", date(2021, 12, 31), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022", "p. 19 (PDF p. 81), fig. 33",
+       "fig. 33, datalabels: 2.592 · 1.646 · 1.313 · 1.076 (tijdas mei/19 … dec/22)", DEF_GPA, GEL, date(2023, 3, 30), A, "peildatum benaderend (grafiek); datalabel vlak vóór 'feb/22', mogelijk januari 2022"),
+    _b(AG, "wachtenden_geen_passend_aanbod", 1076, "personen", date(2023, 1, 6), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022", "p. 17 (PDF p. 79), fig. 29",
+       "Op peildatum van 6 januari 2023 zijn er 23.333 lopende inburgeringstrajecten … Geen Passend Aanbod 1.076 5%", DEF_GPA, GEC, date(2023, 3, 30), D_EB, "= 5 % van 23.333 lopende trajecten"),
+    _b(AG, "wachtenden_6_maanden", 993, "personen", date(2023, 1, 6), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022", "p. 17 (PDF p. 79)",
+       "waren er 993 inburgeraars die niet binnen een redelijke termijn kunnen starten met MO, waarvan 570 niet ingeschreven zijn in een cursus en 423 ingeschreven", DEF_6M, GEC, date(2023, 3, 30), D_EB),
+    _b(AG, "wachtenden_geen_passend_aanbod_min_3m", 632, "personen", date(2023, 4, 27), "vlpar-sv-275-2023", PF.format(1956034), "SV nr. 275 (2022-2023), Janssens → Somers", "antwoord, PDF p. 2-3, tabel 3",
+       "Hieronder een tabel met het aantal personen dat minstens drie maanden geleden een inburgeringscontract ondertekende en op 27/4/2023 een status ‘geen passend aanbod’ … "
+       "Tabel 3: Aantal personen met status ‘geen passend aanbod’ naar reden … GPA locatie 246 GPA lesmoment 196 GPA taal 135 GPA volzet 54 onbekend 1 totaal 632",
+       "Inburgeraars die minstens 3 maanden geleden een inburgeringscontract tekenden en op de peildatum de status 'geen passend aanbod' hebben; deelverzameling, niet vergelijkbaar met de GPA-reeks.",
+       GEC, date(2023, 6, 1), D_EB, "tabel 2 'onbeschikbaar' (304) + tabel 3 GPA (632) = 936"),
     _b(AG, "wachtenden_geen_passend_aanbod", 1229, "personen", date(2023, 12, 31), "agii-jaarverslag-2023", UJV23, "AgII jaarverslag 2023", "p. 9",
-       "Er is (nog) geen passend cursusaanbod MO voor 1.229 inburgeraars. Dat zijn er 113 meer dan de vooropgezette target van 1.126", DEF_GPA, GEL, date(2024, 3, 29), A, "doel < 1.126"),
+       "Er is (nog) geen passend cursusaanbod MO voor 1.229 inburgeraars. Dat zijn er 113 meer dan de vooropgezette target van 1.126", DEF_GPA, GEC, date(2024, 3, 29), D_EB, "doel < 1.126; peildatum niet vermeld (31/12 aangenomen)"),
     _b(AG, "wachtenden_6_maanden", 1588, "personen", date(2023, 12, 31), "agii-jaarverslag-2023", UJV23, "AgII jaarverslag 2023", "p. 9",
-       "Er wachten 1.588 inburgeraars na ondertekening van het inburgeringscontract langer dan 6 maanden op de start van de lessen of een inschrijving in een cursus", DEF_6M, GEL, date(2024, 3, 29), A, "891 ingeschreven + 697 niet ingeschreven"),
+       "Er wachten 1.588 inburgeraars na ondertekening van het inburgeringscontract langer dan 6 maanden op de start van de lessen of een inschrijving in een cursus", DEF_6M, GEC, date(2024, 3, 29), D_EB,
+       "891 ingeschreven + 697 niet ingeschreven; peildatum niet vermeld (31/12 aangenomen)"),
     _b(AG, "wachtenden_6_maanden", 1354, "personen", date(2024, 3, 31), "agii-jaarverslag-2023", UJV23, "AgII jaarverslag 2023", "p. 10",
-       "Dat resulteerde in maart 2024 tot een daling van 1.588 naar 1.354", DEF_6M, GEL, date(2024, 3, 29), A),
+       "Dat resulteerde in maart 2024 tot een daling van 1.588 naar 1.354", DEF_6M, GEC, date(2024, 3, 29), D_EB, "bron zegt enkel 'maart 2024'"),
     _b(AG, "wachtenden_6_maanden", 1500, "personen", date(2025, 5, 7), "vrt-2025-05-07", "https://www.vrt.be/vrtnws/nl/2025/05/07/inburgeringscursus-integratie-nieuwkomers-vlaanderen-2024/", "VRT NWS 07-05-2025", "artikeltekst",
        "Bij het Agentschap Integratie en Inburgering … wachten vandaag nog zo'n 1.500 nieuwkomers langer dan 6 maanden", DEF_6M, ONG, date(2025, 5, 7), "", "afgerond cijfer, secundair; herhaald door Janssens in commissie C249 (20-05-2025)"),
     _b(AG, "wachtenden_aandeel_lopende_trajecten_pct", 5.0, "procent (bovengrens)", date(2025, 5, 20), "vlpar-commissie-c249-2025", PF.format(2242860), "Commissie Binnenlands Bestuur en Inburgering 20-05-2025 (C249)", "p. 15, min. Crevits",
        "Het aantal inburgeraars dat wacht op een passend aanbod of dat langer dan zes maanden wacht op de start van het aanbod waarvoor ze zich inschreven, bedraagt minder dan 5 procent van alle lopende inburgeringstrajecten. … De verhouding tussen het aantal cursisten en het aantal cursusplaatsen is 0,96.",
-       "Aandeel wachtenden (GPA + > 6 maanden) in de lopende inburgeringstrajecten; enkel als bovengrens meegedeeld.", GEL, date(2025, 5, 20), A, "waarde = bovengrens '< 5 %'"),
-    _b(AG, "eerste_inburgeringscontracten", 14526, "contracten", date(2022, 12, 31), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022", "cijfers", "eerste inburgeringscontracten 2022: 14.526", "Eerste inburgeringscontracten in het jaar, werkingsgebied AgII.", GEL, date(2023, 3, 30), A),
-    _b(AG, "eerste_inburgeringscontracten", 17071, "contracten", date(2023, 12, 31), "agii-jaarverslag-2024", "https://www.integratie-inburgering.be/sites/default/files/2025-05/AgII_Jaarverslag_2024_0.pdf", "AgII jaarverslag 2024", "p. 43", "eerste inburgeringscontracten 2023: 17.071 (jaarverslag 2023: 17.078)", "Eerste inburgeringscontracten in het jaar, werkingsgebied AgII.", GEL, date(2025, 3, 21), A),
-    _b(AG, "eerste_inburgeringscontracten", 16522, "contracten", date(2024, 12, 31), "agii-jaarverslag-2024", "https://www.integratie-inburgering.be/sites/default/files/2025-05/AgII_Jaarverslag_2024_0.pdf", "AgII jaarverslag 2024", "p. 43", "eerste inburgeringscontracten 2024: 16.522", "Eerste inburgeringscontracten in het jaar, werkingsgebied AgII.", GEL, date(2025, 3, 21), A),
-    _b(AG, "eerste_inburgeringscontracten", 14815, "contracten", date(2025, 12, 31), "agii-jaarverslag-2025", "https://integratie-inburgering.be/sites/default/files/2026-05/AgII_jaarverslag_2025.pdf", "AgII jaarverslag 2025", "p. 32", "eerste inburgeringscontracten 2025: 14.815 (−10 %)", "Eerste inburgeringscontracten in het jaar, werkingsgebied AgII.", GEL, date(2026, 3, 26), A),
-    _b(AG, "gestarte_mo_cursussen", 880, "cursussen", date(2023, 12, 31), "agii-jaarverslag-2023", UJV23, "AgII jaarverslag 2023", "p. 59", "880 gestarte MO-cursussen, 12.182 eerste MO-cursisten", "Gestarte cursussen maatschappelijke oriëntatie in het jaar.", GEL, date(2024, 3, 29), A),
-    _b(AG, "gestarte_mo_cursussen", 898, "cursussen", date(2024, 12, 31), "agii-jaarverslag-2024", "https://www.integratie-inburgering.be/sites/default/files/2025-05/AgII_Jaarverslag_2024_0.pdf", "AgII jaarverslag 2024", "p. 45-47", "898 gestarte MO-cursussen, 13.163 eerste MO-cursisten; 31.042 lopende contracten (20-02-2025)", "Gestarte cursussen maatschappelijke oriëntatie in het jaar.", GEL, date(2025, 3, 21), A),
-    _b(AG, "gestarte_mo_cursussen", 929, "cursussen", date(2025, 12, 31), "agii-jaarverslag-2025", "https://integratie-inburgering.be/sites/default/files/2026-05/AgII_jaarverslag_2025.pdf", "AgII jaarverslag 2025", "p. 34", "929 gestarte MO-cursussen, 12.928 eerste MO-cursisten", "Gestarte cursussen maatschappelijke oriëntatie in het jaar.", GEL, date(2026, 3, 26), A),
+       "Aandeel wachtenden (GPA + > 6 maanden) in de lopende inburgeringstrajecten; enkel als bovengrens meegedeeld.", GEC, date(2025, 5, 20), D_EB,
+       "waarde = bovengrens '< 5 %'; peildatum = datum commissievergadering, referentiedatum van de data niet vermeld"),
+    _b(AG, "eerste_inburgeringscontracten", 14526, "contracten", date(2022, 12, 31), "agii-jaarverslag-2022", UJV22, "AgII jaarverslag 2022", "p. 8 (PDF p. 70), fig. 11",
+       "In het werkingsgebied van het AgII ondertekenden in 2022 14.526 nieuwkomers voor het eerst een inburgeringscontract.", DEF_EIC, GEC, date(2023, 3, 30), D_EB, "jaarverslag 2023 herneemt 2022 als 14.527"),
+    _b(AG, "eerste_inburgeringscontracten", 17071, "contracten", date(2023, 12, 31), "agii-jaarverslag-2024", UJV24, "AgII jaarverslag 2024", "p. 44, fig. 12",
+       "Werkingsgebied 2023 2024 Evolutie … Totaal 17.071 16.522 -3%", DEF_EIC, GEC, date(2025, 3, 21), D_EB, "jaarverslag 2023 (p. 9) gaf 17.078"),
+    _b(AG, "eerste_inburgeringscontracten", 16522, "contracten", date(2024, 12, 31), "agii-jaarverslag-2024", UJV24, "AgII jaarverslag 2024", "p. 43",
+       "In het werkingsgebied van AgII ondertekenden in 2024 16.522 inburgeraars voor het eerst een inburgeringscontract.", DEF_EIC, GEC, date(2025, 3, 21), D_EB, "jaarverslag 2025 herneemt 2024 als 16.525"),
+    _b(AG, "eerste_inburgeringscontracten", 14815, "contracten", date(2025, 12, 31), "agii-jaarverslag-2025", UJV25, "AgII jaarverslag 2025", "p. 32",
+       "In het werkingsgebied van AgII ondertekenden in 2025 14.815 inburgeraars voor het eerst een inburgeringscontract. Dat is een daling van -10% ten opzichte van 2024.", DEF_EIC, GEC, date(2026, 3, 26), D_EB),
+    _b(AG, "gestarte_mo_cursussen", 880, "cursussen", date(2023, 12, 31), "agii-jaarverslag-2023", UJV23, "AgII jaarverslag 2023", "p. 68",
+       "In 2023 startten 880 cursussen MO.", DEF_MO, GEC, date(2024, 3, 29), D_EB, "eerste MO-cursisten 2023: 12.206 (jaarverslag 2024 herneemt 12.182)"),
+    _b(AG, "gestarte_mo_cursussen", 898, "cursussen", date(2024, 12, 31), "agii-jaarverslag-2024", UJV24, "AgII jaarverslag 2024", "p. 47",
+       "In 2024 startten 898 cursussen maatschappelijke oriëntatie.", DEF_MO, GEC, date(2025, 3, 21), D_EB,
+       "eerste MO-cursisten 2024: 13.163 (p. 47); 31.042 lopende contracten op 20-02-2025 (p. 45); jaarverslag 2025 herneemt 2024 als 900 cursussen / 13.055 cursisten"),
+    _b(AG, "gestarte_mo_cursussen", 929, "cursussen", date(2025, 12, 31), "agii-jaarverslag-2025", UJV25, "AgII jaarverslag 2025", "p. 34",
+       "In 2025 startten 929 cursussen maatschappelijke oriëntatie. Dit betekent een stijging van 3% t.o.v. 2024.", DEF_MO, GEC, date(2026, 3, 26), D_EB, "eerste MO-cursisten 2025: 12.928"),
 ]
 
 # --- CGG: wachttijden (dagen). Sectorwaarden = ONGEWOGEN gemiddelde over CGG × geslacht uit de Excel-bijlagen (eigen berekening) -> ongecontroleerd.
@@ -144,14 +165,19 @@ for m, val, lab in (("wachttijd_ftf1_0_17_dagen", 42.0, "jongeren 0-17"), ("wach
     BEVINDINGEN.append(_b(CG, m, val, "dagen", date(2024, 12, 31), "vlpar-sv-645-2026", U645X, "SV nr. 645 — Excel-bijlage CGG 2024", "tabblad 'wachttijd tot FTF1'",
                           f"ongewogen gemiddelde {lab} 2024 over 17 CGG: {val} dagen (bv. F1 jongeren M 31,0 / V 33,8; F7 81,1 / 68,7)", DEF_W1 + " Leeftijdsgroepen gewijzigd in 2024 (18-64 / 65+).", ONG, date(2026, 5, 8), "", "eigen berekening; cijfers 2025 nog niet beschikbaar"))
 # CGG: officiële totalen
-for jaar, n in ((2019, 53850), (2020, 48241), (2021, 50572), (2022, 58203), (2023, 56841)):
-    BEVINDINGEN.append(_b(CG, "zorgperiodes_actief", n, "zorgperiodes", date(jaar, 12, 31), "vlpar-sv-382-2025", PF.format(2132652), "SV nr. 382 — Excel-bijlage zorgperiodes CGG", "tabblad 'Zorgperiodes', rij Totaal",
-                          f"Totaal {jaar}: {n:,}".replace(",", "."), "Actieve zorgperiodes (hoofdcliënten) in het registratiejaar; één zorggebruiker kan meerdere zorgperiodes hebben.", GEL, date(2025, 4, 8), A))
+for jaar, m, v, kol in ((2019, 24239, 29611, "C+D"), (2020, 21250, 26991, "E+F"), (2021, 21999, 28573, "G+H"), (2022, 24931, 33272, "I+J"), (2023, 24381, 32460, "K+L")):
+    fusie = {2022: "F19 gestopt wegens fusie (vanaf 2022); ", 2023: "F17 en F19 gestopt wegens fusie; "}.get(jaar, "")
+    BEVINDINGEN.append(_b(CG, "zorgperiodes_actief", m + v, "zorgperiodes", date(jaar, 12, 31), "vlpar-sv-382-2025", PF.format(2132652), "SV nr. 382 — Excel-bijlage zorgperiodes CGG (antw.382.bijl.1.xlsx)",
+                          f"tabblad 'Zorgperiodes', rij 68 (Totaal), kolommen {kol}", f"Totaal – Registratie in {jaar}: MANNEN {m} VROUWEN {v}",
+                          "Actieve zorgperiodes (hoofdcliënten) in het registratiejaar; één zorggebruiker kan meerdere zorgperiodes hebben (SV 382, antwoord p. 2).", GEC, date(2025, 4, 8), D_EB,
+                          f"{fusie}afgeleid: som mannen + vrouwen"))
 BEVINDINGEN += [
     _b(CG, "zorgperiodes_actief", 57370, "zorgperiodes", date(2024, 12, 31), "vlpar-sv-645-2026", U645X, "SV nr. 645 — Excel-bijlage CGG 2024", "tabblad 'aantal zorgperiodes'",
        "som over 17 CGG: 57.370 (0-17: 12.575; 18-64: 40.929; 65+: 3.866)", "Actieve zorgperiodes in 2024 (eigen optelling, geen Totaal-rij).", ONG, date(2026, 5, 8), "", "eigen optelling"),
-    _b(CG, "unieke_zorggebruikers", 55202, "personen", date(2024, 12, 31), "vlpar-bbt-wvg-2026", PF.format(2227516), "BBT Welzijn en Armoedebestrijding 2026 — 13-Z (2025-2026)", "p. 91",
-       "indicator 'Gebruik van het aanbod ambulante gespecialiseerde GGZ binnen CAR en CGG': aantal unieke zorggebruikers CGG 2024 = 55.202; doorgegane activiteiten 474.220", "Unieke zorggebruikers CGG in het jaar (prestatie-indicator BBT; geen streefwaarde, geen wachttijdindicator).", GEL, date(2025, 10, 24), A),
+    _b(CG, "unieke_zorggebruikers", 55202, "personen", date(2024, 12, 31), "vlpar-bbt-wvg-2026", PF.format(2227516), "BBT Welzijn en Armoedebestrijding 2026 — 13-Z (2025-2026)", "p. 91 (indicator p. 90)",
+       "CGG: • Aantal unieke zorggebruikers 2024: 55202 • Aantal doorgegane activiteiten 2024: 474220", "Unieke zorggebruikers CGG in het jaar (prestatie-indicator BBT; geen streefwaarde, geen wachttijdindicator).", GEC, date(2025, 10, 24), D_EB,
+       "indicator 'Gebruik van het aanbod ambulante gespecialiseerde geestelijke gezondheidszorg binnen de Centra voor ambulante Revalidatie (CAR) en Centra voor geestelijke gezondheidszorg (CGG)'; "
+       "voorblad zegt 'ingediend op 24 oktober 2024' (vermoedelijk tikfout voor 2025)"),
     _b(CG, "vte_enveloppe", 891, "VTE", date(2024, 12, 31), "vlpar-sv-379-2025", U379X, "SV nr. 379 — Excel-bijlage", "tabblad 'vraag 6 VTE'", "som 20 CGG 2024: 891 VTE (2020: 811; 2021: 813; 2022: 864; 2023: 886)", "Enveloppe-personeel CGG in VTE (eigen optelling).", ONG, date(2025, 4, 8), "", "eigen optelling"),
 ]
 

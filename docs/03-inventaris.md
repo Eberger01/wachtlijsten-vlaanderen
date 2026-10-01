@@ -87,7 +87,7 @@ Geen Vlaamse wachtlijst voor gezinnen; drie schaarste-indicatoren:
 |---|---|---|---|---|
 | Opvangvragen lokale loketten (SV 852) | — | 57.105 | 71.268 | n.b. (mei 2026+) |
 | waarvan onbeantwoord | — | 22.722 | **26.355 (37 %)** | — |
-| Onvervulde behoefte, steekproef (HIVA) | 8,3 % (14.831 kinderen) | — | — | 12,0 % (18.045 kinderen; toolbox: 11,6 %) |
+| Onvervulde behoefte, steekproef (HIVA) | 8,3 % (14.831 kinderen) | — | — | 11,6 % (20.494 kinderen, alle kinderen — vergelijkbaar met 2018); niet-schoolgaand: 12,0 % (18.045) |
 | Vergunde plaatsen (Excel Opgroeien) | 93.363 | 93.035 | 93.175 | 92.819 (IKT 79.271) |
 
 Kanttekeningen: dubbeltellingen over loketten (ouders vragen in meerdere gemeenten; loketten zonder centrale aanmelding); jaren niet
@@ -103,9 +103,9 @@ uitbreidingsbudget 2023 115 mln. Harvester: `wachtlijst harvest opgroeien kinder
 
 | Peildatum | Geen passend aanbod | > 6 maanden niet gestart | Bron |
 |---|---|---|---|
-| 2019 / 2020 / 2021 | 2.592 / 1.646 / 1.313 | — | jaarverslag 2022, fig. 33 |
+| 2019 / 2020 / 2021 | 2.592 / 1.646 / 1.313 (datalabels grafiek; peildatum benaderend) | — | jaarverslag 2022, fig. 33 |
 | 06-01-2023 | 1.076 (5 % van 23.333 trajecten) | 993 | jaarverslag 2022 |
-| 27-04-2023 | 632 (locatie 246, lesmoment 196, taal 135, volzet 54) | — | SV 275 |
+| 27-04-2023 | 632 — enkel wie ≥ 3 maanden geleden tekende; niet vergelijkbaar (locatie 246, lesmoment 196, taal 135, volzet 54, onbekend 1) | — | SV 275 |
 | eind 2023 | 1.229 (doel < 1.126) | 1.588 → 1.354 (maart 2024) | jaarverslag 2023 |
 | mei 2025 | — | ± 1.500 (VRT); minister: GPA + > 6 m < 5 % van lopende trajecten | VRT, commissie C249 |
 

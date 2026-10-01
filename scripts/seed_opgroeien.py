@@ -25,6 +25,7 @@ GEC, GEL, ONG, BET = (Controlestatus.GECONTROLEERD, Controlestatus.BRON_GELEZEN,
                       Controlestatus.ONGECONTROLEERD, Controlestatus.BETWIST)
 A = "onderzoeksagent (2026-10-01)"
 D2 = "onderzoeksagent + 2e lezing Claude (2026-10-01)"
+D_EB = "onderzoeksagent + 2e lezing Claude + EB (2026-10-01)"
 PF = "https://docs.vlaamsparlement.be/files/pfile?id={}"
 
 # ----------------------------------------------------------------------------------------------- bronnen
@@ -87,6 +88,9 @@ BRONNEN = [
     Bron(bron_id="opgroeien-oproepen-beslissingen", naam="Opgroeien — oproepen en beslissingen subsidies kinderopvang (overzicht per ronde)", organisatie="Agentschap Opgroeien",
          url="https://www.opgroeien.be/aanbod/kinderopvang/voorzieningen/subsidies-en-financieel/oproepen-en-beslissingen", bron_type=BronType.HTML, frequentie="per ronde",
          machinaal="PDF-lijsten per ronde (toekenningen per gemeente/organisator)"),
+    Bron(bron_id="opgroeien-toekenning-t2-2025", naam="Opgroeien — plaatsen met subsidie voor inkomenstarief 2025-2029, beslissingen december 2025 (toekenning T2)", organisatie="Agentschap Opgroeien",
+         url="https://www.opgroeien.be/sites/default/files/documenten/oproep-meerjarenprogrammatie-toekenning-subsidiebeloftes-t2-ikt-kinderopvang.pdf", bron_type=BronType.PDF, frequentie="per ronde",
+         opmerking="datum 15-12-2025; toekenningen per gemeente en tabel per jaar (p. 13)"),
     Bron(bron_id="vlpar-begroting-2023-vragen", naam="Vragen en antwoorden bij de begroting 2023 — uitbreidingsbudget kinderopvang", organisatie="Vlaams Parlement",
          url=PF.format(1897634), bron_type=BronType.PDF, frequentie="eenmalig"),
 ]
@@ -112,7 +116,7 @@ def _update_voorzieningen() -> None:
     k.frequentie = "jaarlijks (opvangvragen via SV; capaciteit Excel per jaar/kwartaal)"
     k.ise_koppeling = "GEINTEGREERD GEZINSBELEID"
     k.opmerking = ("Geen Vlaamse wachtlijst voor gezinnen. Drie schaarste-indicatoren: (1) onbeantwoorde opvangvragen bij de lokale loketten (dubbeltellingen over gemeenten mogelijk), "
-                   "(2) onvervulde behoefte uit steekproefonderzoek (2018: 8,3 %; 2025: 12,0 %), (3) gerangschikte lijst van organisatoren in uitbreidingsrondes (aangevraagd vs toegekend). "
+                   "(2) onvervulde behoefte uit steekproefonderzoek (2018: 8,3 %; 2025: 11,6 %, alle kinderen 3 m–3 j), (3) gerangschikte lijst van organisatoren in uitbreidingsrondes (aangevraagd vs toegekend). "
                    "Capaciteit 2020-2024 bevat ± 2.500 te hoog getelde onthaalouderplaatsen (correctie 04-06-2026).")
     upsert("voorzieningen", [n, k])
 
@@ -134,6 +138,8 @@ DEF_NRTJ = ("Unieke kinderen/jongeren die op 31/12 op een NRTJ-wachtlijst staan:
 DEF_KH = "Door de gesubsidieerde lokale loketten kinderopvang geregistreerde opvangvragen (één unieke aanvrager + één uniek kind) in het kalenderjaar; dubbeltellingen over gemeenten mogelijk."
 DEF_ONB = "Geregistreerde opvangvragen waarvoor het lokaal loket geen plaats vond (vervallen vragen tellen niet mee); dubbeltellingen over gemeenten mogelijk."
 DEF_PL = "Vergunde plaatsen kinderopvang baby's en peuters op 31/12 (Vlaams Gewest + Brussel), alle vergunningstypes; 2020-2024 incl. ± 2.500 te hoog getelde onthaalouderplaatsen."
+P_ONV18 = ("8,31% van de kinderen (14.831 kinderen) tussen 3 maanden en 3 jaar in het Vlaams Gewest een onvervulde behoefte heeft aan formele opvang")
+P_ZONDER ="Het aantal unieke kinderen en jongeren dat wacht zonder NRTJ hulp bedroeg op 31/12/2023 4166 en op 31/12/2024 4559"
 
 BEVINDINGEN = [
     # --- NRTJ hoofdreeks
@@ -152,53 +158,71 @@ BEVINDINGEN = [
     _b(NR, "wachtenden_nrtj", 7448, "personen", date(2022, 12, 31), "cjm-kinderrechtenmonitor", "https://www.vlaanderen.be/cjm/nl/jeugd/vlaams-jeugd-en-kinderrechtenbeleid/tools-voor-beleidsmakers/kinderrechtenmonitor/alternatieve-zorg",
        "Kinderrechtenmonitor — alternatieve zorg", "tekst", "Op 31 december 2022 stonden in totaal 7.448 kinderen en jongeren op een NRTJ-wachtlijst (exclusief Persoonlijke assistentiebudget (PAB)). Dat is ongeveer 6% meer dan in 2021 (6.985) en bedraagt iets meer dan de helft (56,22%) van het totaal aantal aanmeldingen.",
        DEF_NRTJ, BET, None, A, "SV 341 (19-04-2024) geeft 7.397 voor 31-12-2022 ('Jaarrapport van Opgroeien'); SV 246 citeert 7448 — vermoedelijk herberekening"),
-    _b(NR, "wachtenden_nrtj", 8545, "personen", date(2023, 12, 31), "vlpar-sv-246-2026", PF.format(2261523), "SV nr. 246 (2025-2026), Vandecasteele", "vraag p. 1 (citeert Opgroeien-site)",
+    _b(NR, "wachtenden_nrtj", 8545, "personen", date(2023, 12, 31), "vlpar-sv-246-2026", PF.format(2261523), "SV nr. 246 (2025-2026), Vandecasteele", "vraag, PDF p. 1 (citeert Opgroeien-site)",
        "Op 31 december 2023 stonden in totaal 8545 kinderen en jongeren op een NRTJ-wachtlijst (exclusief het persoonlijkeassistentiebudget(PAB)). Dat is ongeveer 15 procent meer dan in 2022 (7448).",
-       DEF_NRTJ, GEL, date(2026, 1, 29), A, "citaat van de (intussen overschreven) Opgroeien-pagina"),
+       DEF_NRTJ, GEC, date(2026, 1, 29), D_EB, "citaat van de (intussen overschreven) Opgroeien-pagina in de vraag; definitie-details uit de Opgroeien-achtergrondpagina"),
     _b(NR, "wachtenden_nrtj", 9194, "personen", date(2024, 12, 31), "opgroeien-nrtj", UNR, "Opgroeien — cijferrapport NRTJ", "sectie 'Wachtenden niet-rechtstreeks toegankelijke jeugdhulp'",
        "Dat zijn er 6 procent meer dan in 2024 (9.194).", DEF_NRTJ, GEC, date(2026, 7, 16), D2, "VRT 22-01-2026 meldt 9.154 (afwijking 40); SV 242 bevestigt 9194"),
     _b(NR, "wachtenden_nrtj", 9748, "personen", date(2025, 12, 31), "opgroeien-nrtj", UNR, "Opgroeien — cijferrapport NRTJ", "sectie 'Wachtenden niet-rechtstreeks toegankelijke jeugdhulp'",
        "Op 31 december 2025 stonden in totaal 9.748 kinderen en jongeren op een NRTJ-wachtlijst (inclusief wachtend op zorg door een MFC, exclusief Persoonlijke assistentiebudget (PAB)). Dat zijn er 6 procent meer dan in 2024 (9.194). Die stijging is te verklaren door een stabiele instroom van vragen in combinatie met een tragere opstart van hulp.",
        DEF_NRTJ, GEC, date(2026, 7, 16), D2, "51,6 % krijgt intussen andere NRTJ-hulp; 812 wachtenden zonder NRTJ kregen RTJ-hulp"),
     # --- NRTJ: wachtenden zonder enige NRTJ-hulp
-    _b(NR, "wachtenden_nrtj_zonder_hulp", 4166, "personen", date(2023, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026), Ryde → Gennez", "antwoord",
-       "wachtenden zonder NRTJ-hulp 31/12/2023: 4.166", "Wachtenden die op 31/12 geen enkele NRTJ-hulp lopen hebben.", GEL, date(2026, 1, 29), A),
-    _b(NR, "wachtenden_nrtj_zonder_hulp", 4559, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026), Ryde → Gennez", "antwoord",
-       "wachtenden zonder NRTJ-hulp 31/12/2024: 4.559", "Wachtenden die op 31/12 geen enkele NRTJ-hulp lopen hebben.", GEL, date(2026, 1, 29), A),
+    _b(NR, "wachtenden_nrtj_zonder_hulp", 4166, "personen", date(2023, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026), Ryde → Gennez", "antwoord, PDF p. 3",
+       P_ZONDER, "Wachtenden die op 31/12 geen enkele NRTJ-hulp lopen hebben.", GEC, date(2026, 1, 29), D_EB),
+    _b(NR, "wachtenden_nrtj_zonder_hulp", 4559, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026), Ryde → Gennez", "antwoord, PDF p. 3",
+       P_ZONDER, "Wachtenden die op 31/12 geen enkele NRTJ-hulp lopen hebben.", GEC, date(2026, 1, 29), D_EB),
     # --- NRTJ: instroom en opstart
     _b(NR, "aanmeldingen_a_document", 13249, "personen", date(2022, 12, 31), "cjm-kinderrechtenmonitor", "https://www.vlaanderen.be/cjm/nl/jeugd/vlaams-jeugd-en-kinderrechtenbeleid/tools-voor-beleidsmakers/kinderrechtenmonitor/alternatieve-zorg",
        "Kinderrechtenmonitor — alternatieve zorg", "tekst", "aantal aanmeldingen 2022: 13.249", "Unieke kinderen/jongeren met een aanmelding (A-document) bij de intersectorale toegangspoort in het jaar.", ONG, None, "", "secundair"),
-    _b(NR, "aanmeldingen_a_document", 14870, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord", "aanmeldingen A-document 2024: 14.870",
-       "Unieke kinderen/jongeren met een aanmelding (A-document) bij de intersectorale toegangspoort in het jaar.", GEL, date(2026, 1, 29), A),
+    _b(NR, "aanmeldingen_a_document", 14870, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord, PDF p. 3",
+       "Aantal kinderen en jongeren met een aanmelding bij de toegangspoort: 14.870",
+       "Unieke kinderen/jongeren met een aanmelding (A-document) bij de intersectorale toegangspoort in het jaar.", GEC, date(2026, 1, 29), D_EB,
+       "jaarcijfer 2024; 'A-document' komt uit de Opgroeien-formulering van dezelfde reeks (2025: 15.446)"),
     _b(NR, "aanmeldingen_a_document", 15446, "personen", date(2025, 12, 31), "opgroeien-nrtj", UNR, "Opgroeien — cijferrapport NRTJ", "sectie aanmeldingen",
        "Het aantal kinderen en jongeren met een aanmelding bij de intersectorale toegangspoort door middel van een A document is in 2025 gestegen naar 15.446 (+3,9%). Het betreft hier ongeveer 0,68% van de bevolking (0-25 jaar)",
        "Unieke kinderen/jongeren met een aanmelding (A-document) bij de intersectorale toegangspoort in het jaar.", GEC, date(2026, 7, 16), D2),
-    _b(NR, "nieuwe_hulpvraag", 12314, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord", "nieuwe hulpvraag 2024: 12.314",
-       "Unieke kinderen/jongeren voor wie een typemodule voor het eerst in regie werd genomen.", GEL, date(2026, 1, 29), A),
+    _b(NR, "nieuwe_hulpvraag", 12314, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord, PDF p. 3",
+       "Aantal kinderen en jongeren met een nieuwe aanmelding bij de toegangspoort: 12.314",
+       "Unieke kinderen/jongeren voor wie een typemodule voor het eerst in regie werd genomen.", GEC, date(2026, 1, 29), D_EB,
+       "SV 242 noemt dit 'nieuwe aanmelding bij de toegangspoort'; Opgroeien noemt dezelfde reeks 'nieuwe hulpvraag' (2025: 12.897, '+4,9 %'; t.o.v. 12.314 is dat +4,7 %). "
+       "Niet te verwarren met 'nieuwe hulpvragen NRTJ-hulp bij een voorziening en/of pleegzorg' (9.945)"),
+    _b(NR, "nieuwe_hulpvragen_voorziening", 9945, "hulpvragen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord, PDF p. 3",
+       "Aantal nieuwe hulpvragen NRTJ-hulp bij een voorziening en/of pleegzorg: 9945",
+       "Nieuwe hulpvragen naar NRTJ-hulp bij een voorziening en/of pleegzorg in het jaar (hulpvragen, niet unieke personen).", GEC, date(2026, 1, 29), D_EB),
     _b(NR, "nieuwe_hulpvraag", 12897, "personen", date(2025, 12, 31), "opgroeien-nrtj", UNR, "Opgroeien — cijferrapport NRTJ", "sectie hulpvragen",
        "Het aantal kinderen en jongeren met een nieuwe hulpvraag is toegenomen (+ 4,9%, 12.897 in 2025)", "Unieke kinderen/jongeren voor wie een typemodule voor het eerst in regie werd genomen.", GEC, date(2026, 7, 16), D2),
     _b(NR, "nieuwe_vragen_verblijf", 5756, "vragen", date(2025, 12, 31), "opgroeien-nrtj", UNR, "Opgroeien — cijferrapport NRTJ", "sectie hulpvragen",
        "De grootste groep zijn 5.756 vragen voor verblijf, waarvan 2707 voor een pleeggezin.", "Nieuwe hulpvragen naar typemodule verblijf in het jaar.", GEC, date(2026, 7, 16), D2),
     _b(NR, "nieuwe_vragen_pleeggezin", 2707, "vragen", date(2025, 12, 31), "opgroeien-nrtj", UNR, "Opgroeien — cijferrapport NRTJ", "sectie hulpvragen",
        "De grootste groep zijn 5.756 vragen voor verblijf, waarvan 2707 voor een pleeggezin.", "Nieuwe hulpvragen naar verblijf in een pleeggezin in het jaar.", GEC, date(2026, 7, 16), D2),
-    _b(NR, "nrtj_opgestart_personen", 6419, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord", "opgestarte NRTJ-hulp 2024: 6.419",
-       "Unieke kinderen/jongeren voor wie in het jaar NRTJ-hulp opstartte bij een voorziening van Opgroeien, het VAPH of via pleegzorg.", GEL, date(2026, 1, 29), A),
+    _b(NR, "nrtj_opgestart_personen", 6419, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord, PDF p. 3",
+       "Aantal opgestarte NRTJ-hulp bij een voorziening en/of pleegzorg: 6419",
+       "Unieke kinderen/jongeren voor wie in het jaar NRTJ-hulp opstartte bij een voorziening van Opgroeien, het VAPH of via pleegzorg.", GEC, date(2026, 1, 29), D_EB,
+       "SV 242 zegt 'opgestarte NRTJ-hulp'; Opgroeien beschrijft dezelfde reeks als kinderen en jongeren (2025: 6.801, '+6 % t.o.v. 2024')"),
     _b(NR, "nrtj_opgestart_personen", 6801, "personen", date(2025, 12, 31), "opgroeien-nrtj", UNR, "Opgroeien — cijferrapport NRTJ", "sectie opstart",
        "Het grootste deel van de kinderen en jongeren waarvoor jeugdhulp opstartte in 2025, kon een beroep doen op hulp van een jeugdhulpvoorziening van Opgroeien of het VAPH of via pleegzorg (6.801 in 2025, +6% ten opzichte van 2024)",
        "Unieke kinderen/jongeren voor wie in het jaar NRTJ-hulp opstartte bij een voorziening van Opgroeien, het VAPH of via pleegzorg.", GEC, date(2026, 7, 16), D2),
     # --- NRTJ: PAB en MFC (apart geteld)
-    _b(NR, "wachtenden_pab", 1478, "personen", date(2022, 12, 31), "vlpar-sv-416-2023", PF.format(1935207), "SV nr. 416 (2022-2023)", "antwoord",
-       "1478 unieke kinderen en jongeren hadden een vraag naar ondersteuning via PAB", "Unieke minderjarigen met een openstaande PAB-vraag op 31/12 (apart van de NRTJ-reeks).", GEL, None, A),
-    _b(NR, "wachtenden_pab", 1763, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord", "wachtenden PAB 31/12/2024: 1.763",
-       "Unieke minderjarigen met een openstaande PAB-vraag op 31/12 (apart van de NRTJ-reeks).", GEL, date(2026, 1, 29), A, "waarvan 1.106 zonder andere NRTJ-hulp"),
-    _b(NR, "wachtenden_mfc", 2733, "personen", date(2022, 12, 31), "vlpar-sv-416-2023", PF.format(1935207), "SV nr. 416 (2022-2023)", "antwoord",
-       "Op 31 december 2022 hadden 2733 kinderen en jongeren een vraag naar ondersteuning in een MFC", "Unieke minderjarigen met een openstaande vraag naar een multifunctioneel centrum (VAPH) op 31/12.", GEL, None, A),
+    _b(NR, "wachtenden_pab", 1478, "personen", date(2022, 12, 31), "vlpar-sv-416-2023", PF.format(1935207), "SV nr. 416 (2022-2023)", "antwoord, PDF p. 3",
+       "1478 unieke kinderen en jongeren hadden een vraag naar ondersteuning via PAB", "Unieke minderjarigen met een openstaande PAB-vraag op 31/12 (apart van de NRTJ-reeks).", GEC, None, D_EB,
+       "volgens de bron ligt de startdatum van de wachttijd voor elk van hen na 1 februari 2017"),
+    _b(NR, "wachtenden_pab", 1763, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord, PDF p. 3",
+       "Evolutie aantal kinderen en jongeren dat wacht op een persoonlijkeassistentiebudget (PAB): 1763",
+       "Unieke minderjarigen met een openstaande PAB-vraag op 31/12 (apart van de NRTJ-reeks).", GEC, date(2026, 1, 29), D_EB,
+       "waarvan 1.106 zonder andere NRTJ-hulp (31/12/2023: 796); peildatum 31/12/2024 af te leiden uit de reeks, niet expliciet in deze regel"),
+    _b(NR, "wachtenden_mfc", 2733, "personen", date(2022, 12, 31), "vlpar-sv-416-2023", PF.format(1935207), "SV nr. 416 (2022-2023)", "antwoord, PDF p. 3",
+       "Op 31 december 2022 hadden 2733 kinderen en jongeren een vraag naar ondersteuning in een MFC", "Minderjarigen met een openstaande vraag naar een multifunctioneel centrum (VAPH) op 31/12.", GEC, None, D_EB,
+       "SV 341 geeft voor het VAPH-subtotaal 2022 2731"),
 ]
 # --- NRTJ per sector (SV 341): unieke personen per sector, som ≠ totaal
+SV341_JHO = "wachtenden op 31/12/xxxx (unieke mj) 2017 2018 2019 2020 2021 2022 … JHO … Subtotaal 2989 3216 3432 4108 4585 4912"
+SV341_VAPH = "wachtenden op 31/12/xxxx (unieke mj) 2017 2018 2019 2020 2021 2022 … VAPH … Subtotaal 2378 2498 2234 2143 2610 2731"
 for jaar, jho, vaph in ((2017, 2989, 2378), (2018, 3216, 2498), (2019, 3432, 2234), (2020, 4108, 2143), (2021, 4585, 2610), (2022, 4912, 2731)):
-    for m, v, lab in (("wachtenden_nrtj_sector_jho", jho, "jeugdhulpvoorzieningen Opgroeien (JHO)"), ("wachtenden_nrtj_sector_vaph", vaph, "VAPH-aanbod (MFC)")):
-        BEVINDINGEN.append(_b(NR, m, v, "personen", date(jaar, 12, 31), "vlpar-sv-341-2024", PF.format(2062865), "SV nr. 341 (2023-2024), Vaneeckhout → Crevits", "antwoord p. 2, tabel 'aard van de wachtenden'",
-                              f"subtotaal {lab} {jaar}: {v}", f"Unieke wachtenden naar sector {lab} op 31/12; iemand kan in meerdere sectoren wachten.", GEL, date(2024, 6, 7), A))
+    for m, v, lab, passage in (("wachtenden_nrtj_sector_jho", jho, "JHO (jeugdhulpvoorzieningen Opgroeien)", SV341_JHO),
+                               ("wachtenden_nrtj_sector_vaph", vaph, "VAPH", SV341_VAPH)):
+        BEVINDINGEN.append(_b(NR, m, v, "personen", date(jaar, 12, 31), "vlpar-sv-341-2024", PF.format(2062865), "SV nr. 341 (2023-2024), Vaneeckhout → Crevits",
+                              "antwoord, PDF p. 2, tabel 'Vlaanderen en Brussel' ('aard van de wachtenden bij de intersectorale toegangspoort')",
+                              passage, f"Unieke wachtenden naar sector {lab} op 31/12; iemand kan in meerdere sectoren wachten.", GEC, date(2024, 6, 7), D_EB))
 
 # --- Kinderopvang
 BEVINDINGEN += [
@@ -212,40 +236,53 @@ BEVINDINGEN += [
     _b(KO, "onbeantwoorde_opvangvragen", 26355, "vragen", date(2024, 12, 31), "vlpar-sv-852-2025", PF.format(2196812), "SV nr. 852 (2024-2025)", "antwoord, tabel per provincie",
        "onbeantwoord 2024: 26.355 (Antwerpen 6.029; Brussel 2.289; Limburg 2.547; Oost-Vl. 7.277; Vl.-Brabant 5.400; West-Vl. 2.813). 'Ouders kunnen hun vraag aan verschillende lokale loketten in verschillende gemeenten stellen. De lokale loketten weten dit niet van elkaar.'",
        DEF_ONB, GEC, date(2025, 7, 29), D2, "= 37 % van de vragen; cijfers 2025 ten vroegste mei 2026 (SV 650)"),
-    _b(KO, "opvangvragen_voorrangsgezinnen", 9655, "vragen", date(2023, 12, 31), "vlpar-sv-852-2025", PF.format(2196812), "SV nr. 852 (2024-2025)", "antwoord",
-       "2023: 9.655 vragen van voorrangsgezinnen, 4.171 onbeantwoord; sinds de gewijzigde voorrangsregels in 2024 niet langer apart geregistreerd", "Opvangvragen uit voorranggroepen bij lokale loketten.", GEL, date(2025, 7, 29), A),
-    _b(KO, "onvervulde_behoefte_pct", 8.31, "procent", date(2018, 12, 31), "vlpar-sv-664-2023", PF.format(1969521), "SV nr. 664 (2022-2023), Daniëls → Crevits", "antwoord",
-       "8,31% van de kinderen (14.831 kinderen) tussen 3 maanden en 3 jaar een onvervulde behoefte heeft aan formele opvang", "Aandeel kinderen 3 m–3 j met een onvervulde behoefte aan formele opvang (steekproefonderzoek Kind en Gezin 2018).", GEL, date(2023, 6, 1), A),
-    _b(KO, "onvervulde_behoefte_kinderen", 14831, "kinderen", date(2018, 12, 31), "vlpar-sv-664-2023", PF.format(1969521), "SV nr. 664 (2022-2023)", "antwoord",
-       "8,31% van de kinderen (14.831 kinderen) …", "Geraamd aantal kinderen 3 m–3 j met onvervulde behoefte (populatieniveau).", GEL, date(2023, 6, 1), A),
+    _b(KO, "opvangvragen_voorrangsgezinnen", 9655, "vragen", date(2023, 12, 31), "vlpar-sv-852-2025", PF.format(2196812), "SV nr. 852 (2024-2025)", "antwoord, PDF p. 4",
+       "Totaal 9.655 4.171 … Door de gewijzigde regelgeving m.b.t. voorrangsregels, werden in 2024 niet langer vragen geregistreerd onder de subcategorie “Vraag van een gezin dat voldoet aan de voorrangsregels”.",
+       "Unieke opvangvragen uit voorranggroepen bij lokale loketten (loketten met registraties voor een volledig kalenderjaar).", GEC, date(2025, 7, 29), D_EB, "4.171 daarvan zonder opvangvoorstel"),
+    _b(KO, "onvervulde_behoefte_pct", 8.31, "procent", date(2018, 12, 31), "vlpar-sv-664-2023", PF.format(1969521), "SV nr. 664 (2022-2023), Daniëls → Crevits", "antwoord, PDF p. 3",
+       P_ONV18, "Aandeel kinderen 3 m–3 j in het Vlaams Gewest met een onvervulde behoefte aan formele opvang (steekproefonderzoek Kind en Gezin 2018; alle kinderen).", GEC, date(2023, 6, 1), D_EB),
+    _b(KO, "onvervulde_behoefte_kinderen", 14831, "kinderen", date(2018, 12, 31), "vlpar-sv-664-2023", PF.format(1969521), "SV nr. 664 (2022-2023)", "antwoord, PDF p. 3",
+       P_ONV18, "Geraamd aantal kinderen 3 m–3 j in het Vlaams Gewest met onvervulde behoefte (populatieniveau; alle kinderen).", GEC, date(2023, 6, 1), D_EB,
+       "= 13.473 niet-schoolgaande + 1.358 schoolgaande kinderen (rapport 57, tabel p. 215)"),
     _b(KO, "onvervulde_behoefte_pct", 12.0, "procent", date(2025, 3, 10), "opgroeien-onderzoek-2025-rapport", "https://www.opgroeien.be/sites/default/files/tool-documents/2026_01_rapport_57_ef__53_gebruik_behoefte_kinderopvang.pdf",
        "HIVA/Opgroeien — Onderzoek gebruik en behoefte kinderopvang 2025 (rapport 57)", "p. 12",
        "De totale onvervulde behoefte aan formele opvang voor niet-schoolgaande kinderen tussen 3 maanden en 3 jaar in het Vlaamse Gewest bedraagt 12.0%", "Aandeel kinderen 3 m–3 j (Vlaams Gewest) met onvervulde behoefte aan formele opvang; steekproef 4.114 gezinnen, respons 19 %.",
        BET, date(2026, 1, 31), A, "toolbox-pagina Opgroeien vermeldt 11,6 % — discrepantie niet opgehelderd"),
-    _b(KO, "onvervulde_behoefte_kinderen", 18045, "kinderen", date(2025, 3, 10), "opgroeien-onderzoek-2025-rapport", "https://www.opgroeien.be/sites/default/files/tool-documents/2026_01_rapport_57_ef__53_gebruik_behoefte_kinderopvang.pdf",
-       "HIVA/Opgroeien — rapport 57", "p. 12", "Op populatieniveau komt dit overeen met ongeveer 18 045 niet-schoolgaande kinderen die gemiddeld 2.6 dagen in de week nood hebben", "Geraamd aantal kinderen met onvervulde behoefte (populatieniveau).", GEL, date(2026, 1, 31), A),
+    _b(KO, "onvervulde_behoefte_kinderen", 20494, "kinderen", date(2025, 3, 10), "opgroeien-onderzoek-2025-rapport", "https://www.opgroeien.be/sites/default/files/tool-documents/2026_01_rapport_57_ef__53_gebruik_behoefte_kinderopvang.pdf",
+       "HIVA/Opgroeien — rapport 57", "p. 12 (ook tabel p. 215)",
+       "De totale onvervulde behoefte aan formele opvang voor alle (niet-schoolgaande en schoolgaande) kinderen tussen 3 maanden en 3 jaar in het Vlaamse Gewest bedraagt 11.6%. "
+       "Op populatieniveau komt dit overeen met ongeveer 20 494 kinderen die gemiddeld 2.6 dagen in de week nood hebben aan formele opvang.",
+       "Geraamd aantal kinderen 3 m–3 j in het Vlaams Gewest met onvervulde behoefte (populatieniveau; alle kinderen, vergelijkbaar met 2018).", GEC, date(2026, 1, 31), D_EB,
+       "enkel niet-schoolgaande kinderen: 18 045 (12,0 %); peildatum = referentiedatum steekproef (kinderen 3 m–3 j op 10-03-2025)"),
     _b(KO, "tekort_plaatsen_prognose_2029", 11500, "plaatsen", date(2026, 3, 9), "opgroeien-onderzoek-2025-nieuws", "https://www.opgroeien.be/over-opgroeien/nieuws-en-pers/onderzoek-kinderopvang-2025-gebruik-noden-en-een-groeiend-tekort-aan-plaatsen",
-       "Opgroeien — nieuwsbericht onderzoek kinderopvang 2025", "tekst", "Vlaanderen tegen 2029 ongeveer 11.500 extra opvangplaatsen nodig heeft", "Prognose extra plaatsen nodig tegen 2029 (onvervulde behoefte × bevolkingsprognose Planbureau).",
-       GEL, date(2026, 3, 9), A, "berekening staat niet in het rapport zelf"),
+       "Opgroeien — nieuwsbericht onderzoek kinderopvang 2025", "tekst", "Vlaanderen tegen 2029 ongeveer 11.500 extra opvangplaatsen nodig heeft", "Prognose van Opgroeien: extra opvangplaatsen nodig tegen 2029 (berekeningswijze niet gepubliceerd).",
+       GEC, date(2026, 3, 9), D_EB, "berekening staat niet in het rapport en niet in het persbericht"),
     _b(KO, "vergunde_plaatsen", 92819, "plaatsen", date(2025, 12, 31), "opgroeien-persbericht-2026-06-04", "https://pers.opgroeien.be/opgroeien-publiceert-kinderopvangcijfers-2025-en-kondigt-correctie-cijfers-onthaalouders-aan",
-       "Opgroeien persbericht 04-06-2026", "tekst", "Eind 2025 waren er 5.389 opvanglocaties voor baby's en peuters, goed voor een totaal van 92.819 vergunde plaatsen, een daling met 356 plaatsen (-0,4%) tegenover 2024",
-       DEF_PL, GEL, date(2026, 6, 4), A, "46,07 plaatsen per 100 kinderen; IKT 79.271 (85,4 %)"),
-    _b(KO, "meerjarenoproep_t2_aangevraagd", 11382, "plaatsen", date(2025, 12, 15), "opgroeien-sectoroverleg-2025-11", "https://www.opgroeien.be/sites/default/files/documenten/algemene-presentatie-28-november-2025.pdf",
-       "Opgroeien — sectoroverleg 28-11-2025", "slides meerjarenoproep", "534 aanvragen, 11.382 aangevraagde plaatsen, 4.500 beschikbaar", "Door organisatoren aangevraagde T2-plaatsen in de meerjarenoproep 2025 (gerangschikte lijst, aanbodzijde).", GEL, date(2025, 11, 28), A),
-    _b(KO, "meerjarenoproep_t2_toegekend", 3936, "plaatsen", date(2025, 12, 15), "opgroeien-sectoroverleg-2025-11", "https://www.opgroeien.be/sites/default/files/documenten/algemene-presentatie-28-november-2025.pdf",
-       "Opgroeien — sectoroverleg 28-11-2025 / toekenningsdocument", "slides", "3.936 subsidiebeloftes (962 in 2026, 685 in 2027, 1.291 in 2028, 998 in 2029); 578 (Vl.) + 60 (Bru.) niet toegekend; 222 aanvragen gehonoreerd",
-       "Toegekende subsidiebeloftes T2 in de meerjarenoproep 2025 (realisatie 2026-2029).", GEL, date(2025, 12, 15), A, "herhalingsoproep februari 2026 voor niet-toegekende plaatsen"),
+       "Opgroeien persbericht 04-06-2026", "tekst", "De Vlaamse kinderopvang telde eind 2025 92.819 vergunde opvangplaatsen voor baby's en peuters in Vlaanderen en Brussel.",
+       DEF_PL, GEC, date(2026, 6, 4), D_EB, "46,07 plaatsen per 100 kinderen (persbericht); IKT 79.271 en 5.389 locaties uit de Excel"),
+    _b(KO, "meerjarenoproep_t2_aangevraagd", 11382, "plaatsen", date(2025, 9, 14), "opgroeien-sectoroverleg-2025-11", "https://www.opgroeien.be/sites/default/files/documenten/algemene-presentatie-28-november-2025.pdf",
+       "Opgroeien — sectoroverleg 28-11-2025", "dia p. 10",
+       "4500 Nieuwe T2 via meerjarenoproep … Aanvragen kon tot en met 14 september 2025 ➢ Aantal aanvragen: 534 ➢ Aantal aangevraagde plaatsen: 11.382",
+       "Door organisatoren aangevraagde T2-plaatsen in de meerjarenoproep 2025 (gerangschikte lijst, aanbodzijde).", GEC, date(2025, 11, 28), D_EB, "peildatum = einde indieningstermijn"),
+    _b(KO, "meerjarenoproep_t2_toegekend", 3936, "plaatsen", date(2025, 12, 15), "opgroeien-toekenning-t2-2025",
+       "https://www.opgroeien.be/sites/default/files/documenten/oproep-meerjarenprogrammatie-toekenning-subsidiebeloftes-t2-ikt-kinderopvang.pdf",
+       "Opgroeien — plaatsen met subsidie voor inkomenstarief 2025-2029, beslissingen december 2025", "p. 1 en p. 13",
+       "Opgroeien besliste over de toekenning van 3.936 nieuwe plaatsen met subsidie inkomenstarief. … 2026 962 2027 685 2028 1.291 2029 998 Totaal 3.936 … "
+       "Het gaat om 578 plaatsen voor gemeenten in Vlaanderen en 60 plaatsen voor het tweetalig gebied Brussel-Hoofdstad. Eind februari 2026 zal er een herhalingsoproep volgen",
+       "Toegekende subsidiebeloftes T2 in de meerjarenoproep 2025 (realisatie 2026-2029).", GEC, date(2025, 12, 15), D_EB,
+       "222 gehonoreerde aanvragen = eigen telling van de toekenningsrijen (niet als getal in de bron)"),
 ]
 # Capaciteitsreeks uit de Opgroeien-Excel (aggregatie gemeenteniveau -> Vl. Gewest + Brussel)
 UXL = "https://www.opgroeien.be/sites/default/files/documenten/b-p-aantal-plaatsen-en-locaties-naar-vergunningstype-en-inkomenstarief_8.xlsx"
 for jaar, tot, ikt in ((2018, 93363, 70015), (2019, 95027, 72050), (2020, 94924, 72078), (2021, 94681, 72261), (2022, 93128, 71841), (2023, 93035, 74485), (2024, 93175, 79284)):
     opm = "incl. ± 2.500 te hoog getelde onthaalouderplaatsen (correctie 04-06-2026)" if 2020 <= jaar <= 2024 else ""
     BEVINDINGEN.append(_b(KO, "vergunde_plaatsen", tot, "plaatsen", date(jaar, 12, 31), "opgroeien-kinderopvang-cijfers", UXL, "Opgroeien — Excel plaatsen en locaties naar vergunningstype en inkomenstarief (versie 17-07-2026)",
-                          f"rijen Jaar={jaar}, som 'Totaal plaatsen'", f"som gemeenteniveau {jaar}: {tot:,} plaatsen (IKT {ikt:,})".replace(",", "."), DEF_PL, GEL, date(2026, 7, 17), A, opm))
+                          f"werkblad 'BP aantal pl en loc', rijen Jaar={jaar}, som kolom H 'Totaal aantal plaatsen'", f"som gemeenteniveau {jaar}: {tot:,} plaatsen (IKT {ikt:,})".replace(",", "."), DEF_PL, GEC, date(2026, 7, 17), D_EB, opm))
     BEVINDINGEN.append(_b(KO, "plaatsen_inkomenstarief", ikt, "plaatsen", date(jaar, 12, 31), "opgroeien-kinderopvang-cijfers", UXL, "Opgroeien — Excel plaatsen en locaties (versie 17-07-2026)",
-                          f"rijen Jaar={jaar}, som 'Plaatsen IKT'", f"som gemeenteniveau {jaar}: IKT {ikt:,}".replace(",", "."), "Vergunde plaatsen met subsidie inkomenstarief (trap 2/3) op 31/12.", GEL, date(2026, 7, 17), A, opm))
-BEVINDINGEN.append(_b(KO, "plaatsen_inkomenstarief", 79271, "plaatsen", date(2025, 12, 31), "opgroeien-kinderopvang-cijfers", UXL, "Opgroeien — Excel plaatsen en locaties (versie 17-07-2026)", "rijen Jaar=2025",
-                      "2025: 92.819 totaal / 79.271 IKT (identiek aan webpagina)", "Vergunde plaatsen met subsidie inkomenstarief (trap 2/3) op 31/12.", GEL, date(2026, 7, 17), A))
+                          f"werkblad 'BP aantal pl en loc', rijen Jaar={jaar}, som kolom I 'Plaatsen IKT'", f"som gemeenteniveau {jaar}: IKT {ikt:,}".replace(",", "."), "Vergunde plaatsen met subsidie inkomenstarief (trap 2/3) op 31/12.", GEC, date(2026, 7, 17), D_EB, opm))
+BEVINDINGEN.append(_b(KO, "plaatsen_inkomenstarief", 79271, "plaatsen", date(2025, 12, 31), "opgroeien-kinderopvang-cijfers", UXL, "Opgroeien — Excel plaatsen en locaties (versie 17-07-2026)",
+                      "werkblad 'BP aantal pl en loc', rijen Jaar=2025, som kolom I 'Plaatsen IKT'", "som gemeenteniveau 2025: IKT 79.271 (totaal 92.819; 5.389 locaties)",
+                      "Vergunde plaatsen met subsidie inkomenstarief (trap 2/3) op 31/12.", GEC, date(2026, 7, 17), D_EB, "zelfde totaal als het persbericht van 04-06-2026"))
 
 # ----------------------------------------------------------------------------------------------- budgetten
 def _bu(vid, jaar, fase, niveau, bedrag, bron_id, url, titel, pagina, passage, status, door="", krediet=Kredietsoort.NVT, artikel="", programma="", ise="", label="", opm=""):
