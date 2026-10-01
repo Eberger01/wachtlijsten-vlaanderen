@@ -127,7 +127,7 @@ def _update_voorzieningen() -> None:
     w.wachtlijst_naam = "geen bewonerswachtlijst; aanbodzijde: erkennings- en omzettingskalender"
     w.ise_koppeling = "WOONZORG EN EERSTE LIJN | SOCIALE BESCHERMING"
     w.opmerking = ("'De Vlaamse overheid heeft geen zicht op de eventuele wachtlijsten van een voorziening' (SV 951, juli 2026). Aanbodzijde: kalender 2020-2025 = 5.455 goedgekeurde woongelegenheden wzc; "
-                   "sinds 2015 t/m Q4 2025 3.481 wzc + 377 cvk in gebruik genomen; nog te realiseren vanaf 2026: 2.110 wzc + 144 cvk; uitgesteld sinds 2021: 4.259 wzc + 323 cvk; vervallen t/m Q4 2025: 509 wzc + 40 cvk. "
+                   "sinds 2015 t/m Q4 2025 3.481 wzc + 377 cvk in gebruik genomen; nog te realiseren vanaf 2026: 2.110 wzc + 144 cvk; uitgesteld sinds 2021: 4.109 wzc (5 provincies; Brussel 150 apart) + 323 cvk; vervallen t/m Q4 2025: 509 wzc + 40 cvk (eind 2024: 327 wzc alle kalenders, 112 enkel kalender 2020-2025). "
                    "Doorlooptijd kalender → ingebruikname 2 kwartalen (2020) → 8 (2024). Erkende capaciteit medio 2026: 83.923 woongelegenheden wzc en 2.803 cvk (incl. Brussel). Programmatiestop tot eind 2026; "
                    "nieuwe kalender zomer 2026; zorgprognosemodel 2029. Budget residentiële ouderenzorg (VSB) 2,78 mld (2024) → 2,77 mld BO 2026 (artikel GM0-AGCF2VD-WT).")
     b = vz[BU]
