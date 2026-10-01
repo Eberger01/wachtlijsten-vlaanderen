@@ -1,0 +1,89 @@
+# Register van Beleids- en Begrotingstoelichtingen (BBT) — Vlaams Parlement.
+# Geverifieerd op 2026-10-01 via de documentfiches (ws.vlpar.be/e/opendata/pi/<id>) en dossierpagina's.
+# PDF: https://docs.vlaamsparlement.be/files/pfile?id=<pfile_id>
+# Documentpagina: https://www.vlaamsparlement.be/nl/parlementaire-documenten/parlementaire-initiatieven/<doc_id>
+#
+# fase: BO = begrotingsopmaak (okt/nov vorig jaar), BA = begrotingsaanpassing (enkel 2020: reeks 17-A;
+#       vanaf 2023 niet meer vereist), UITV = begrotingsuitvoering (stuk 23-x, mei volgend jaar).
+# Opmerking: de letter per beleidsveld wisselt per zittingsjaar — nooit hardcoderen, altijd dit register gebruiken.
+
+beleidsdomeinen:
+  WVG:
+    naam: "Welzijn, Volksgezondheid en Gezin (2024-2025: + Armoedebestrijding; 2025-2026: 'Welzijn en Armoedebestrijding')"
+    programma_prefix: G
+    # Programma + ISE-letter uit de artikelcode (bv. GB0-1GGF2RX-IS -> GG-R), empirisch afgeleid uit 2020-2026.
+    # De parser gebruikt dit om artikelregels betrouwbaar aan een ISE toe te wijzen (koppen in de PDF zijn soms onvolledig).
+    ise_codes:
+      GG-R: "PERSONEN MET EEN BEPERKING"
+      GE-M: "JEUGDHULP"
+      GE-U: "GEINTEGREERD GEZINSBELEID"
+      GE-Q: "GROEIPAKKET"
+      GD-K: "WOONZORG EN EERSTE LIJN"
+      GD-L: "GESPECIALISEERDE ZORG"
+      GD-J: "PREVENTIE"
+      GD-I: "ALGEMEEN GEZONDHEIDSBELEID"
+      GC-B: "BELEIDSONDERSTEUNING"
+      GC-C: "ARMOEDEBELEID"
+      GC-E: "WELZIJNSWERK"
+      GC-F: "SOCIALE AKKOORDEN (VIA)"
+      GC-J: "PREVENTIE"              # vanaf BO 2026 (beleidsveld Zorg)
+      GC-K: "EERSTELIJN"             # vanaf BO 2026
+      GC-L: "GESPECIALISEERDE ZORG"  # vanaf BO 2026
+      GC-V: "WOONZORG"               # vanaf BO 2026
+      GH-T: "SOCIALE BESCHERMING"
+      GH-W: "ALGEMEEN BELEID SOCIALE BESCHERMING"
+      GI-S: "ZORGINFRASTRUCTUUR"
+      GA-Z: "APPARAAT / THEMA-OVERSCHRIJDEND"
+    ise_relevant_voor_wachtlijsten:
+      - "PERSONEN MET EEN BEPERKING"      # vaph-pvb (programma GG)
+      - "JEUGDHULP"                        # opgroeien-nrtj (GE)
+      - "GEINTEGREERD GEZINSBELEID"        # opgroeien-kinderopvang (GE)
+      - "WOONZORG"                         # zorg-woonzorgcentra (GD; t/m 2025 'WOONZORG EN EERSTE LIJN')
+      - "SOCIALE BESCHERMING"              # vsb-zorgbudget (GH)
+      - "GESPECIALISEERDE ZORG"            # zorg-cgg (GD)
+  WONEN:
+    naam: "Wonen (beleidsveld binnen Omgeving; commissie Wonen)"
+    programma_prefix: Q
+    ise_codes:
+      QD-P: "VRAAGZIJDE WONINGMARKT"
+      QD-Q: "AANBODZIJDE WONINGMARKT"
+      QD-R: "WONINGKWALITEIT"
+      QD-T: "THEMA-OVERSCHRIJDEND INSTRUMENTARIUM WONEN"
+      QA-Z: "APPARAAT / THEMA-OVERSCHRIJDEND"
+    ise_relevant_voor_wachtlijsten:
+      - "AANBODZIJDE WONINGMARKT"          # wonen-sociale-huur (QD; VMSW/Wonen in Vlaanderen)
+      - "VRAAGZIJDE WONINGMARKT"           # wonen-huurpremie (QD; huursubsidie/-premie)
+
+documenten:
+  # ---------------- WVG
+  - {beleidsdomein: WVG, begrotingsjaar: 2020, fase: BO,   stuk: "13-Y (2019-2020) nr. 1",   doc_id: 1342564, pfile_id: 1551598, ingediend: 2019-11-08}
+  - {beleidsdomein: WVG, begrotingsjaar: 2020, fase: BA,   stuk: "17-A-Y (2019-2020) nr. 1", doc_id: 1386901, pfile_id: 1553917, ingediend: 2020-05-04}
+  - {beleidsdomein: WVG, begrotingsjaar: 2020, fase: UITV, stuk: "23-V (2020-2021) nr. 1",   doc_id: 1520629, pfile_id: 1715202, ingediend: 2021-05-21}
+  - {beleidsdomein: WVG, begrotingsjaar: 2021, fase: BO,   stuk: "13-X (2020-2021) nr. 1",   doc_id: 1440682, pfile_id: 1614142, ingediend: 2020-10-28}
+  - {beleidsdomein: WVG, begrotingsjaar: 2021, fase: UITV, stuk: "23-S (2021-2022) nr. 1",   doc_id: 1638831, pfile_id: 1840706, ingediend: 2022-05-20}
+  - {beleidsdomein: WVG, begrotingsjaar: 2022, fase: BO,   stuk: "13-P (2021-2022) nr. 1",   doc_id: 1570636, pfile_id: 1764224, ingediend: 2021-10-28}
+  - {beleidsdomein: WVG, begrotingsjaar: 2022, fase: UITV, stuk: "23-S (2022-2023) nr. 1",   doc_id: 1736532, pfile_id: 1955169, ingediend: 2023-05-12}
+  - {beleidsdomein: WVG, begrotingsjaar: 2023, fase: BO,   stuk: "13-W (2022-2023) nr. 1",   doc_id: 1678176, pfile_id: 1887474, ingediend: 2022-10-28}
+  - {beleidsdomein: WVG, begrotingsjaar: 2023, fase: UITV, stuk: "23-S (2023-2024) nr. 1",   doc_id: 1828740, pfile_id: 2063739, ingediend: 2024-05-21}
+  - {beleidsdomein: WVG, begrotingsjaar: 2024, fase: BO,   stuk: "13-W (2023-2024) nr. 1",   doc_id: 1776317, pfile_id: 2001695, ingediend: 2023-10-27}
+  - {beleidsdomein: WVG, begrotingsjaar: 2024, fase: UITV, stuk: "23-T (2024-2025) nr. 1",   doc_id: 1907062, pfile_id: 2162480, ingediend: 2025-05-16}
+  - {beleidsdomein: WVG, begrotingsjaar: 2025, fase: BO,   stuk: "13-V (2024-2025) nr. 1",   doc_id: 1841767, pfile_id: 2081035, ingediend: 2024-11-15}
+  - {beleidsdomein: WVG, begrotingsjaar: 2025, fase: UITV, stuk: "23-V (2025-2026) nr. 1",   doc_id: 2032674, pfile_id: 2325132, ingediend: 2026-05-13}
+  - {beleidsdomein: WVG, begrotingsjaar: 2026, fase: BO,   stuk: "13-Z (2025-2026) nr. 1",   doc_id: 1959472, pfile_id: 2227516, ingediend: 2025-10-24}
+  # Armoedebestrijding (apart stuk 13-AB in 2023/2024) — niet relevant voor wachtlijsten, wel voor volledigheid
+  - {beleidsdomein: WVG, begrotingsjaar: 2024, fase: BO,   stuk: "13-AB (2023-2024) nr. 1",  doc_id: 1776350, pfile_id: 2001770, ingediend: 2023-10-27, opmerking: "Armoedebestrijding"}
+  # ---------------- WONEN
+  - {beleidsdomein: WONEN, begrotingsjaar: 2020, fase: BO,   stuk: "13-X (2019-2020) nr. 1",   doc_id: 1342676, pfile_id: 1551576, ingediend: 2019-11-08}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2020, fase: BA,   stuk: "17-A-X (2019-2020) nr. 1", doc_id: 1386898, pfile_id: 1553913, ingediend: 2020-05-04}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2020, fase: UITV, stuk: "23-Y (2020-2021) nr. 1",   doc_id: 1520638, pfile_id: 1715213, ingediend: 2021-05-21}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2021, fase: BO,   stuk: "13-W (2020-2021) nr. 1",   doc_id: 1440679, pfile_id: 1613995, ingediend: 2020-10-28}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2021, fase: UITV, stuk: "23-V (2021-2022) nr. 1",   doc_id: 1638848, pfile_id: 1840833, ingediend: 2022-05-20}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2022, fase: BO,   stuk: "13-S (2021-2022) nr. 1",   doc_id: 1570664, pfile_id: 1764337, ingediend: 2021-10-28}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2022, fase: UITV, stuk: "23-U (2022-2023) nr. 1",   doc_id: 1736538, pfile_id: 1955170, ingediend: 2023-05-12}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2023, fase: BO,   stuk: "13-E (2022-2023) nr. 1",   doc_id: 1678105, pfile_id: 1887380, ingediend: 2022-10-28}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2023, fase: UITV, stuk: "23-U (2023-2024) nr. 1",   doc_id: 1828746, pfile_id: 2063749, ingediend: 2024-05-21}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2024, fase: BO,   stuk: "13-E (2023-2024) nr. 1",   doc_id: 1776071, pfile_id: 2001656, ingediend: 2023-10-27}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2024, fase: UITV, stuk: "23-E (2024-2025) nr. 1",   doc_id: 1907139, pfile_id: 2162405, ingediend: 2025-05-16}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2025, fase: BO,   stuk: "13-E (2024-2025) nr. 1",   doc_id: 1841753, pfile_id: 2081748, ingediend: 2024-11-15}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2025, fase: UITV, stuk: "23-E (2025-2026) nr. 1",   doc_id: 2032573, pfile_id: 2325082, ingediend: 2026-05-13}
+  - {beleidsdomein: WONEN, begrotingsjaar: 2026, fase: BO,   stuk: "13-G (2025-2026) nr. 1",   doc_id: 1959588, pfile_id: 2226288, ingediend: 2025-10-24}

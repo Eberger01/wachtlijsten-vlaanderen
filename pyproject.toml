@@ -1,0 +1,38 @@
+[project]
+name = "wachtlijst"
+version = "0.1.0"
+description = "Onderzoeksproject: wachtlijsten voor sociale voorzieningen in Vlaanderen (Gemeenschap + Gewest) en de bijhorende budgetten"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "httpx>=0.27",
+    "pydantic>=2.6",
+    "pandas>=2.1",
+    "pyyaml>=6.0",
+    "typer>=0.12",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    "pdfplumber>=0.11",
+]
+
+[project.optional-dependencies]
+dashboard = ["streamlit>=1.49", "plotly>=5.20"]
+dev = ["pytest>=8.0", "ruff>=0.4"]
+
+[project.scripts]
+wachtlijst = "wachtlijst.cli:app"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

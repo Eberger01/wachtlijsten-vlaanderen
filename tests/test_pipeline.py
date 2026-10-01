@@ -1,0 +1,68 @@
+from datetime import date
+from pathlib import Path
+
+from wachtlijst.models import Bevinding, Controlestatus
+from wachtlijst.publish import load_published, publish
+from wachtlijst.sources.vaph import parse_prioriteitengroepen
+from wachtlijst.store import load, upsert, validate_all, write_rows
+
+ROOT = Path(__file__).resolve().parents[1]
+
+VAPH_ZIN = (
+    "Prioriteitengroepen Op 31 december 2024 waren 18.261 personen met in totaal 18.302 vragen geregistreerd in de "
+    "prioriteitengroepen. Dat zijn 526 vragen in prioriteitengroep 1, 8091 vragen in prioriteitengroep 2 en 9685 vragen in "
+    "prioriteitengroep 3. De eerstvolgende wachtende in elke prioriteitengroep had op 31 december 2024 de volgende "
+    "prioriteringsdatum: prioriteitengroep 1: 1 januari 2024, prioriteitengroep 2: 1 oktober 2016, prioriteitengroep 3: 16 januari 2002."
+)
+
+
+def test_curated_data_valideert():
+    r = validate_all(ROOT / "data" / "curated")
+    assert r.ok, r.fouten
+    assert r.aantallen["bevindingen"] > 0
+
+
+def test_vaph_parser_haalt_alle_cijfers():
+    uit = parse_prioriteitengroepen(VAPH_ZIN, "b", "http://x", "t", "p")
+    d = {b.metriek: b.waarde for b in uit}
+    assert d["wachtenden_personen"] == 18261
+    assert d["wachtenden_vragen_totaal"] == 18302
+    assert (d["wachtenden_vragen_pg1"], d["wachtenden_vragen_pg2"], d["wachtenden_vragen_pg3"]) == (526, 8091, 9685)
+    assert d["wachtenden_vragen_pg1"] + d["wachtenden_vragen_pg2"] + d["wachtenden_vragen_pg3"] == d["wachtenden_vragen_totaal"]
+    assert d["wachttijd_eerstvolgende_pg3_dagen"] == (date(2024, 12, 31) - date(2002, 1, 16)).days
+    assert all(b.controlestatus == Controlestatus.ONGECONTROLEERD for b in uit)
+    assert all(b.peildatum == date(2024, 12, 31) for b in uit)
+
+
+def test_parser_geeft_leeg_bij_onbekend_patroon():
+    assert parse_prioriteitengroepen("niets te zien hier", "b", "u", "t") == []
+
+
+def test_som_prioriteitengroepen_klopt_in_curated():
+    bev = load("bevindingen", ROOT / "data" / "curated")
+    per_datum: dict[date, dict[str, float]] = {}
+    for b in bev:
+        if b.voorziening_id == "vaph-pvb" and b.metriek.startswith("wachtenden_vragen") and b.bron_id != "grip-wachtlijst-2022":
+            per_datum.setdefault(b.peildatum, {})[b.metriek] = b.waarde
+    for d, m in per_datum.items():
+        if {"wachtenden_vragen_pg1", "wachtenden_vragen_pg2", "wachtenden_vragen_pg3", "wachtenden_vragen_totaal"} <= m.keys():
+            assert m["wachtenden_vragen_pg1"] + m["wachtenden_vragen_pg2"] + m["wachtenden_vragen_pg3"] == m["wachtenden_vragen_totaal"], d
+
+
+def test_store_roundtrip_en_upsert(tmp_path):
+    b = Bevinding(bevinding_id="x:m:2024-01-01", voorziening_id="x", metriek="m", waarde=1, eenheid="n", peildatum=date(2024, 1, 1),
+                  bron_id="s", bron_url="u", documenttitel="t")
+    write_rows("bevindingen", [b], tmp_path)
+    assert load("bevindingen", tmp_path)[0] == b
+    b2 = b.model_copy(update={"waarde": 2.0})
+    upsert("bevindingen", [b2], tmp_path)
+    rows = load("bevindingen", tmp_path)
+    assert len(rows) == 1 and rows[0].waarde == 2
+
+
+def test_publish_schrijft_meta(tmp_path):
+    meta = publish(base=ROOT / "data" / "curated", dest=tmp_path)
+    assert (tmp_path / "meta.json").exists()
+    assert meta["aantallen"]["bevindingen"] > 0
+    d = load_published(tmp_path)
+    assert "waarde" in d["bevindingen"].columns and d["bevindingen"]["waarde"].notna().all()

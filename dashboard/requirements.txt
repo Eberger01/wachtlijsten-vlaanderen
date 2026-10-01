@@ -1,0 +1,6 @@
+# Minimale afhankelijkheden voor het dashboard (Streamlit Community Cloud leest dit bestand).
+# Het dashboard importeert enkel wachtlijst.publish (pandas + pydantic), geen scrapers.
+streamlit>=1.49
+plotly>=5.20
+pandas>=2.1
+pydantic>=2.6
