@@ -71,7 +71,11 @@ BRONNEN = [
     Bron(bron_id="vlpar-sv-386-2026-jh", naam="SV nr. 386 (2025-2026), Schryvers → min. Demir — uitvoering werkstraffen, wachttijden (jan 2026; opstart 2025)",
          organisatie="Vlaams Parlement", url=PF.format(2291166), bron_type=BronType.PDF, frequentie="eenmalig", opmerking="gepubliceerd 09-03-2026"),
     Bron(bron_id="vlpar-bbt-jh-2026", naam="BBT Justitie en Handhaving, begroting 2026 — stuk 13-S (2025-2026) nr. 1", organisatie="Vlaams Parlement",
-         url=PF.format(2227488), bron_type=BronType.PDF, frequentie="jaarlijks", opmerking="ingediend 09-12-2025; OD 2.2 daders in begeleiding; artikelen SL0-1SDE2JA-WT (ET-kosten), SL0-1SAE2ZZ-LO (lonen AJH)"),
+         url=PF.format(2227488), bron_type=BronType.PDF, frequentie="jaarlijks", opmerking="ingediend 24-10-2025; OD 2.2 daders in begeleiding (p. 18); artikelen SL0-1SDE2JA-WT (ET-kosten), SL0-1SAE2ZZ-LO (lonen AJH)"),
+    Bron(bron_id="opgroeien-nrtj-cijfers-op-maat", naam="Opgroeien — cijfers op maat aanvragen crisisjeugdhulp en NRTJ (Power BI)", organisatie="Agentschap Opgroeien",
+         url="https://www.opgroeien.be/kennis/cijfers-en-onderzoek/aanvragen-crisisjeugdhulp-en-niet-rechtstreeks-toegankelijke-jeugdhulp/cijfers-op-maat", bron_type=BronType.DASHBOARD, frequentie="jaarlijks",
+         machinaal="openbare Power BI-embed (geen export); pagina wachtenden: pageName=ReportSection19214a6a7b728f1dbb35, matrix Sector × typemodule; aflezen via browser",
+         opmerking="PAB-wachtenden 2018-2025 afgelezen op 01-10-2026; 2022 en 2024 identiek aan SV 416 en SV 242"),
     Bron(bron_id="vlpar-sv-36-2025-pab", naam="SV nr. 36 (2025-2026), Kasmi → min. Crevits — PAB voor minderjarigen, transparantie (vindplaatsen cijfers)",
          organisatie="Vlaams Parlement", url=PF.format(2226506), bron_type=BronType.PDF, frequentie="eenmalig", opmerking="gepubliceerd 14-11-2025; wachtenden: Opgroeien-rapport (foto 31/12, INSISTO); budgethouders en toekenningen: VAPH-jaarverslag"),
     Bron(bron_id="vlpar-sv-305-2026-pab", naam="SV nr. 305 (2025-2026), Dillen → min. Crevits — PAB's en MFC's, uitbreidingsbeleid 2025",
@@ -117,18 +121,18 @@ def _update_voorzieningen() -> None:
                    "10.676 pleegzorgsituaties op 31-12-2024 (8.221 perspectiefbiedend). Deelverzameling van de NRTJ-wachtlijst (2.707 verblijfsvragen pleeggezin in 2025, andere teleenheid). "
                    "Budget: binnen artikel jeugdhulp GB0-1GEF2MX-IS; BO 2026 +11,1 mln kostendrijver pleegzorg.")
     j = vz[JH]
-    j.scan_status, j.laatste_peildatum, j.publicatie_bron_id = "proef_uitgewerkt", date(2026, 1, 16), "vlpar-sv-386-2026-jh"
+    j.scan_status, j.laatste_peildatum, j.publicatie_bron_id = "proef_uitgewerkt", date(2026, 3, 9), "vlpar-sv-386-2026-jh"
     j.frequentie, j.wachtlijst_type = "jaarlijks via SV-reeks Schryvers (januari)", W.CENTRAAL_NIET_GEPUBLICEERD
     j.wachtlijst_naam, j.ise_koppeling = "werkstrafdossiers in afwachting van een justitieassistent (SIPAR)", "JUSTITIE EN HANDHAVING"
-    j.opmerking = ("Wachttijd tussen ontvangst van een werkstrafdossier en aanstelling van een justitieassistent: 49 dagen (jan 2023) → 26,3 (dec 2023) → 22 (dec 2024) → 23 (jan 2026); daarna gemiddeld 121-126 dagen "
-                   "tot de effectieve opstart (procedure, prestatieplaats, probatiecommissie). Daders in begeleiding 17.206 (2019) → 24.430 (2025, +42 %); federale noodwet overbevolking (aug 2025) en nieuw "
+    j.opmerking = ("Wachttijd tussen ontvangst van een werkstrafdossier en aanstelling van een justitieassistent: 49 dagen (jan 2023) → 26,3 (dec 2023) → 22 (dec 2024) → 23 (begin 2026, stand bij antwoord); daarna gemiddeld 121-129 dagen "
+                   "tot de effectieve opstart (procedure, prestatieplaats, probatiecommissie). Daders in begeleiding 17.206 (2019) → 24.430 (2025, lopende telling t/m okt; +42 %); federale noodwet overbevolking (aug 2025) en nieuw "
                    "Strafwetboek (april 2026) doen de instroom stijgen. Andere mandaten (probatie, ET, slachtofferonthaal): geen wachtcijfers gevonden. Budget: lonen AJH BO 2026 164,9 mln (incl. overheveling gemeenschapsinstellingen).")
     nieuw = [
         Voorziening(voorziening_id=PAB, naam="Persoonlijke-assistentiebudget (PAB) minderjarigen", domein="handicap", entiteit="Agentschap Opgroeien (intersectorale toegangspoort) / VAPH", bevoegdheid=GEM,
                     wachtlijst_naam="minderjarigen met een toegewezen PAB-vraag zonder budget (foto 31/12, INSISTO)", wachtlijst_type=W.CENTRAAL_GEPUBLICEERD, publicatie_bron_id="opgroeien-nrtj",
                     frequentie="jaarlijks (Opgroeien cijferrapport NRTJ, cijfers op maat); VAPH-jaarverslag", laatste_peildatum=date(2025, 12, 31), scan_status="proef_uitgewerkt", ise_koppeling="PERSONEN MET EEN BEPERKING | JEUGDHULP",
-                    opmerking=("Afgesplitst van het NRTJ-dossier (1-10-2026). Wachtenden 1.478 (2022) → 1.763 (31-12-2024, Opgroeien) en +39 % in 2025 (≈ 2.450, afgeleid); VAPH telt 1.958 unieke wachtenden incl. priors "
-                               "(31-12-2024, benodigd budget 84,4 mln). Nieuwe PAB-vragen verdubbeld 540 → 1.074 (2022-2025); toekenningen 244 (2024, ± 9 mln) → 372 (2025, 13,3 mln); 2.554 budgethouders (31-12-2025). "
+                    opmerking=("Afgesplitst van het NRTJ-dossier (1-10-2026). Wachtenden (Opgroeien, cijfers op maat) 1.769 (2019) → 1.579 (2021) → 1.478 (2022) → 1.224 (2023) → 1.763 (2024) → 2.450 (31-12-2025, +39 %); VAPH telt 1.958 unieke wachtenden incl. priors "
+                               "(31-12-2024, benodigd budget 84,4 mln). Nieuwe PAB-vragen verdubbeld 540 → 1.074 op drie jaar (beginjaar niet vermeld); toekenningen 244 (2024, ± 9 mln) → 372 (2025, 13,3 mln); 2.554 budgethouders (31-12-2025). "
                                "Geen prioriteitengroepen zoals bij PVB; 'prior' = budget de maand nadien. Budget: uitbreidingsbeleid PAB 13 mln (2025), 7,3 mln VEK overgedragen naar 2026.")),
         Voorziening(voorziening_id=RTH, naam="VAPH rechtstreeks toegankelijke hulp (RTH) en hulpmiddelen", domein="handicap", entiteit="VAPH / RTH-aanbieders", bevoegdheid=GEM,
                     wachtlijst_naam="lokale wachtlijsten bij RTH-aanbieders; hulpmiddelen: aanvraagprocedure zonder wachtlijst", wachtlijst_type=W.DECENTRAAL, publicatie_bron_id="",
@@ -170,18 +174,21 @@ BEVINDINGEN: list[Bevinding] = []
 
 # ------------------------------------------------------------------------------------------------ gezinszorg
 S950, U950, T950, P950 = "vlpar-sv-950-2023-gz", PF.format(1992606), "SV nr. 950 (2022-2023) Schryvers", date(2023, 10, 20)
-for jaar, uren, gebr in ((2018, 16203534, 118280), (2019, 16419304, 121208), (2020, 16487724, 123144), (2021, 16343589, 123384), (2022, 15947262, 126570)):
-    BEVINDINGEN.append(_b(GZ, "uren_gezinszorg_gepresteerd", uren, "uren", date(jaar, 12, 31), S950, U950, T950, "antwoord 8, tabel", f"Gezinszorg {jaar}: gepresteerde uren {uren:,} (afgerond)".replace(",", "."),
-                          "Gepresteerde uren gezinszorg door de erkende diensten (Vesta), incl. niet-gesubsidieerd verzorgend personeel.", GEL, P950, A))
-    BEVINDINGEN.append(_b(GZ, "gebruikers_gezinszorg", gebr, "gezinnen", date(jaar, 12, 31), S950, U950, T950, "antwoord 8, tabel", f"Gezinszorg {jaar}: aantal gebruikers {gebr:,}".replace(",", "."),
-                          "Gezinnen/dossiers met gezinszorg in het jaar (Vesta).", GEL, P950, A))
+D_EB = "onderzoeksagent + 2e lezing Claude + EB (2026-10-01)"
+for jaar, uren, uren_lit, gebr in ((2018, 16203534, "16.203.534,44", 118280), (2019, 16419304, "16.419.304,41", 121208), (2020, 16487724, "16.487.724,33", 123144),
+                                   (2021, 16343589, "16.343.588,83", 123384), (2022, 15947262, "15.947.262,18", 126570)):
+    pas = f"Gezinszorg — {jaar} — Gepresteerde uren {uren_lit} — Aantal gebruikers {gebr:,}".replace(",", ".")
+    BEVINDINGEN.append(_b(GZ, "uren_gezinszorg_gepresteerd", uren, "uren", date(jaar, 12, 31), S950, U950, T950, "antwoord 8, tabel (PDF p. 5)", pas,
+                          "Gepresteerde uren gezinszorg door de erkende diensten (Vesta), incl. niet-gesubsidieerd verzorgend personeel.", GEC, P950, D_EB, opm=f"afgerond op het uur (bron: {uren_lit})"))
+    BEVINDINGEN.append(_b(GZ, "gebruikers_gezinszorg", gebr, "gezinnen", date(jaar, 12, 31), S950, U950, T950, "antwoord 8, tabel (PDF p. 5)", pas,
+                          "Gezinnen/dossiers met gezinszorg in het jaar (Vesta); antwoord 1: '126.570 dossiers (of gezinnen)'.", GEC, P950, D_EB))
 BEVINDINGEN += [
-    _b(GZ, "urencontingent_toegekend", 18857001, "uren", date(2022, 12, 31), S950, U950, T950, "antwoord 2", "totale urencontingent gezinszorg voor 2022, dat toegekend werd aan de diensten: a. openbare diensten: 2.974.978 uur; b. private diensten: 15.882.023 uur.",
-       "Subsidiabel urencontingent gezinszorg (MB), som openbaar + privaat; bevat ook gelijkgestelde uren.", GEL, P950, A, opm="eigen som; niet één op één vergelijkbaar met gepresteerde uren (zie antwoord 2)"),
-    _b(GZ, "aandeel_zwaar_zorgbehoevend_pct", 41.97, "procent", date(2022, 12, 31), S950, U950, T950, "antwoord 7", "Van de 126.570 dossiers gezinszorg in 2022 waren er 53.124 dossiers (41,97%) bij zwaar zorgbehoevenden.",
-       "Aandeel dossiers gezinszorg bij zwaar zorgbehoevenden (BelRAI Screener ≥ 13 of IADL+ADL ≥ 5,5).", GEL, P950, A),
-    _b(GZ, "erkende_diensten", 103, "diensten", date(2024, 12, 31), "vlpar-sv-630-2025-gz", PF.format(2165610), "SV nr. 630 (2024-2025) Lachaert", "antwoord 1", "Het aantal erkende diensten voor gezinszorg bedraagt 104 diensten in zowel 2022 als in 2023, en 103 diensten in 2024.",
-       "Erkende diensten voor gezinszorg.", GEL, date(2025, 6, 3), A),
+    _b(GZ, "urencontingent_toegekend", 18857001, "uren", date(2022, 12, 31), S950, U950, T950, "antwoord 2 (PDF p. 3)", "totale urencontingent gezinszorg voor 2022, dat toegekend werd aan de diensten: a. openbare diensten: 2.974.978 uur; b. private diensten: 15.882.023 uur.",
+       "Subsidiabel urencontingent gezinszorg, som openbaar + privaat; bevat ook gelijkgestelde uren.", GEC, P950, D_EB, opm="eigen som; niet één op één vergelijkbaar met gepresteerde uren (zie antwoord 2)"),
+    _b(GZ, "aandeel_zwaar_zorgbehoevend_pct", 41.97, "procent", date(2022, 12, 31), S950, U950, T950, "antwoord 7 (PDF p. 4)", "Van de 126.570 dossiers gezinszorg in 2022 waren er 53.124 dossiers (41,97%) bij zwaar zorgbehoevenden.",
+       "Aandeel dossiers gezinszorg bij zwaar zorgbehoevenden (BelRAI Screener ≥ 13 of IADL+ADL ≥ 5,5).", GEC, P950, D_EB),
+    _b(GZ, "erkende_diensten", 103, "diensten", date(2024, 12, 31), "vlpar-sv-630-2025-gz", PF.format(2165610), "SV nr. 630 (2024-2025) Lachaert", "antwoord 1 (PDF p. 2)", "Het aantal erkende diensten voor gezinszorg bedraagt 104 diensten in zowel 2022 als in 2023, en 103 diensten in 2024.",
+       "Erkende diensten voor gezinszorg.", GEC, date(2025, 6, 3), D_EB),
 ]
 
 # ------------------------------------------------------------------------------------------------ COS
@@ -190,76 +197,115 @@ for cos, d, m, pas in (("antwerpen", date(2020, 2, 1), 34, "Februari 2020 COS An
                        ("brussel", date(2020, 2, 1), 12, "Februari 2020 COS Brussel: 12 maanden"), ("brussel", date(2021, 12, 1), 15, "December 2021 COS Brussel: 15 maanden"),
                        ("gent", date(2020, 2, 1), 22, "Februari 2020 COS Gent: Kinderen > 2,5 jaar = 22 maanden"), ("gent", date(2021, 12, 1), 34, "December 2021 COS Gent: Kinderen > 2,5 jaar = 34 maanden"),
                        ("leuven", date(2020, 2, 1), 12, "Februari 2020 COS Leuven: 12 maanden"), ("leuven", date(2021, 12, 1), 15, "December 2021 COS Leuven: 15 maanden")):
-    BEVINDINGEN.append(_b(COS, f"wachttijd_{cos}_maanden", m, "maanden", d, S633, U633, T633, "antwoord 1, tabel", pas, f"Wachttijd voor een volledig multidisciplinair onderzoek bij COS {cos.capitalize()} (oudste leeftijdsgroep).", GEL, P633, A,
-                          opm="COS kennen geen centrale, uniforme registratie van wachtenden (antwoord 2)"))
+    groep = "oudste leeftijdsgroep, volledig onderzoek" if cos in ("antwerpen", "gent") else "één waarde voor het centrum, geen leeftijdsopsplitsing"
+    opm = "COS kennen geen centrale, uniforme registratie van wachtenden (antwoord 2)"
+    if cos == "antwerpen" and d.year == 2021:
+        opm += "; gemeten tijdens de aanmeldingsstop (sinds sept 2020), niet volledig vergelijkbaar met feb 2020"
+    BEVINDINGEN.append(_b(COS, f"wachttijd_{cos}_maanden", m, "maanden", d, S633, U633, T633, "antwoord 1, tabel (PDF p. 2)", pas, f"Wachttijd bij COS {cos.capitalize()} ({groep}).", GEC, P633, D_EB, opm=opm))
 S1007, U1007, T1007 = "vlpar-sv-1007-2025-cos", PF.format(2216493), "SV nr. 1007 (2024-2025) Vandromme"
-for jaar, k in ((2022, 1128 + 1171 + 738 + 1389), (2023, 1242 + 1018 + 793 + 1300), (2024, 1160 + 1003 + 784 + 1421)):
-    BEVINDINGEN.append(_b(COS, "trajecten_kinderen_0_6", k, "kinderen", date(jaar, 12, 31), S1007, U1007, T1007, "antwoord 1, tabel COS", f"aantal kinderen {jaar}: Leuven/Hasselt + Brussel + Antwerpen + Gent = {k:,}".replace(",", "."),
-                          "Kinderen 0-6 jaar met een traject (multidisciplinair onderzoek) bij de vier COS in het jaar (som).", GEL, date(2025, 10, 17), A, opm="eigen som van de vier centra"))
+for jaar, (lh, br, an, ge), onderz in ((2022, (1128, 1171, 738, 1389), 5687), (2023, (1242, 1018, 793, 1300), 5612), (2024, (1160, 1003, 784, 1421), 5759)):
+    k = lh + br + an + ge
+    BEVINDINGEN.append(_b(COS, "trajecten_kinderen_0_6", k, "kinderen", date(jaar, 12, 31), S1007, U1007, T1007, "antwoord 1, tabel COS (PDF p. 3)",
+                          f"In onderstaande tabel kan u het aantal trajecten van 0-6 jarigen bij de Centra voor Ontwikkelingsstoornissen (COS) vinden … {jaar} (aantal kinderen): Leuven/Hasselt {lh}; Brussel {br}; Antwerpen {an}; Gent {ge}",
+                          "Kinderen 0-6 jaar met een traject (multidisciplinair onderzoek) bij de vier COS in het jaar (som; telt kinderen, niet onderzoeken).", GEC, date(2025, 10, 17), D_EB,
+                          opm=f"eigen som van de vier centra; aantal onderzoeken {jaar}: {onderz:,}".replace(",", ".")))
 
 # ------------------------------------------------------------------------------------------------ NT2
-BEVINDINGEN.append(_b(NT2, "wachtenden_cbe_cvo", 0, "cursisten", date(2025, 9, 10), "vlpar-sv-34-2025-nt2", PF.format(2237755), "SV nr. 34 (2025-2026) Tombeur", "antwoord 4",
+BEVINDINGEN.append(_b(NT2, "wachtenden_cbe_cvo", 0, "cursisten", date(2025, 9, 10), "vlpar-sv-34-2025-nt2", PF.format(2237755), "SV nr. 34 (2025-2026) Tombeur", "antwoord 4 (PDF p. 3)",
                       "Uit de cijfers van de aanbodbevraging NT2 van 10 september 2025 blijkt dat er geen cursisten (die een intakeprocedure achter de rug hebben bij een Agentschap Integratie en Inburgering of het Huis van het Nederlands Brussel) op de wachtlijst staan bij een CBE of CVO.",
-                      "Cursisten met intake die op de wachtlijst staan bij een centrum voor basiseducatie of volwassenenonderwijs (aanbodbevraging NT2, Ahovoks).", GEL, date(2025, 12, 5), A))
+                      "Cursisten met intake die op de wachtlijst staan bij een centrum voor basiseducatie of volwassenenonderwijs (aanbodbevraging NT2, Ahovoks).", GEC, date(2025, 12, 5), D_EB))
 
 # ------------------------------------------------------------------------------------------------ pleegzorg
 D_PZ = "Kinderen en jongeren (0-25) die op 31/12 wachten op een pleeggezin in het kader van perspectiefzoekende en -biedende pleegzorg (NRTJ, Domino); som van de vijf provincies."
+P203 = "In onderstaande tabel vindt u een overzicht van wachtenden voor perspectiefzoekende en –biedende pleegzorg, opgesplitst per provincie en per leeftijdscategorie."
 for jaar, n in ((2018, 702), (2019, 727), (2020, 833), (2021, 872), (2022, 961)):
-    BEVINDINGEN.append(_b(PZ, "wachtenden_pleeggezin", n, "kinderen", date(jaar, 12, 31), "vlpar-sv-203-2025-pz", PF.format(2119342), "SV nr. 203 (2024-2025) Schryvers", f"antwoord 2, tabel {jaar}",
-                          f"{jaar}: som van de provincies × leeftijdsgroepen = {n}", D_PZ, GEL, date(2025, 2, 28), A, opm="eigen som van 20 cellen"))
+    BEVINDINGEN.append(_b(PZ, "wachtenden_pleeggezin", n, "kinderen", date(jaar, 12, 31), "vlpar-sv-203-2025-pz", PF.format(2119342), "SV nr. 203 (2024-2025) Schryvers",
+                          f"antwoord 2, tabel {jaar} (PDF p. {3 if jaar == 2022 else 2})", f"{P203} … tabel {jaar}", D_PZ, GEC, date(2025, 2, 28), D_EB,
+                          opm="eigen som van 20 cellen (5 provincies × 4 leeftijdsgroepen); de bron geeft geen totaal"))
 BEVINDINGEN += [
-    _b(PZ, "wachtenden_pleeggezin", 1189, "kinderen", date(2023, 12, 31), "vlpar-sv-75-2024-pz", PF.format(2099807), "SV nr. 75 (2024-2025) Schryvers", "antwoord",
-       "In 2023 wachtten 1189 kinderen op een pleeggezin (perspectief biedende en -zoekende hulp). Dit aantal ligt hoger dan vorig jaar.", D_PZ, GEL, date(2025, 1, 15), A),
-    _b(PZ, "wachtenden_pleeggezin", 1307, "kinderen", date(2024, 12, 31), "vlpar-sv-194-2026-pz", PF.format(2253598), "SV nr. 194 (2025-2026) Schryvers", "antwoord 2a, tabel 2024",
-       "Totaal 479 (0-5) 385 (6-11) 341 (12-17) 92 (18-25) 1307", D_PZ, GEL, date(2026, 1, 15), A),
-    _b(PZ, "pleegzorgsituaties", 10676, "situaties", date(2024, 12, 31), "vlpar-sv-194-2026-pz", PF.format(2253598), "SV nr. 194 (2025-2026) Schryvers", "antwoord 2c",
-       "Op 31/12/2024 telden we 10.676 pleegzorgsituaties. De grootste groep vormt perspectiefbiedende pleegzorg met 8.221 pleegzorgsituaties", "Lopende pleegzorgsituaties op 31/12 (alle vormen).", GEL, date(2026, 1, 15), A),
+    _b(PZ, "wachtenden_pleeggezin", 1189, "kinderen", date(2023, 12, 31), "vlpar-sv-75-2024-pz", PF.format(2099807), "SV nr. 75 (2024-2025) Schryvers", "antwoord (PDF p. 2)",
+       "In 2023 wachtten 1189 kinderen op een pleeggezin (perspectief biedende en -zoekende hulp). Dit aantal ligt hoger dan vorig jaar.", D_PZ, GEC, date(2025, 1, 15), D_EB),
+    _b(PZ, "wachtenden_pleeggezin", 1307, "kinderen", date(2024, 12, 31), "vlpar-sv-194-2026-pz", PF.format(2253598), "SV nr. 194 (2025-2026) Schryvers", "antwoord 2 en 3a, tabel 2024 (PDF p. 3)",
+       "Totaal 479 385 341 92 1307", D_PZ, GEC, date(2026, 1, 15), D_EB, opm="kolommen 0-5 / 6-11 / 12-17 / 18-25 jaar / totaal"),
+    _b(PZ, "pleegzorgsituaties", 10676, "situaties", date(2024, 12, 31), "vlpar-sv-194-2026-pz", PF.format(2253598), "SV nr. 194 (2025-2026) Schryvers", "antwoord 2 en 3c (PDF p. 3)",
+       "Op 31/12/2024 telden we 10.676 pleegzorgsituaties. • De grootste groep vormt perspectiefbiedende pleegzorg met 8.221 pleegzorgsituaties", "Lopende pleegzorgsituaties op 31/12 (alle vormen).", GEC, date(2026, 1, 15), D_EB),
 ]
 
 # ------------------------------------------------------------------------------------------------ justitiehuizen
 D_JH1 = "Gemiddelde duurtijd (dagen) tussen ontvangst van een werkstrafdossier op het justitiehuis en aanstelling van een justitieassistent (SIPAR)."
-D_JH2 = "Gemiddelde duurtijd (dagen) tussen aanstelling van de justitieassistent en effectieve opstart van de werkstraf, afgesloten dossiers van het jaar."
+D_JH2 = ("Gemiddelde duurtijd (dagen) tussen aanstelling van de justitieassistent en effectieve opstart van de werkstraf, afgesloten dossiers van het jaar; "
+         "globaal gemiddelde zoals de bron het geeft (gewogen; het ongewogen gemiddelde van de 14 justitiehuizen ligt hoger).")
+P_DADERS = "steeg het aantal daders in begeleiding door de justitiehuizen met maar liefst 42% (van 17.206 daders in 2019 naar 24.430 daders in 2025)"
 BEVINDINGEN += [
-    _b(JH, "wachttijd_werkstraf_aanstelling_dagen", 49, "dagen", date(2023, 1, 31), "vlpar-sv-348-2023-jh", PF.format(1924206), "SV nr. 348 (2022-2023) Schryvers", "antwoord 1-2", "bedroeg de duurtijd in januari 2023 49 dagen of een dikke anderhalve maand", D_JH1, GEL, date(2023, 3, 7), A),
-    _b(JH, "wachttijd_werkstraf_aanstelling_dagen", 26.3, "dagen", date(2023, 12, 31), "vlpar-sv-212-2024-jh", PF.format(2043114), "SV nr. 212 (2023-2024) Schryvers", "antwoord 1-2", "bedroeg in december 2023 gemiddeld 26,3 dagen", D_JH1, GEL, date(2024, 3, 26), A),
-    _b(JH, "wachttijd_werkstraf_aanstelling_dagen", 22, "dagen", date(2024, 12, 31), "vlpar-sv-369-2025-jh", PF.format(2146400), "SV nr. 369 (2024-2025) Schryvers", "antwoord 1-2, tabel", "Globaal gezien betrof de gemiddelde wachttijd in december 22 dagen. … Antwerpen 66 … Veurne 0", D_JH1, GEL, date(2025, 4, 15), A),
-    _b(JH, "wachttijd_werkstraf_aanstelling_dagen", 23, "dagen", date(2026, 1, 16), "vlpar-sv-386-2026-jh", PF.format(2291166), "SV nr. 386 (2025-2026) Schryvers", "antwoord 1-2", "Op dit moment betreft de gemiddelde wachttijd voor werkstrafdossiers 23 dagen.", D_JH1, GEL, date(2026, 3, 9), A),
-    _b(JH, "doorlooptijd_werkstraf_opstart_dagen", 126, "dagen", date(2024, 12, 31), "vlpar-sv-369-2025-jh", PF.format(2146400), "SV nr. 369 (2024-2025) Schryvers", "antwoord 3", "Van de dossiers die in 2024 zijn afgesloten, bedroeg de gemiddelde duurtijd tussen de aanstelling van de justitieassistent en de effectieve opstart van de werkstraf 126 dagen.", D_JH2, GEL, date(2025, 4, 15), A),
-    _b(JH, "doorlooptijd_werkstraf_opstart_dagen", 121, "dagen", date(2025, 12, 31), "vlpar-sv-386-2026-jh", PF.format(2291166), "SV nr. 386 (2025-2026) Schryvers", "antwoord 3", "Van de afgesloten dossiers in 2025 bedroeg de gemiddelde duurtijd tussen de aanstelling van de justitieassistent en de effectieve opstart van de werkstraf 121 dagen.", D_JH2, GEL, date(2026, 3, 9), A),
-    _b(JH, "daders_in_begeleiding", 17206, "personen", date(2019, 12, 31), "vlpar-bbt-jh-2026", PF.format(2227488), "BBT Justitie en Handhaving 2026 — 13-S", "OD 2.2", "steeg het aantal daders in begeleiding door de justitiehuizen met maar liefst 42% (van 17.206 daders in 2019 naar 24.430 daders in 2025)", "Daders in begeleiding door de justitiehuizen in het jaar.", GEL, date(2025, 12, 9), A),
-    _b(JH, "daders_in_begeleiding", 24430, "personen", date(2025, 12, 31), "vlpar-bbt-jh-2026", PF.format(2227488), "BBT Justitie en Handhaving 2026 — 13-S", "OD 2.2", "… naar 24.430 daders in 2025", "Idem.", GEL, date(2025, 12, 9), A),
+    _b(JH, "wachttijd_werkstraf_aanstelling_dagen", 49, "dagen", date(2023, 1, 31), "vlpar-sv-348-2023-jh", PF.format(1924206), "SV nr. 348 (2022-2023) Schryvers", "antwoord 1-2 (PDF p. 2)", "bedroeg de duurtijd in januari 2023 49 dagen of een dikke anderhalve maand", D_JH1, GEC, date(2023, 3, 7), D_EB),
+    _b(JH, "wachttijd_werkstraf_aanstelling_dagen", 26.3, "dagen", date(2023, 12, 31), "vlpar-sv-212-2024-jh", PF.format(2043114), "SV nr. 212 (2023-2024) Schryvers", "antwoord 1-2 (PDF p. 2)", "bedroeg in december 2023 gemiddeld 26,3 dagen", D_JH1, GEC, date(2024, 3, 26), D_EB,
+       "maandcijfer december; de tabel per justitiehuis in hetzelfde antwoord geldt voor heel 2023"),
+    _b(JH, "wachttijd_werkstraf_aanstelling_dagen", 22, "dagen", date(2024, 12, 31), "vlpar-sv-369-2025-jh", PF.format(2146400), "SV nr. 369 (2024-2025) Schryvers", "antwoord 1-2, tabel (PDF p. 2)", "Globaal gezien betrof de gemiddelde wachttijd in december 22 dagen.", D_JH1, GEC, date(2025, 4, 15), D_EB,
+       "tabel 'Gemiddelde wachttijd 12/2024' per justitiehuis: Antwerpen 66 … Veurne 0"),
+    _b(JH, "wachttijd_werkstraf_aanstelling_dagen", 23, "dagen", date(2026, 3, 9), "vlpar-sv-386-2026-jh", PF.format(2291166), "SV nr. 386 (2025-2026) Schryvers", "antwoord 1-2 (PDF p. 2)", "Op dit moment betreft de gemiddelde wachttijd voor werkstrafdossiers 23 dagen.", D_JH1, GEC, date(2026, 3, 9), D_EB,
+       "stand bij het antwoord ('op dit moment'); peildatum = publicatiedatum antwoord; vraag ingediend 16-01-2026"),
+    _b(JH, "doorlooptijd_werkstraf_opstart_dagen", 129, "dagen", date(2023, 12, 31), "vlpar-sv-212-2024-jh", PF.format(2043114), "SV nr. 212 (2023-2024) Schryvers", "antwoord 3 (PDF p. 2; tabel p. 3)", "Van de dossiers die in 2023 zijn afgesloten, bedroeg de gemiddelde duurtijd tussen de aanstelling van de justitieassistent en de effectieve opstart van de werkstraf 129 dagen.", D_JH2, GEC, date(2024, 3, 26), D_EB),
+    _b(JH, "doorlooptijd_werkstraf_opstart_dagen", 126, "dagen", date(2024, 12, 31), "vlpar-sv-369-2025-jh", PF.format(2146400), "SV nr. 369 (2024-2025) Schryvers", "antwoord 3 (PDF p. 2; tabel p. 3)", "Van de dossiers die in 2024 zijn afgesloten, bedroeg de gemiddelde duurtijd tussen de aanstelling van de justitieassistent en de effectieve opstart van de werkstraf 126 dagen.", D_JH2, GEC, date(2025, 4, 15), D_EB,
+       "ongewogen gemiddelde van de 14 justitiehuizen: 125,1"),
+    _b(JH, "doorlooptijd_werkstraf_opstart_dagen", 121, "dagen", date(2025, 12, 31), "vlpar-sv-386-2026-jh", PF.format(2291166), "SV nr. 386 (2025-2026) Schryvers", "antwoord 3 (PDF p. 2)", "Van de afgesloten dossiers in 2025 bedroeg de gemiddelde duurtijd tussen de aanstelling van de justitieassistent en de effectieve opstart van de werkstraf 121 dagen.", D_JH2, GEC, date(2026, 3, 9), D_EB,
+       "ongewogen gemiddelde van de 14 justitiehuizen: 126,1"),
+    _b(JH, "daders_in_begeleiding", 17206, "personen", date(2019, 12, 31), "vlpar-bbt-jh-2026", PF.format(2227488), "BBT Justitie en Handhaving 2026 — 13-S", "p. 18, OD 2.2", P_DADERS, "Daders in begeleiding door de justitiehuizen in het jaar.", GEC, date(2025, 10, 24), D_EB),
+    _b(JH, "daders_in_begeleiding", 24430, "personen", date(2025, 10, 24), "vlpar-bbt-jh-2026", PF.format(2227488), "BBT Justitie en Handhaving 2026 — 13-S", "p. 18, OD 2.2", P_DADERS,
+       "Daders in begeleiding door de justitiehuizen in 2025, lopende telling (BBT ingediend 24-10-2025).", GEC, date(2025, 10, 24), D_EB,
+       "geen volledig jaar: de vergelijking met 2019 (+42 %) is niet helemaal gelijkwaardig"),
 ]
 
 # ------------------------------------------------------------------------------------------------ PAB minderjarigen (eigen dossier)
-D_PAB = "Unieke minderjarigen met een toegewezen vraag naar een persoonlijke-assistentiebudget zonder opgestart budget, foto op 31/12 (intersectorale toegangspoort, INSISTO)."
+D_PAB = "Unieke minderjarigen met een openstaande PAB-vraag op 31/12 (apart van de NRTJ-reeks); foto van de intersectorale toegangspoort."
+UNRTJ = "https://www.opgroeien.be/kennis/cijfers-en-onderzoek/aanvragen-crisisjeugdhulp-en-niet-rechtstreeks-toegankelijke-jeugdhulp"
+UCOM = UNRTJ + "/cijfers-op-maat"
+T_COM = "Opgroeien — cijfers op maat NRTJ (Power BI), pagina 'aard van de wachtenden bij de intersectorale toegangspoort'"
+P_COM = "matrix Sector × typemodule, alle filters 'All': VAPH › PAB — 2018 1689 · 2019 1769 · 2020 1749 · 2021 1579 · 2022 1478 · 2023 1224 · 2024 1763 · 2025 2450"
+C1 = "Claude (2026-10-01)"
 BEVINDINGEN += [
-    _b(PAB, "wachtenden_pab", 1478, "personen", date(2022, 12, 31), "vlpar-sv-416-2023", PF.format(1935207), "SV nr. 416 (2022-2023)", "antwoord, PDF p. 3", "1478 unieke kinderen en jongeren hadden een vraag naar ondersteuning via PAB", D_PAB, GEL, date(2023, 5, 10), A, opm="ook in dossier opgroeien-nrtj (metriek wachtenden_pab)"),
-    _b(PAB, "wachtenden_pab", 1763, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord, PDF p. 3", "Evolutie aantal kinderen en jongeren dat wacht op een persoonlijkeassistentiebudget (PAB): 1763", D_PAB, GEL, date(2026, 1, 29), A, opm="ook in dossier opgroeien-nrtj"),
-    _b(PAB, "wachtenden_pab", 2450, "personen", date(2025, 12, 31), "opgroeien-nrtj", "https://www.opgroeien.be/kennis/cijfers-en-onderzoek/aanvragen-crisisjeugdhulp-en-niet-rechtstreeks-toegankelijke-jeugdhulp", "Opgroeien — cijferrapport NRTJ (2025)", "sectie wachtenden",
-       "Het aantal wachtenden op een persoonlijk assistentiebudget (PAB) is in 2025 opnieuw gestegen en wel met 39 %.", D_PAB, ONG, date(2026, 6, 1), opm="afgeleid: 1.763 × 1,39 ≈ 2.450; exact cijfer in 'cijfers op maat' (Power BI) nog te lezen"),
-    _b(PAB, "wachtenden_pab_vaph_incl_prior", 1958, "personen", date(2024, 12, 31), "vlpar-sv-1010-2026-vaph", PF.format(2355346), "SV nr. 1010 (2025-2026) Vaneeckhout", "antwoord 4, tabel 3",
-       "Aantal wachtenden PAB en het benodigde budget op 31/12/2024: wachtend met prior 14, wachtend zonder prior 1.944; Totaal 1.958; € 84.439.277", "Unieke cliënten wachtend op een PAB volgens VAPH-telling per budgetcategorie (incl. priors), met geïndexeerd benodigd jaarbudget.", GEL, date(2026, 8, 3), A,
-       opm="andere teleenheid dan de Opgroeien-foto (1.763): 195 verschil"),
-    _b(PAB, "benodigd_budget_wachtenden_eur", 84439277, "euro", date(2024, 12, 31), "vlpar-sv-1010-2026-vaph", PF.format(2355346), "SV nr. 1010 (2025-2026) Vaneeckhout", "antwoord 4, tabel 3", "Totaal 1.958 € 84.439.277", "Geïndexeerd jaarbudget nodig om alle wachtenden PAB een budget te geven (31-12-2024).", GEL, date(2026, 8, 3), A),
-    _b(PAB, "nieuwe_vragen_pab", 540, "vragen", date(2022, 12, 31), "opgroeien-nrtj", "https://www.opgroeien.be/kennis/cijfers-en-onderzoek/aanvragen-crisisjeugdhulp-en-niet-rechtstreeks-toegankelijke-jeugdhulp", "Opgroeien — cijferrapport NRTJ (2025)", "sectie wachtenden",
-       "De vragen naar PAB zijn toegenomen de afgelopen jaren, in cijfers op maat is te zien dat er op drie jaar tijd een verdubbeling is van 540 naar 1.074.", "Nieuwe aanvragen voor een erkenning PAB in het jaar (cijfers op maat).", GEL, date(2026, 6, 1), A, opm="jaar afgeleid: 'drie jaar' vóór 2025"),
-    _b(PAB, "nieuwe_vragen_pab", 1074, "vragen", date(2025, 12, 31), "opgroeien-nrtj", "https://www.opgroeien.be/kennis/cijfers-en-onderzoek/aanvragen-crisisjeugdhulp-en-niet-rechtstreeks-toegankelijke-jeugdhulp", "Opgroeien — cijferrapport NRTJ (2025)", "sectie wachtenden", "… verdubbeling is van 540 naar 1.074", "Idem.", GEL, date(2026, 6, 1), A),
-    _b(PAB, "toekenningen_pab", 244, "budgetten", date(2024, 12, 31), "vlpar-sv-305-2026-pab", PF.format(2270460), "SV nr. 305 (2025-2026) Dillen", "antwoord 2", "Voor 2024 waren er 244 PAB's twv ongeveer 9 miljoen euro.", "Nieuw toegekende PAB's in het jaar (spoed, prior en langst wachtenden).", GEL, date(2026, 2, 13), A),
-    _b(PAB, "toekenningen_pab", 372, "budgetten", date(2025, 12, 31), "vlpar-sv-305-2026-pab", PF.format(2270460), "SV nr. 305 (2025-2026) Dillen", "antwoord 1-2", "Het voorziene budget heeft gezorgd voor 372 PAB budgetten. Dit zijn zowel spoedpab's, priors als PAB's voor de langst wachtenden. … In 2025 werden twv 13,3 miljoen euro pab's uitgedeeld.", "Idem.", GEL, date(2026, 2, 13), A),
-    _b(PAB, "budgethouders_pab", 2554, "personen", date(2025, 12, 31), "vlpar-sv-1054-2026-vaph", PF.format(2358068), "SV nr. 1054 (2025-2026) Vandromme", "vragen 1 en 2", "Voor PAB vallen 6 van de 2554 budgethouders op 31.12.2025 onder de cesuur van 15,29 punten.", "Minderjarigen met een lopend PAB op 31/12.", GEL, date(2026, 8, 12), A),
-    _b(PAB, "aandeel_wachtenden_met_nrtj_hulp_pct", 27.6, "procent", date(2025, 12, 31), "opgroeien-nrtj", "https://www.opgroeien.be/kennis/cijfers-en-onderzoek/aanvragen-crisisjeugdhulp-en-niet-rechtstreeks-toegankelijke-jeugdhulp", "Opgroeien — cijferrapport NRTJ (2025)", "sectie wachtenden",
-       "In 2025 maakte 27,6% van de kinderen en jongeren die stonden te wachten op een PAB eveneens gebruik van niet rechtstreeks toegankelijke jeugdhulp van een voorziening, waar dit twee jaar voordien nog 45% was.", "Aandeel PAB-wachtenden dat intussen NRTJ-hulp van een voorziening krijgt.", GEL, date(2026, 6, 1), A),
+    _b(PAB, "wachtenden_pab", 1478, "personen", date(2022, 12, 31), "vlpar-sv-416-2023", PF.format(1935207), "SV nr. 416 (2022-2023)", "antwoord, PDF p. 3", "1478 unieke kinderen en jongeren hadden een vraag naar ondersteuning via PAB", D_PAB, GEC, date(2023, 5, 10), D_EB,
+       opm="ook in dossier opgroeien-nrtj (metriek wachtenden_pab); idem in cijfers op maat"),
+    _b(PAB, "wachtenden_pab", 1763, "personen", date(2024, 12, 31), "vlpar-sv-242-2026", PF.format(2261521), "SV nr. 242 (2025-2026)", "antwoord, PDF p. 3", "Evolutie aantal kinderen en jongeren dat wacht op een persoonlijkeassistentiebudget (PAB): 1763", D_PAB, GEC, date(2026, 1, 29), D_EB,
+       opm="ook in dossier opgroeien-nrtj; idem in cijfers op maat"),
+    _b(PAB, "wachtenden_pab", 2450, "personen", date(2025, 12, 31), "opgroeien-nrtj-cijfers-op-maat", UCOM, T_COM, "VAPH › PAB, kolom 2025", P_COM, D_PAB, GEL, date(2026, 6, 1), C1,
+       opm="afgelezen 01-10-2026; = +39 % t.o.v. 2024 zoals het cijferrapport meldt. Niet te verwarren met de VAPH-telling '2450 houders' van een PAB eind 2024"),
+] + [
+    _b(PAB, "wachtenden_pab", n, "personen", date(jaar, 12, 31), "opgroeien-nrtj-cijfers-op-maat", UCOM, T_COM, f"VAPH › PAB, kolom {jaar}", P_COM, D_PAB, GEL, date(2026, 6, 1), C1, opm="afgelezen 01-10-2026")
+    for jaar, n in ((2019, 1769), (2020, 1749), (2021, 1579), (2023, 1224))
+] + [
+    _b(PAB, "wachtenden_pab_vaph_incl_prior", 1958, "personen", date(2024, 12, 31), "vlpar-sv-1010-2026-vaph", PF.format(2355346), "SV nr. 1010 (2025-2026) Vaneeckhout", "antwoord 4, tabel 3 (PDF p. 5)",
+       "Tabel 3: Aantal wachtenden PAB en het benodigde budget op 31/12/2024 … Totaal 1.958 € 84.439.277", "Unieke cliënten wachtend op een PAB volgens VAPH-telling per budgetcategorie (incl. priors), met geïndexeerd benodigd bedrag.", GEC, date(2026, 8, 3), D_EB,
+       opm="andere teleenheid dan de Opgroeien-foto (1.763): 195 verschil; met prior 4+1+9 = 14, zonder prior 1.944 (eigen som)"),
+    _b(PAB, "benodigd_budget_wachtenden_eur", 84439277, "euro", date(2024, 12, 31), "vlpar-sv-1010-2026-vaph", PF.format(2355346), "SV nr. 1010 (2025-2026) Vaneeckhout", "antwoord 4, tabel 3 (PDF p. 5)", "Totaal 1.958 € 84.439.277",
+       "Geïndexeerd bedrag nodig om alle wachtenden PAB een budget te geven (31-12-2024); de bron zegt niet expliciet 'per jaar'.", GEC, date(2026, 8, 3), D_EB),
+    _b(PAB, "nieuwe_vragen_pab", 540, "vragen", date(2022, 12, 31), "opgroeien-nrtj", UNRTJ, "Opgroeien — cijferrapport NRTJ (2025)", "sectie wachtenden",
+       "De vragen naar PAB zijn toegenomen de afgelopen jaren, in cijfers op maat is te zien dat er op drie jaar tijd een verdubbeling is van 540 naar 1.074.", "Nieuwe vragen naar PAB in het jaar (cijfers op maat).", GEL, date(2026, 6, 1), A,
+       opm="beginjaar niet vermeld in de bron ('op drie jaar tijd'): 2022 of 2023; niet terug te vinden in cijfers op maat (01-10-2026)"),
+    _b(PAB, "nieuwe_vragen_pab", 1074, "vragen", date(2025, 12, 31), "opgroeien-nrtj", UNRTJ, "Opgroeien — cijferrapport NRTJ (2025)", "sectie wachtenden",
+       "De vragen naar PAB zijn toegenomen de afgelopen jaren, in cijfers op maat is te zien dat er op drie jaar tijd een verdubbeling is van 540 naar 1.074.", "Nieuwe vragen naar PAB in het jaar (cijfers op maat).", GEC, date(2026, 6, 1), D_EB),
+    _b(PAB, "toekenningen_pab", 244, "budgetten", date(2024, 12, 31), "vlpar-sv-305-2026-pab", PF.format(2270460), "SV nr. 305 (2025-2026) Dillen", "antwoord 2 (PDF p. 2)", "Voor 2024 waren er 244 PAB's twv ongeveer 9 miljoen euro.",
+       "Nieuw toegekende PAB's in het jaar (spoed, prior en langst wachtenden).", GEC, date(2026, 2, 13), D_EB, "de vraag beperkte 2024 tot 'enkel sinds de start van de Vlaamse Regering': mogelijk een deel van het jaar"),
+    _b(PAB, "toekenningen_pab", 372, "budgetten", date(2025, 12, 31), "vlpar-sv-305-2026-pab", PF.format(2270460), "SV nr. 305 (2025-2026) Dillen", "antwoord 1 en 2 (PDF p. 2)",
+       "In 2025 werden twv 13,3 miljoen euro pab's uitgedeeld. … Het voorziene budget heeft gezorgd voor 372 PAB budgetten. Dit zijn zowel spoedpab's, priors als PAB's voor de langst wachtenden.", "Idem.", GEC, date(2026, 2, 13), D_EB,
+       "andere teleenheid dan 'In 2025 werd aan 330 nieuwe budgethouders een persoonlijke-assistentiebudget toegekend' (VAPH in cijfers 2025, p. 25)"),
+    _b(PAB, "budgethouders_pab", 2554, "personen", date(2025, 12, 31), "vlpar-sv-1054-2026-vaph", PF.format(2358068), "SV nr. 1054 (2025-2026) Vandromme", "vragen 1 en 2 (PDF p. 2)", "Voor PAB vallen 6 van de 2554 budgethouders op 31.12.2025 onder de cesuur van 15,29 punten.",
+       "Minderjarigen en jongvolwassenen met een lopend PAB op 31/12.", GEC, date(2026, 8, 12), D_EB, "bevestigd in VAPH in cijfers 2025: '2554 minderjarigen en jongvolwassenen'"),
+    _b(PAB, "aandeel_wachtenden_met_nrtj_hulp_pct", 27.6, "procent", date(2025, 12, 31), "opgroeien-nrtj", UNRTJ, "Opgroeien — cijferrapport NRTJ (2025)", "sectie wachtenden",
+       "In 2025 maakte 27,6% van de kinderen en jongeren die stonden te wachten op een PAB eveneens gebruik van niet rechtstreeks toegankelijke jeugdhulp van een voorziening, waar dit twee jaar voordien nog 45% was.", "Aandeel PAB-wachtenden dat intussen NRTJ-hulp van een voorziening krijgt.", GEC, date(2026, 6, 1), D_EB),
 ]
 
 # ------------------------------------------------------------------------------------------------ VAPH-PVB: kostprijs van de wachtlijst (SV 1010)
+F1010 = "*prijzen aan bedrag per punt 2025 inclusief meerkost (beheerkosten/org gebonden kosten)"
 BEVINDINGEN += [
-    _b(PVB, "kostprijs_wachtlijst_pg2_eur", 332_000_000, "euro", date(2025, 12, 31), "vlpar-sv-1010-2026-vaph", PF.format(2355346), "SV nr. 1010 (2025-2026) Vaneeckhout", "antwoord 2, tabel 1",
-       "Kostprijs prioriteitengroep 2 op 31 december 2025 naar ingang prioriteit: … Eindtotaal 7856 — 332 (miljoen euro; prijzen aan bedrag per punt 2025 inclusief meerkost)", "Geraamd jaarbudget om alle 7.856 vragen in prioriteitengroep 2 een budget te geven (31-12-2025).", GEL, date(2026, 8, 3), A),
-    _b(PVB, "kostprijs_wachtlijst_pg3_eur", 284_200_000, "euro", date(2025, 12, 31), "vlpar-sv-1010-2026-vaph", PF.format(2355346), "SV nr. 1010 (2025-2026) Vaneeckhout", "antwoord 2, tabel 2",
-       "kostprijs prioriteitengroep 3 op 31 december 2025 naar ingang prioriteit: … Totaal 9224 — 284,2", "Geraamd jaarbudget om alle 9.224 vragen in prioriteitengroep 3 een budget te geven (31-12-2025).", GEL, date(2026, 8, 3), A),
-    _b(PVB, "wachtenden_onder_cesuur_rth", 2407, "personen", date(2025, 12, 31), "vlpar-sv-1054-2026-vaph", PF.format(2358068), "SV nr. 1054 (2025-2026) Vandromme", "vragen 1 en 2",
-       "Bij het totaal aantal wachtende voor een PVB op 31.12.205 vielen 2407 personen onder de cesuur waarvan 340 in prioriteitengroep 2 en 2067 in prioriteitengroep 3.", "PVB-wachtenden met een budgetcategorie onder de nieuwe RTH-cesuur (15,29 punten); zouden na de hervorming naar zorgniveau 1 (RTH) gaan.", GEL, date(2026, 8, 12), A,
-       opm="bron schrijft '31.12.205' (tikfout voor 2025)"),
+    _b(PVB, "kostprijs_wachtlijst_pg2_eur", 332_000_000, "euro", date(2025, 12, 31), "vlpar-sv-1010-2026-vaph", PF.format(2355346), "SV nr. 1010 (2025-2026) Vaneeckhout", "antwoord 2, tabel 1 (PDF p. 4)",
+       f"Kostprijs prioriteitengroep 2 op 31 december 2025 naar ingang prioriteit … In miljoen euro* … Eindtotaal 7856 332 … {F1010}", "Geraamd bedrag om alle 7.856 vragen in prioriteitengroep 2 een budget te geven (31-12-2025).", GEC, date(2026, 8, 3), D_EB,
+       "som van de rijen 332,1 (afronding)"),
+    _b(PVB, "kostprijs_wachtlijst_pg3_eur", 284_200_000, "euro", date(2025, 12, 31), "vlpar-sv-1010-2026-vaph", PF.format(2355346), "SV nr. 1010 (2025-2026) Vaneeckhout", "antwoord 2, tabel 2 (PDF p. 4)",
+       f"kostprijs prioriteitengroep 3 op 31 december 2025 naar ingang prioriteit … Totaal 9224 284,2 … {F1010}", "Geraamd bedrag om alle 9.224 vragen in prioriteitengroep 3 een budget te geven (31-12-2025).", GEC, date(2026, 8, 3), D_EB),
+    _b(PVB, "wachtenden_onder_cesuur_rth", 2407, "personen", date(2025, 12, 31), "vlpar-sv-1054-2026-vaph", PF.format(2358068), "SV nr. 1054 (2025-2026) Vandromme", "vragen 1 en 2 (PDF p. 2)",
+       "Bij het totaal aantal wachtende voor een PVB op 31.12.205 vielen 2407 personen onder de cesuur waarvan 340 in prioriteitengroep 2 en 2067 in prioriteitengroep 3.",
+       "PVB-wachtenden waarvan de toegekende budgetcategorie onder de voorgestelde cesuur valt.", GEC, date(2026, 8, 12), D_EB,
+       opm="bron schrijft '31.12.205' (tikfout voor 2025); over de overgang naar RTH is 'nog geen definitieve beslissing'"),
 ]
 
 

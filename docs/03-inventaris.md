@@ -18,7 +18,7 @@
 |---|---|---|---|
 | Collectief maatwerk | VDAB / DWSE (Gewest) | werkzoekenden met advies CMW (VDAB, via SV) vs openstaand contingent (open data WEWIS) | aug 2025: 3.781 wachtenden; 2025 K4: 904 VTE open op 21.246 toegekend — §J |
 | CGG | Departement Zorg (Gemeenschap) | wachttijden uit EPD per leeftijdsgroep (bijlage SV 379) | trend licht dalend sinds 2023 |
-| Justitiehuizen (werkstraf) | AJH (Gemeenschap) | wachttijd dossier → justitieassistent (SIPAR), SV-reeks Schryvers | 49 d (jan 2023) → 23 d (jan 2026); opstart +121 d — §R |
+| Justitiehuizen (werkstraf) | AJH (Gemeenschap) | wachttijd dossier → justitieassistent (SIPAR), SV-reeks Schryvers | 49 d (jan 2023) → 23 d (begin 2026); opstart +121 d — §R |
 | Pleegzorg | Opgroeien (Gemeenschap) | wachtenden op een pleeggezin (Domino), SV-reeks Schryvers | 1.307 (31-12-2024), +86 % sinds 2018 — §Q |
 
 ## C. Decentraal — Vlaamse overheid houdt geen centrale lijst bij
@@ -262,12 +262,12 @@ Verhouding tot §F: de NRTJ-wachtlijst telt 2.707 verblijfsvragen pleeggezin (20
 
 Enige wachtcijfer: de SV-reeks Schryvers over werkstraffen (348, 212, 369, 386). Twee maten:
 
-| | jan 2023 | dec 2023 | dec 2024 | jan 2026 |
+| | jan 2023 | dec 2023 | dec 2024 | begin 2026 (stand bij antwoord) |
 |---|---|---|---|---|
 | Ontvangst dossier → aanstelling justitieassistent (dagen, gemiddeld) | 49 | 26,3 | 22 | 23 |
-| Aanstelling → effectieve opstart werkstraf (dagen, afgesloten dossiers) | — | — | 126 (2024) | 121 (2025) |
+| Aanstelling → effectieve opstart werkstraf (dagen, afgesloten dossiers) | — | 129 (2023) | 126 (2024) | 121 (2025) |
 
-Spreiding dec 2024: Antwerpen 66 dagen, Brussel 42, Turnhout 40, Veurne 0. Daders in begeleiding 17.206 (2019) → 24.430 (2025, +42 %, BBT
+Spreiding dec 2024: Antwerpen 66 dagen, Brussel 42, Turnhout 40, Veurne 0. Daders in begeleiding 17.206 (2019) → 24.430 (2025, lopende telling t/m okt, +42 %, BBT
 2026); federale noodwet overbevolking (aug 2025) en nieuw Strafwetboek (april 2026) doen de instroom verder stijgen (voorlopige hechtenis
 +24,6 %, autonome straf ET +41 % in 2025). Andere mandaten (probatie, ET, slachtofferonthaal): geen wachtcijfers gevonden. Budget: lonen AJH
 BO 2026 164,9 mln (incl. 72,1 mln overheveling gemeenschapsinstellingen), ET-werkingskosten 7,0 mln.
@@ -277,12 +277,13 @@ BO 2026 164,9 mln (incl. 72,1 mln overheveling gemeenschapsinstellingen), ET-wer
 Afgesplitst van §F omdat het een eigen budget (uitbreidingsbeleid PAB) en eigen toekenningslogica heeft (geen prioriteitengroepen; "prior"
 = budget de maand nadien). Twee tellingen: Opgroeien (foto 31/12 in INSISTO, cijferrapport NRTJ en cijfers op maat) en het VAPH (unieke
 wachtenden per budgetcategorie incl. priors, SV 1010).
+Reeks wachtenden PAB (Opgroeien, cijfers op maat): 1.769 (2019) · 1.749 (2020) · 1.579 (2021) · 1.478 (2022) · 1.224 (2023) · 1.763 (2024) · 2.450 (2025).
 
 | | 2022 | 2024 | 2025 |
 |---|---|---|---|
-| Wachtenden PAB (Opgroeien) | 1.478 | 1.763 | +39 % (≈ 2.450, afgeleid — exact cijfer in cijfers op maat) |
+| Wachtenden PAB (Opgroeien) | 1.478 | 1.763 | 2.450 (+39 %; cijfers op maat) |
 | Wachtenden PAB (VAPH incl. prior) | — | 1.958 (benodigd 84,4 mln/jaar) | — |
-| Nieuwe PAB-vragen | 540 | — | 1.074 |
+| Nieuwe PAB-vragen | 540 (beginjaar 2022 of 2023) | — | 1.074 |
 | Toegekende PAB's | — | 244 (± 9 mln) | 372 (13,3 mln) |
 | Budgethouders 31/12 | — | — | 2.554 |
 
