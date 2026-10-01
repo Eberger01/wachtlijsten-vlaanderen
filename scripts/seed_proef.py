@@ -391,7 +391,7 @@ BRONNEN += [
     Bron(bron_id="wiv-cijfers-tot-2023", naam="Wonen in Vlaanderen — kandidaat-huurders, cijfers tot 2023 (Excel-tabellen 2022)", organisatie="Agentschap Wonen in Vlaanderen",
          url="https://www.vlaanderen.be/sociaal-woonbeleid/cijfers/oudere-cijfers-over-sociaal-wonen/kandidaat-huurders-cijfers-tot-2023", bron_type=BronType.DOWNLOAD, frequentie="jaarlijks (gestopt 2022)",
          machinaal="18 Excel-tabellen op assets.vlaanderen.be (Tabel 1 totaal per jaar, 11 toewijzingen, 12 wachttijden, 18 schrappingen); URL bevat versie-hash",
-         opmerking="Reeks 2018-2022 nog te verifiëren uit Tabel 1 (download geblokkeerd vanuit onderzoeksomgeving)."),
+         opmerking="Reeks 2018-2022 gelezen uit Tabel 1 op 2026-10-01 (lokale kopie in data/raw/wonen/)."),
     Bron(bron_id="wiv-powerbi-kandidaat-huurders", naam="Wonen in Vlaanderen — Power BI kandidaat-huurders (CIR)", organisatie="Agentschap Wonen in Vlaanderen",
          url="https://app.powerbi.com/view?r=eyJrIjoiNDE0MDEwYTItMjkyYy00NTExLTkwYTYtZGFjZjVkNDEyNWI0IiwidCI6IjBjMDMzOGE2LTk1NjEtNGVlOC1iOGQ2LTRlODljYmQ1MjBhMCIsImMiOjh9",
          bron_type=BronType.DASHBOARD, frequentie="doorlopend", machinaal="geen API; UI-export"),
@@ -489,19 +489,20 @@ BEVINDINGEN += [
     # --- 2023: geen cijfer. SV 213: "Voor 2023 zijn er geen relevante cijfers beschikbaar over kandidaat-huurders. Door de uitrol van het
     #     centraal inschrijvingsregister (CIR) ... zijn er geen complete gegevens beschikbaar op de referentiedatum van 31 december 2023."
     #     (gecontroleerd; bewust geen rij — breuk in de reeks staat in voorzieningen.opmerking en docs/03-inventaris.md)
-    # --- t/m 2022 (VMSW-reeks; secundaire bronnen, te verifiëren in Excel Tabel 1 van WiV)
-    _bv(SH, "wachtenden_kandidaten", 176026, "huishoudens", date(2022, 12, 31), "huurdersplatform-2025-04", "https://huurdersplatform.be/actualiteit-hb/bijna-200-000-huishoudens-wachten-op-een-sociale-woning/",
-        "Vlaams Huurdersplatform 24-4-2025", "artikeltekst", "Dit is 13% meer dan eind 2022, toen er 176.026 gezinnen op de lijst stonden.", DEF_KH_VMSW, ONG, date(2025, 4, 24), "",
-        "secundair; daling t.o.v. 182.436 (2021) wellicht door definitie/actualisatie — te verifiëren in statistisch bulletin 31-12-2022"),
-    _bv(SH, "wachtenden_kandidaten", 182436, "kandidaat-huurders", date(2021, 12, 31), "vrt-2023-04-05", "https://www.vrt.be/vrtnws/nl/2023/04/05/sociale-woningen-in-vlaanderen-welke-gemeenten-zijn-goede-leerl/",
-        "VRT NWS 15-4-2023", "artikeltekst", "182.436 kandidaat-huurders op de wachtlijst", DEF_KH_VMSW + " 2021 = actualisatiejaar.", ONG, date(2023, 4, 15), "", "secundair (bron Wonen in Vlaanderen)"),
-    _bv(SH, "wachtenden_kandidaten", 169096, "kandidaat-huurders", date(2020, 12, 31), "vrt-2021-06-30", "https://www.vrt.be/vrtnws/nl/2021/06/30/169-096-mensen-wachtten-vorig-jaar-op-een-sociale-woning/",
-        "VRT NWS 30-6-2021", "artikeltekst", "169.096 mensen op een wachtlijst voor een sociale woning", DEF_KH_VMSW, ONG, date(2021, 6, 30), "", "secundair"),
-    _bv(SH, "wachtenden_kandidaten", 153510, "kandidaat-huurders", date(2019, 12, 31), "vrt-2021-06-30", "https://www.vrt.be/vrtnws/nl/2021/06/30/169-096-mensen-wachtten-vorig-jaar-op-een-sociale-woning/",
-        "VRT NWS 30-6-2021", "artikeltekst", "Eind 2019: 153.510 … 2020 was geen actualisatiejaar", DEF_KH_VMSW + " 2019 = actualisatiejaar.", ONG, date(2021, 6, 30), "", "secundair"),
-    _bv(SH, "wachtenden_kandidaten", 153910, "kandidaat-huurders", date(2018, 12, 31), "vrt-2019-08-19", "https://www.vrt.be/vrtnws/nl/2019/08/19/sociale-woningen/",
-        "VRT NWS 20-8-2019", "artikeltekst", "In 2018 stonden 153.910 mensen in Vlaanderen op een wachtlijst voor een sociale woning.", DEF_KH_VMSW, ONG, date(2019, 8, 20), "", "secundair"),
 ]
+# --- t/m 2022 (VMSW-reeks): Excel Tabel 1 van WiV, gelezen 2026-10-01 (stap A5); secundaire bronnen gaven dezelfde cijfers
+UT1 = "https://assets.vlaanderen.be/raw/upload/v1688034006/Wonen_-_2022_Tabel_1_Totaal_kandidaat-huurders_per_jaar_wgapbw.xlsx"
+P_T1 = "Aantal kandidaat-huurders | 2022 2021 2020 2019 2018 | 176026 182436 169096 153510 153910"
+for jaar, n, extra, secundair in (
+    (2022, 176026, "", "Huurdersplatform 24-4-2025 (176.026 gezinnen)"),
+    (2021, 182436, " 2021 = actualisatiejaar.", "VRT NWS 15-4-2023"),
+    (2020, 169096, "", "VRT NWS 30-6-2021"),
+    (2019, 153510, " 2019 = actualisatiejaar.", "VRT NWS 30-6-2021"),
+    (2018, 153910, "", "VRT NWS 20-8-2019"),
+):
+    BEVINDINGEN.append(_bv(SH, "wachtenden_kandidaten", n, "kandidaat-huurders", date(jaar, 12, 31), "wiv-cijfers-tot-2023", UT1,
+                           "Wonen in Vlaanderen — Tabel 1 Totaal kandidaat-huurders per jaar (2022)", "werkblad 'Aantal'", P_T1,
+                           DEF_KH_VMSW + extra, GEC, date(2023, 6, 29), "Claude + 2e lezing EB (2026-10-01)", f"zelfde cijfer in secundaire bron: {secundair}"))
 
 
 def _bus(vid, jaar, fase, niveau, bedrag, bron_id, url, titel, pagina, passage, status, door="", krediet=Kredietsoort.NVT, artikel="", programma="", ise="", label="", opm=""):
