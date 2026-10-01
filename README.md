@@ -36,9 +36,10 @@ streamlit run dashboard\app.py
 | `docs/09-draaiboek.md` | eenmalige en terugkerende stappen: publicatiekalender van de bronnen, vaste updatecyclus, beheer |
 | `config/bbt_documenten.yaml` | register van 29 BBT's (WVG + Wonen, 2020–2026) met pfile-id's |
 | `config/kredieten_controles.csv` | tweede lezingen van individuele kredietrijen (audittrail; overleeft een nieuwe BBT-parse) |
-| `data/curated/*.csv` | bronnen (69), voorzieningen (20), bevindingen (153: VAPH-PVB, sociale huur, jeugdhulp NRTJ, kinderopvang), budgetten (40), kredieten (3.958 BBT-rijen 2020–2026) |
+| `data/curated/*.csv` | bronnen (82), voorzieningen (20), bevindingen (212: VAPH-PVB, sociale huur, jeugdhulp NRTJ, kinderopvang, inburgering MO, CGG), budgetten (51), kredieten (3.958 BBT-rijen 2020–2026) |
 | `src/wachtlijst/` | `models` (pydantic), `store` (CSV + validatie), `sources/{vlpar,vaph,codex,bbt,opgroeien}`, `publish`, `cli` |
 | `dashboard/app.py` | Streamlit: inventaris, voorziening (tijdreeks + herkomst), budget, bronnen, methodiek |
+| `scripts/seed_aanvullingen.py` | dossiers inburgering MO (AgII) en CGG-wachttijden (upsert, ná seed_opgroeien) |
 | `scripts/seed_opgroeien.py` | proefdossiers jeugdhulp NRTJ en kinderopvang (upsert, ná seed_proef) |
 | `scripts/seed_proef.py` | reproduceerbare seed van de gecureerde data |
 | `scripts/harvest_bbt.py` | downloadt de BBT-PDF's (alleen stdlib) |

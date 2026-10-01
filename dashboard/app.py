@@ -90,6 +90,10 @@ with tab_detail:
         "wachtenden_nrtj_sector_vaph": "Sector VAPH (MFC)",
         "opvangvragen_lokale_loketten": "Opvangvragen lokale loketten", "onbeantwoorde_opvangvragen": "Onbeantwoorde opvangvragen",
         "onvervulde_behoefte_kinderen": "Kinderen met onvervulde behoefte (onderzoek)",
+        "wachtenden_geen_passend_aanbod": "Geen passend MO-aanbod", "wachtenden_6_maanden": "> 6 maanden na contract niet gestart",
+        "wachttijd_ftf1_0_17_dagen": "Wachttijd tot 1e contact, 0-17 j (dagen)", "wachttijd_ftf1_18_59_dagen": "Wachttijd tot 1e contact, 18-59 j (dagen)",
+        "wachttijd_ftf1_60plus_dagen": "Wachttijd tot 1e contact, 60+ (dagen)", "wachttijd_ftf1_18_64_dagen": "Wachttijd tot 1e contact, 18-64 j (dagen, vanaf 2024)",
+        "wachttijd_ftf1_65plus_dagen": "Wachttijd tot 1e contact, 65+ (dagen, vanaf 2024)",
     }
     PALET = [SERIES["pg1"], SERIES["pg2"], SERIES["pg3"], "#eda100", "#e87ba4", "#008300", SERIES["totaal"], "#e34948"]
     REEKS_KLEUR = {
@@ -97,6 +101,9 @@ with tab_detail:
         "wachtenden_kandidaten": PALET[0], "wachtenden_actieve_inschrijvingen": PALET[1],
         "wachtenden_nrtj": PALET[0], "wachtenden_nrtj_zonder_hulp": PALET[1], "wachtenden_pab": PALET[2], "wachtenden_nrtj_sector_jho": PALET[3], "wachtenden_nrtj_sector_vaph": PALET[4],
         "opvangvragen_lokale_loketten": PALET[0], "onbeantwoorde_opvangvragen": PALET[1], "onvervulde_behoefte_kinderen": PALET[2],
+        "wachtenden_geen_passend_aanbod": PALET[0], "wachtenden_6_maanden": PALET[1],
+        "wachttijd_ftf1_0_17_dagen": PALET[0], "wachttijd_ftf1_18_59_dagen": PALET[1], "wachttijd_ftf1_60plus_dagen": PALET[2],
+        "wachttijd_ftf1_18_64_dagen": PALET[3], "wachttijd_ftf1_65plus_dagen": PALET[4],
     }
     reeks = b[b["metriek"].isin(list(REEKS_LABELS))]
     if len(reeks):
@@ -113,7 +120,7 @@ with tab_detail:
                 hovertemplate="%{x|%d-%m-%Y}: <b>%{y:,.0f}</b><br>%{customdata[0]}<br>%{customdata[1]} (%{customdata[2]})<extra>" + naam + "</extra>",
             ))
         fig.update_layout(
-            title="Wachtenden per peildatum — open markers = ongecontroleerd of betwist; let op definitiewissels (zie opmerking)",
+            title="Reeks per peildatum — open markers = ongecontroleerd of betwist; let op definitiewissels (zie opmerking)",
             plot_bgcolor=INK["surface"], paper_bgcolor=INK["surface"], font=dict(color=INK["primary"], family="system-ui, Segoe UI, sans-serif"),
             legend=dict(orientation="h", y=-0.2), margin=dict(l=40, r=20, t=60, b=40), hovermode="x unified", height=440,
         )

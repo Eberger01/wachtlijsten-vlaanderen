@@ -99,13 +99,47 @@ Budget: dotatie Opgroeien Regie GB0-1GEF2UX-IS (ISE Geïntegreerd gezinsbeleid, 
 BO 2026 1.445,1 mln € VAK; eigen begroting GDF-AGEF2UA-WT 1.627,8 mln VEK (2026); masterplan +200 mln/jaar tegen 2029 (95,7 T2, 20 T1);
 uitbreidingsbudget 2023 115 mln. Harvester: `wachtlijst harvest opgroeien kinderopvang` (Excel) + jaarlijkse SV Schryvers/Warnez.
 
+## H. Dossier inburgering — maatschappelijke oriëntatie (AgII, uitgewerkt 1-10-2026)
+
+| Peildatum | Geen passend aanbod | > 6 maanden niet gestart | Bron |
+|---|---|---|---|
+| 2019 / 2020 / 2021 | 2.592 / 1.646 / 1.313 | — | jaarverslag 2022, fig. 33 |
+| 06-01-2023 | 1.076 (5 % van 23.333 trajecten) | 993 | jaarverslag 2022 |
+| 27-04-2023 | 632 (locatie 246, lesmoment 196, taal 135, volzet 54) | — | SV 275 |
+| eind 2023 | 1.229 (doel < 1.126) | 1.588 → 1.354 (maart 2024) | jaarverslag 2023 |
+| mei 2025 | — | ± 1.500 (VRT); minister: GPA + > 6 m < 5 % van lopende trajecten | VRT, commissie C249 |
+
+**De jaarverslagen 2024 en 2025 bevatten de wacht-KPI niet meer** (nagelezen). Wachttijdnorm AgII: < 3 maanden normaal, 3–6 aanvaardbaar,
+> 6 niet aanvaardbaar; politieke bovengrens "< 1.000" (2022). Context: eerste contracten 14.526 (2022) → 17.071 → 16.522 → 14.815 (2025);
+gestarte MO-cursussen 880 → 898 → 929. Budget: dotatie AgII SJ0-1SFC2DY-IS 63,6 mln (BA 2025) → 64,6 mln (BO 2026); uitvoering 2025 81,1 mln VAK
+na herverdelingen; subsidies stedelijke agentschappen SJ0-1SFC2DA-WT 56,5 → 51,0 mln (Turboplan −10 mln). Geen machinale bron; jaarverslag enkel PDF.
+
+## I. Dossier CGG — wachttijden (uitgewerkt 1-10-2026)
+
+Geen centrale wachtlijst (EPD pas vanaf eerste contact; "elk CGG beheert zelf zijn wachtlijst"). Wel wachttijden in dagen uit Excel-bijlagen
+bij schriftelijke vragen (379, 382, 645, 107), per CGG × leeftijd × geslacht; sectorgemiddelden hieronder zijn **ongewogen eigen berekening**
+(`ongecontroleerd`); het officiële sectorgemiddelde staat enkel in het ZorgAtlas-Tableau-dashboard.
+
+| Aanmelding → 1e contact (dagen) | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 |
+|---|---|---|---|---|---|---|
+| 0-17 jaar | 56 | 60 | 64 | 48 | 42 | 42 |
+| 18-59 jaar (2024: 18-64) | 46 | 50 | 47 | 37 | 37 | 37 |
+| 60+ (2024: 65+) | 31 | 35 | 30 | 26 | 28 | 25 |
+
+Trend bevestigd door de minister ("daalt licht"); breuken: ZorgAtlas 2022 (telefonische contacten tellen mee als contact), nieuwe leeftijdsgroepen
+2024; cijfers 2025 pas ± mei 2027. Volumes: actieve zorgperiodes 53.850 (2019) → 58.203 (2022) → 57.370 (2024); 55.202 unieke zorggebruikers
+(2024, BBT-indicator — zonder wachttijdindicator). Budget: enveloppe CGG 71,8 mln (2019) → 93,0 mln (2024, +30 %), binnen artikel
+GB0-1GCF2LA-WT 146,7 mln (BO 2026, ISE Gespecialiseerde zorg).
+
 ## Te onderzoeken (open)
 
 Justitiehuizen (niet-opgestarte mandaten), forensische zorg, CAW/verslavingszorg, CAR (ambulante revalidatie), VAPH-PAB minderjarigen (zit bij Opgroeien).
 
 ## Vervolgstappen
 
-1. Wonen in Vlaanderen jaarverslag 2025 ophalen voor CIR-stand 31-12-2025.
-2. AgII jaarverslag 2024/2025: KPI nog gepubliceerd?
-3. Bijlage SV 379 (CGG-wachttijden in dagen) parsen.
-4. VAPH halfjaarverslag 2026 (PG-stand 30-06-2026) via `wachtlijst harvest vaph 2026-eerste-jaarhelft`.
+1. ~~Wonen in Vlaanderen jaarverslag 2025~~ — gedaan (215.337 actieve inschrijvingen, in curated).
+2. ~~AgII jaarverslag 2024/2025~~ — gelezen: KPI niet meer gepubliceerd sinds jaarverslag 2023 (§H).
+3. ~~Bijlage SV 379~~ — Excel-bijlagen 379/382/645/107 verwerkt (§I); nog te doen: gewogen sectorgemiddelde of ZorgAtlas-export ter vervanging van de ongewogen berekening.
+4. VAPH halfjaarverslag 2026 (PG-stand 30-06-2026): **nog niet online** op 1-10-2026 (404) — herhalen eind oktober/november met `wachtlijst harvest vaph 2026-eerste-jaarhelft`.
+5. Jaarverslag Jeugdhulp 2018 (exact cijfer 31-12-2018); discrepantie 2022 (7.397/7.448); cijfers lokale loketten kinderopvang 2025.
+6. Volgende kandidaten: collectief maatwerk (VDAB, SV-reeks), woonzorg (erkenningskalender als aanbodzijde-lijst), buitengewoon onderwijs (capaciteitsmonitor).
