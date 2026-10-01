@@ -2,7 +2,7 @@
 
 Bronnen (geverifieerd 2026-10-01):
 - HTML-jaarverslag: https://extranet.vaph.be/jaarverslag/{jaar}/pages/{n}
-  (2023 en 2024: "Prioriteitengroepen" = pages/25; paginanummers verschillen per jaar -> zoek via
+  (2023 en 2024: "Prioriteitengroepen" = pages/25, 2025: pages/27; paginanummers verschillen per jaar -> zoek via
   ``vind_pagina`` of geef het nummer op). Halfjaar: .../jaarverslag/{jaar}-eerste-jaarhelft/pages/{n}/
 - PDF "Het VAPH in cijfers {jaar}": https://publicaties.vlaanderen.be/view-file/{id}
   (2019=42019, 2021=50259, 2022=57023, 2025=85057)
@@ -67,6 +67,19 @@ def fetch_pagina(editie: str, n: int) -> str:
     return r.text
 
 
+def vind_pagina(editie: str, rond: int = 25, max_pagina: int = 80) -> int | None:
+    """Zoekt de pagina met de prioriteitengroepenzin (2024: 25, 2025: 27). Probeert eerst de pagina's rond ``rond``."""
+    with client() as c:
+        for n in sorted(range(1, max_pagina + 1), key=lambda n: abs(n - rond)):
+            r = c.get(EXTRANET.format(editie=editie, n=n))
+            if r.status_code == 404:
+                continue
+            r.raise_for_status()
+            if RX_TOTAAL.search(html_naar_tekst(r.text)):
+                return n
+    return None
+
+
 def html_naar_tekst(html: str) -> str:
     soup = BeautifulSoup(html, "lxml")
     for t in soup(["script", "style", "nav", "header", "footer"]):
@@ -88,8 +101,10 @@ def parse_prioriteitengroepen(tekst: str, bron_id: str, bron_url: str, documentt
     if not m:
         return []
     peildatum = _nl_datum(m.group(1))
-    s, e = max(0, m.start() - 50), min(len(tekst), m.end() + 600)
-    passage = tekst[s:e].strip()
+    pgs = list(RX_PG.finditer(tekst, m.start(), m.start() + 1500))
+    prios = list(RX_PRIO.finditer(tekst, m.start(), m.start() + 2500))
+    # Passage = van "Op <datum> waren ..." t/m de laatste gevonden prioriteringsdatum (geen menu-tekst ervoor).
+    passage = tekst[m.start(): max([m.end()] + [x.end() for x in pgs + prios])].strip()
     basis = dict(
         voorziening_id="vaph-pvb", peildatum=peildatum, bron_id=bron_id, bron_url=bron_url,
         documenttitel=documenttitel, pagina=pagina, passage=passage,
@@ -102,10 +117,10 @@ def parse_prioriteitengroepen(tekst: str, bron_id: str, bron_url: str, documentt
         Bevinding(bevinding_id=f"vaph-pvb:wachtenden_vragen_totaal:{pd_iso}", metriek="wachtenden_vragen_totaal",
                   waarde=_getal(m.group(3)), eenheid="vragen", definitie=DEFINITIE_VRAGEN, **basis),
     ]
-    for aantal, pg in RX_PG.findall(tekst[m.start(): m.start() + 1500]):
+    for aantal, pg in (x.groups() for x in pgs):
         uit.append(Bevinding(bevinding_id=f"vaph-pvb:wachtenden_vragen_pg{pg}:{pd_iso}", metriek=f"wachtenden_vragen_pg{pg}",
                              waarde=_getal(aantal), eenheid="vragen", definitie=DEFINITIE_VRAGEN, **basis))
-    for pg, datum in RX_PRIO.findall(tekst[m.start(): m.start() + 2500]):
+    for pg, datum in (x.groups() for x in prios):
         d = _nl_datum(datum)
         # Wachttijd van de eerstvolgende wachtende, uitgedrukt in dagen t.o.v. de peildatum.
         uit.append(Bevinding(bevinding_id=f"vaph-pvb:wachttijd_eerstvolgende_pg{pg}_dagen:{pd_iso}",

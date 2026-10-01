@@ -49,9 +49,9 @@ for t in vlpar.grep_pdf(p, r"wachttijd|toewijzing"): print(t["pagina"], t["passa
 ## 3. VAPH — prioriteitengroepen uit het HTML-jaarverslag
 
 ```powershell
-wachtlijst harvest vaph 2024 --pagina 25                      # 31-12-2024
-wachtlijst harvest vaph 2024-eerste-jaarhelft --pagina 25     # 30-06-2024
-wachtlijst harvest vaph 2025 --pagina 25                      # controleer het paginanummer in de sitemap van het jaarverslag
+wachtlijst harvest vaph 2024                                   # 31-12-2024 (vindt pages/25)
+wachtlijst harvest vaph 2024-eerste-jaarhelft --pagina 25     # 30-06-2024 (--pagina slaat het zoeken over)
+wachtlijst harvest vaph 2025                                   # 31-12-2025 (vindt pages/27)
 ```
 
 Resultaat: `data\staging\vaph_<editie>\bevindingen.csv` met `controlestatus = ongecontroleerd`. Lees de passage na,

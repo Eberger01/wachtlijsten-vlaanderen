@@ -102,7 +102,9 @@ def save_hits(hits: Iterator[dict], naam: str) -> Path:
     for k in kolommen:
         if k not in df.columns:
             df[k] = None
-    df[kolommen].to_csv(out_dir / f"{naam}.csv", index=False)
+    # Meervoudige metatags (bv. twee ministers) zijn lijsten in de JSONL; in de CSV als "A; B".
+    df = df[kolommen].apply(lambda kol: kol.map(lambda v: "; ".join(map(str, v)) if isinstance(v, list) else v))
+    df.to_csv(out_dir / f"{naam}.csv", index=False)
     return jsonl
 
 

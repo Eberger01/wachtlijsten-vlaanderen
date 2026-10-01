@@ -44,7 +44,7 @@ wachtlijst publish
 streamlit run dashboard/app.py
 
 wachtlijst harvest vlpar wachtlijst --pages 3        # Parlement-API -> data/raw/vlpar/wachtlijst.{jsonl,csv}
-wachtlijst harvest vaph 2025 --pagina 25             # VAPH-jaarverslag -> data/staging/vaph_2025/bevindingen.csv
+wachtlijst harvest vaph 2025                         # VAPH-jaarverslag (pagina wordt gezocht) -> data/staging/vaph_2025/bevindingen.csv
 wachtlijst promote data/staging/vaph_2025 --door EB  # na nalezen -> data/curated (status bron_gelezen)
 wachtlijst harvest codex wachtlijst                  # regelgeving
 python scripts/harvest_bbt.py                        # BBT-PDF's -> data/raw/bbt (fase 3)

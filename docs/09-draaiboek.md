@@ -9,9 +9,9 @@
 | A1 | Lokale omgeving | `python -m venv .venv` · `.\.venv\Scripts\Activate.ps1` · `pip install -e ".[dashboard,dev]"` · `pytest` | Zonder dit werken `wachtlijst …`-commando's niet. 9 tests moeten groen zijn. |
 | A2 | Lokale rookproef | `wachtlijst validate` · `wachtlijst publish` · `streamlit run dashboard\app.py` | Bevestigt dat de lokale kopie identiek is aan wat online staat. |
 | A3 | Steekproef VAPH-PVB en sociale huur | Open 5 rijen in `data\curated\bevindingen.csv`, klik de `bron_url`, vergelijk de `passage` | Jouw tweede lezing: wijzig `controlestatus` naar `gecontroleerd` en `gecontroleerd_door` naar je initialen (in `scripts\seed_proef.py`, daarna `python scripts\seed_proef.py`). |
-| A4 | Steekproef kredieten (fase 3) | Open `data\curated\kredieten.csv`, kies 5 rijen van ISE "Personen met een beperking" en "Aanbodzijde woningmarkt", open de PDF in `data\raw\bbt\` op de vermelde `pagina` | Bevestigt de parser voor de reeksen die je naar buiten brengt. Status blijft `bron_gelezen` tot jij `gecontroleerd` zet. |
+| A4 | Steekproef kredieten (fase 3) | Open `data\curated\kredieten.csv`, kies 5 rijen van ISE "Personen met een beperking" en "Aanbodzijde woningmarkt", open de PDF in `data\raw\bbt\` op de vermelde `pagina` | Bevestigt de parser voor de reeksen die je naar buiten brengt. Status blijft `bron_gelezen` tot jij `gecontroleerd` zet: regel toevoegen in `config\kredieten_controles.csv`, dan `wachtlijst controleer-kredieten`. |
 | A5 | Reeks sociale huur 2018–2022 | Download Excel "Tabel 1 Totaal kandidaat-huurders per jaar" (link in `06-harvesters-lokaal.md` §6) en vergelijk met de VRT-cijfers | Die vijf rijen zijn nu `ongecontroleerd` (secundaire bron). |
-| A6 | Eerste live-run Parlement-API en VAPH-harvester | `wachtlijst harvest vlpar wachtlijst --pages 2` · `wachtlijst harvest vaph 2025 --pagina 25` | Beide zijn getest op de echte responsstructuur, maar nog niet in productie gedraaid. Als `vaph` "patroon niet gevonden" geeft: paginanummer in het jaarverslag opzoeken. |
+| A6 | Eerste live-run Parlement-API en VAPH-harvester | `wachtlijst harvest vlpar wachtlijst --pages 2` · `wachtlijst harvest vaph 2025` | Zonder `--pagina` zoekt `vaph` zelf de pagina Prioriteitengroepen (2024: 25, 2025: 27). |
 | A7 | GitHub-repo opschonen | README nalezen; eventueel LICENSE toevoegen; `data\raw` en `data\staging` blijven buiten git (.gitignore) | Repo is publiek. |
 
 ## B. Terugkerend — bij elke nieuwe publicatie van een bron
@@ -31,8 +31,10 @@ Vaste cyclus per update (± 30 min, alles in `D:\MVPDev\Wachtlijst` met geactive
 
 ```powershell
 # 1. verzamelen
-wachtlijst harvest vaph 2026 --pagina 25                 # of: harvest vlpar <term>, python scripts\harvest_bbt.py
+wachtlijst harvest vaph 2026                             # of: harvest vlpar <term>, python scripts\harvest_bbt.py
 # 2. nalezen in data\staging\…  (passage + cijfer tegen de bron)
+#    staat dezelfde peildatum al gecontroleerd in curated (bv. uit "VAPH in cijfers")? dan niet promoveren:
+#    promote vervangt de rij op bevinding_id
 # 3. promoveren
 wachtlijst promote data\staging\vaph_2026 --door EB      # kredieten: wachtlijst promote-kredieten --door EB
 # 4. controleren en publiceren
@@ -46,7 +48,8 @@ git push
 
 Voor BBT's: eerst de nieuwe stukken toevoegen aan `config\bbt_documenten.yaml` (stuknummer, doc_id, pfile_id —
 op te zoeken via de dossierpagina `vlaamsparlement.be/…/dossiers/begroting-<jaar>` of `ws.vlpar.be/e/opendata/pi/<doc_id>`),
-dan `python scripts\harvest_bbt.py WVG <jaar>` → `wachtlijst harvest bbt-parse --jaar <jaar>` → steekproef → `promote-kredieten`.
+dan `python scripts\harvest_bbt.py WVG <jaar>` → `wachtlijst harvest bbt-parse --jaar <jaar>` → steekproef → `promote-kredieten`
+(past `config\kredieten_controles.csv` automatisch opnieuw toe; nieuwe controles: regel toevoegen + `wachtlijst controleer-kredieten`).
 
 Voor cijfers die geen harvester hebben (sociale huur, AgII, Opgroeien): rij toevoegen in `scripts\seed_proef.py`
 (zelfde velden: bron, url, documenttitel, pagina, passage, peildatum, definitie, controlestatus), `python scripts\seed_proef.py`,

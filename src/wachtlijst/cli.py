@@ -3,7 +3,7 @@
   wachtlijst validate                      controleert data/curated
   wachtlijst publish                       bouwt data/published (+ meta.json)
   wachtlijst harvest vlpar wachtlijst      zoekt in de Vlaams Parlement Search API -> data/raw/vlpar/
-  wachtlijst harvest vaph 2024 --pagina 25 parsed de VAPH-jaarverslagpagina -> data/staging/
+  wachtlijst harvest vaph 2024             zoekt + parsed de VAPH-pagina Prioriteitengroepen -> data/staging/
   wachtlijst harvest codex wachtlijst      zoekt regelgeving in de Vlaamse Codex
   wachtlijst promote <staging-bestand>     neemt gecontroleerde staging-rijen op in data/curated
   wachtlijst controleer-kredieten          past config/kredieten_controles.csv toe op data/curated
@@ -64,11 +64,17 @@ def harvest_vlpar(
 @harvest.command("vaph")
 def harvest_vaph(
     editie: str = typer.Argument(..., help="bv. 2024 of 2024-eerste-jaarhelft"),
-    pagina: int = typer.Option(25, help="Paginanummer van 'Prioriteitengroepen' in het HTML-jaarverslag."),
+    pagina: int = typer.Option(None, help="Paginanummer van 'Prioriteitengroepen' in het HTML-jaarverslag (standaard: zelf zoeken)."),
 ) -> None:
     """Parse de VAPH-jaarverslagpagina 'Prioriteitengroepen' naar kandidaat-bevindingen (staging)."""
     from .sources import vaph
 
+    if pagina is None:
+        pagina = vaph.vind_pagina(editie)
+        if pagina is None:
+            typer.secho(f"geen pagina met de prioriteitengroepenzin gevonden in jaarverslag {editie}", fg=typer.colors.RED)
+            raise typer.Exit(code=1)
+        typer.echo(f"prioriteitengroepen gevonden op pages/{pagina}")
     bron_id = f"vaph-jaarverslag-{editie}"
     titel = f"VAPH jaarverslag {editie} — Prioriteitengroepen"
     bevindingen = vaph.harvest_jaarverslag(editie, pagina, bron_id=bron_id, documenttitel=titel)

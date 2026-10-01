@@ -77,3 +77,10 @@ def test_kredietcontroles_overleven_herhaald_toepassen():
     assert pas_kredietcontroles_toe([k], controles) == 1
     assert k.controlestatus == Controlestatus.GECONTROLEERD
     assert k.opmerking == "gecontroleerd EB 2026-10-01 (p. 3); automatisch geparsed"
+
+
+def test_vaph_passage_zonder_menutekst_en_volledig():
+    uit = parse_prioriteitengroepen("Menu Jaarverslag Zoeken Prioriteitengroepen " + VAPH_ZIN + " Volgende hoofdstuk", "b", "u", "t")
+    passage = uit[0].passage
+    assert passage.startswith("Op 31 december 2024 waren 18.261 personen")
+    assert passage.endswith("prioriteitengroep 3: 16 januari 2002")
