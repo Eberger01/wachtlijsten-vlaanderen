@@ -32,11 +32,14 @@ st.set_page_config(page_title="Wachtlijsten Vlaanderen", page_icon="📋", layou
 
 
 @st.cache_data
-def data():
+def data(publicatie: str):
+    # Cachesleutel = inhoud van meta.json: Streamlit Cloud trekt nieuwe commits binnen zonder het proces
+    # te herstarten, dus zonder sleutel bleef de oude publicatie in de cache staan.
     return load_published()
 
 
-D = data()
+_meta_p = ROOT / "data" / "published" / "meta.json"
+D = data(_meta_p.read_text(encoding="utf-8") if _meta_p.exists() else "")
 meta = D["meta"]
 voorz, bev, bud, bronnen = D["voorzieningen"], D["bevindingen"], D["budgetten"], D["bronnen"]
 
@@ -106,6 +109,8 @@ with tab_detail:
         "daders_in_begeleiding": "Daders in begeleiding justitiehuizen", "wachtenden_pab_vaph_incl_prior": "Wachtenden PAB (VAPH-telling incl. prior)", "nieuwe_vragen_pab": "Nieuwe PAB-vragen", "toekenningen_pab": "Toegekende PAB's", "budgethouders_pab": "PAB-budgethouders",
         "wachttijd_cgg_forensisch_dagen": "Wachttijd CGG forensische zorg (dagen)", "wachttijd_cgg_gevangenis_dagen": "Wachttijd CGG hulp in gevangenis (dagen)", "forensische_zorgperiodes_actief": "Actieve forensische zorgperiodes (CGG)",
         "wachttijd_cgg_verslavingsteams_dagen": "Wachttijd CGG-verslavingsteams (dagen)", "twe_ocmw_trajecten_tijdig_werk": "TWE-OCMW-trajecten met tijdig werk (art. 60)", "wijkwerkers_actief": "Actieve wijk-werkers",
+        "gebruikers_rth": "Gebruikers rechtstreeks toegankelijke hulp", "goedkeuringen_hulpmiddelen": "Goedkeuringen hulpmiddelen en aanpassingen", "mediaan_doorlooptijd_hulpmiddelen_sda_dagen": "Mediaan doorlooptijd hulpmiddelen SDA (dagen)",
+        "caw_bereikte_clienten_totaal": "CAW bereikte cliënten (totaal)", "caw_bereikte_clienten_begeleiding": "CAW cliënten in begeleiding", "vaph_ondersteund_in_gevangenis": "VAPH-ondersteuning in de gevangenis (personen)",
     }
     PALET = [SERIES["pg1"], SERIES["pg2"], SERIES["pg3"], "#eda100", "#e87ba4", "#008300", SERIES["totaal"], "#e34948"]
     REEKS_KLEUR = {
@@ -126,6 +131,8 @@ with tab_detail:
         "wachtenden_pab_vaph_incl_prior": PALET[1], "nieuwe_vragen_pab": PALET[2], "toekenningen_pab": PALET[3], "budgethouders_pab": PALET[4],
         "wachttijd_cgg_forensisch_dagen": PALET[0], "wachttijd_cgg_gevangenis_dagen": PALET[1], "forensische_zorgperiodes_actief": PALET[2],
         "wachttijd_cgg_verslavingsteams_dagen": PALET[0], "twe_ocmw_trajecten_tijdig_werk": PALET[0], "wijkwerkers_actief": PALET[1],
+        "gebruikers_rth": PALET[0], "goedkeuringen_hulpmiddelen": PALET[1], "mediaan_doorlooptijd_hulpmiddelen_sda_dagen": PALET[2],
+        "caw_bereikte_clienten_totaal": PALET[1], "caw_bereikte_clienten_begeleiding": PALET[2], "vaph_ondersteund_in_gevangenis": PALET[3],
     }
     reeks = b[b["metriek"].isin(list(REEKS_LABELS))]
     if len(reeks):
