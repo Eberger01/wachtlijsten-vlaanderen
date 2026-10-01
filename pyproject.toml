@@ -18,7 +18,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dashboard = ["streamlit>=1.49", "plotly>=5.20"]
-dev = ["pytest>=8.0", "ruff>=0.4"]
+dev = ["pytest>=8.0", "ruff>=0.4", "reportlab>=4.0"]
 
 [project.scripts]
 wachtlijst = "wachtlijst.cli:app"

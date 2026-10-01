@@ -33,11 +33,11 @@ def publish(base: Path | None = None, dest: Path | None = None, force: bool = Fa
     }
     for tabel, model in TABELLEN.items():
         df = pd.DataFrame(read_rows(tabel, base), columns=list(model.model_fields.keys()))
-        df.to_csv(dest / f"{tabel}.csv", index=False)
+        df.to_csv(dest / f"{tabel}.csv", index=False, lineterminator="\n")
         meta["aantallen"][tabel] = int(len(df))
         if "controlestatus" in df.columns and len(df):
             meta["controlestatus_verdeling"][tabel] = df["controlestatus"].value_counts().to_dict()
-    (dest / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+    (dest / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     return meta
 
 
