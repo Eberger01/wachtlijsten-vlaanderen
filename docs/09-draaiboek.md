@@ -8,7 +8,7 @@
 |---|---|---|---|
 | A1 | Lokale omgeving | `python -m venv .venv` · `.\.venv\Scripts\Activate.ps1` · `pip install -e ".[dashboard,dev]"` · `pytest` | Zonder dit werken `wachtlijst …`-commando's niet. 9 tests moeten groen zijn. |
 | A2 | Lokale rookproef | `wachtlijst validate` · `wachtlijst publish` · `streamlit run dashboard\app.py` | Bevestigt dat de lokale kopie identiek is aan wat online staat. |
-| A3 | Steekproef VAPH-PVB en sociale huur | Open 5 rijen in `data\curated\bevindingen.csv`, klik de `bron_url`, vergelijk de `passage` | Jouw tweede lezing: wijzig `controlestatus` naar `gecontroleerd` en `gecontroleerd_door` naar je initialen (in `scripts\seed_proef.py`, daarna `python scripts\seed_proef.py`). |
+| A3 | Steekproef VAPH-PVB en sociale huur | Open 5 rijen in `data\curated\bevindingen.csv`, klik de `bron_url`, vergelijk de `passage` | Jouw tweede lezing: wijzig `controlestatus` naar `gecontroleerd` en `gecontroleerd_door` naar je initialen (in `scripts\seed_proef.py`, daarna `python scripts\seed_proef.py` · `python scripts\seed_opgroeien.py`). |
 | A4 | Steekproef kredieten (fase 3) | Open `data\curated\kredieten.csv`, kies 5 rijen van ISE "Personen met een beperking" en "Aanbodzijde woningmarkt", open de PDF in `data\raw\bbt\` op de vermelde `pagina` | Bevestigt de parser voor de reeksen die je naar buiten brengt. Status blijft `bron_gelezen` tot jij `gecontroleerd` zet: regel toevoegen in `config\kredieten_controles.csv`, dan `wachtlijst controleer-kredieten`. |
 | A5 | Reeks sociale huur 2018–2022 | Download Excel "Tabel 1 Totaal kandidaat-huurders per jaar" (link in `06-harvesters-lokaal.md` §6) en vergelijk met de VRT-cijfers | Die vijf rijen zijn nu `ongecontroleerd` (secundaire bron). |
 | A6 | Eerste live-run Parlement-API en VAPH-harvester | `wachtlijst harvest vlpar wachtlijst --pages 2` · `wachtlijst harvest vaph 2025` | Zonder `--pagina` zoekt `vaph` zelf de pagina Prioriteitengroepen (2024: 25, 2025: 27). |
@@ -23,6 +23,9 @@ Kalender van de bronnen:
 | ± juni | VAPH "Het VAPH in cijfers" (PDF) en HTML-jaarverslag | PG-stand 31/12 vorig jaar, terbeschikkingstellingen, uitbreidingsbeleid |
 | ± oktober/november | VAPH halfjaarverslag (`…/jaarverslag/<jaar>-eerste-jaarhelft/`) | PG-stand 30/06 |
 | ± juni/juli | Wonen in Vlaanderen jaarverslag (HTML) | CIR-stand 31/12, toewijzingen, wachttijd, patrimonium, huurpremie |
+| januari–juli | Opgroeien cijferrapport NRTJ (HTML) | wachtenden 31/12, aanmeldingen, hulpvragen (`harvest opgroeien nrtj`) |
+| ± juni + per kwartaal | Opgroeien Excel kinderopvang | vergunde plaatsen (`harvest opgroeien kinderopvang`) |
+| ± juli | SV 'Lokaal loket kinderopvang – registratie' (Schryvers/Warnez) | opvangvragen en onbeantwoorde vragen vorig jaar |
 | ± mei | BBT begrotingsuitvoering (stuk 23-x) | kolom "Uitvoering <vorig jaar>" |
 | ± eind oktober | BBT begrotingsopmaak (stuk 13-x) | kolom "BO <volgend jaar>" en "BA <dit jaar>" |
 | doorlopend | Schriftelijke vragen Vlaams Parlement | nieuwe cijfers voor decentrale lijsten (CGG, buitengewoon onderwijs, kinderopvang, …) |

@@ -61,6 +61,44 @@ Budget (zie `budgetten.csv`): FS3-financiering 997 mln (2024) / 742,18 mln (2025
 140,8 mln (BA 2025) → 152,1 mln (BO 2026); machtiging VWF 1,72 mld; nettofinanciering VMSW 798,8 → 920,5 mln, VWF
 1.427,3 → 1.356,7 mln (Rekenhof, stuk 16 (2025-2026)). ISE-koppeling: AANBODZIJDE WONINGMARKT (programma QD).
 
+## F. Proefdossier jeugdhulp NRTJ (uitgewerkt 1-10-2026)
+
+Wachtenden op niet-rechtstreeks toegankelijke jeugdhulp, foto op 31/12, unieke kinderen/jongeren, excl. PAB, incl. MFC:
+
+| 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+|---|---|---|---|---|---|---|---|---|
+| 5.273 | ± 5.600 | 5.543 | 6.113 | 6.985 | 7.448 (SV 341: 7.397) | 8.545 | 9.194 (VRT: 9.154) | **9.748** |
+| gecontroleerd | ongecontroleerd (mondeling) | gecontroleerd | gecontroleerd | ongecontroleerd (secundair) | betwist | bron gelezen | gecontroleerd | gecontroleerd |
+
++85 % in acht jaar. Wachtenden zonder enige NRTJ-hulp: 4.166 (2023), 4.559 (2024); ± 52 % van de wachtenden krijgt intussen andere
+NRTJ-hulp. Instroom 2025: 15.446 aanmeldingen (A-document), 12.897 nieuwe hulpvragen (5.756 verblijf, waarvan 2.707 pleeggezin);
+opstart NRTJ-hulp 6.801 unieke jongeren. PAB-minderjarigen apart: 1.478 (2022) → 1.763 (2024). Per sector (SV 341, 2017–2022):
+JHO 2.989 → 4.912; VAPH 2.378 → 2.731. **Wachttijden worden niet gepubliceerd** (ministers 2024–2026: "onvoldoende betrouwbare gegevens").
+
+Budget: dotatie Opgroeien Regie jeugdhulp GB0-1GEF2MX-IS (ISE Jeugdhulp, GE-M) BA 2022 607,8 → BO 2026 945,5 mln € (uitvoering 2024
+898,5; 2025 946,2). Regeerakkoord nieuw beleid 10,0 mln (2025), 8,8 mln (2026, groeipad met 7,0 mln vertraagd naar 2027);
+kostendrijver pleegzorg +9,7 / +11,1 mln. Harvester: `wachtlijst harvest opgroeien nrtj`.
+
+## G. Proefdossier kinderopvang baby's en peuters (uitgewerkt 1-10-2026)
+
+Geen Vlaamse wachtlijst voor gezinnen; drie schaarste-indicatoren:
+
+| Indicator | 2018 | 2023 | 2024 | 2025 |
+|---|---|---|---|---|
+| Opvangvragen lokale loketten (SV 852) | — | 57.105 | 71.268 | n.b. (mei 2026+) |
+| waarvan onbeantwoord | — | 22.722 | **26.355 (37 %)** | — |
+| Onvervulde behoefte, steekproef (HIVA) | 8,3 % (14.831 kinderen) | — | — | 12,0 % (18.045 kinderen; toolbox: 11,6 %) |
+| Vergunde plaatsen (Excel Opgroeien) | 93.363 | 93.035 | 93.175 | 92.819 (IKT 79.271) |
+
+Kanttekeningen: dubbeltellingen over loketten (ouders vragen in meerdere gemeenten; loketten zonder centrale aanmelding); jaren niet
+vergelijkbaar door groeiend aantal loketten; capaciteit 2020–2024 bevat ± 2.500 te hoog getelde onthaalouderplaatsen (correctie
+04-06-2026). Aanbodzijde-lijst: meerjarenoproep T2 2025 — 534 aanvragen, 11.382 aangevraagde plaatsen, 4.500 beschikbaar, 3.936
+subsidiebeloftes 2026–2029. Prognose Opgroeien: 11.500 extra plaatsen nodig tegen 2029.
+
+Budget: dotatie Opgroeien Regie GB0-1GEF2UX-IS (ISE Geïntegreerd gezinsbeleid, GE-U; kinderopvang niet afgesplitst) BA 2025 1.372,6 →
+BO 2026 1.445,1 mln € VAK; eigen begroting GDF-AGEF2UA-WT 1.627,8 mln VEK (2026); masterplan +200 mln/jaar tegen 2029 (95,7 T2, 20 T1);
+uitbreidingsbudget 2023 115 mln. Harvester: `wachtlijst harvest opgroeien kinderopvang` (Excel) + jaarlijkse SV Schryvers/Warnez.
+
 ## Te onderzoeken (open)
 
 Justitiehuizen (niet-opgestarte mandaten), forensische zorg, CAW/verslavingszorg, CAR (ambulante revalidatie), VAPH-PAB minderjarigen (zit bij Opgroeien).

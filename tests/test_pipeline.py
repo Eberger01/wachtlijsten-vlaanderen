@@ -84,3 +84,20 @@ def test_vaph_passage_zonder_menutekst_en_volledig():
     passage = uit[0].passage
     assert passage.startswith("Op 31 december 2024 waren 18.261 personen")
     assert passage.endswith("prioriteitengroep 3: 16 januari 2002")
+
+
+NRTJ_TEKST = ("Wachtenden niet-rechtstreeks toegankelijke jeugdhulp Op 31 december 2025 stonden in totaal 9.748 kinderen en jongeren op een "
+              "NRTJ-wachtlijst (inclusief wachtend op zorg door een MFC, exclusief Persoonlijke assistentiebudget (PAB)). Dat zijn er 6 procent "
+              "meer dan in 2024 (9.194). Die stijging is te verklaren door een stabiele instroom. Het aantal kinderen en jongeren met een "
+              "aanmelding bij de intersectorale toegangspoort door middel van een A document is in 2025 gestegen naar 15.446 (+3,9%). "
+              "Het aantal kinderen en jongeren met een nieuwe hulpvraag is toegenomen (+ 4,9%, 12.897 in 2025).")
+
+
+def test_opgroeien_nrtj_parser():
+    from wachtlijst.sources.opgroeien import parse_nrtj
+
+    d = {(b.metriek, b.peildatum.year): b.waarde for b in parse_nrtj(NRTJ_TEKST)}
+    assert d[("wachtenden_nrtj", 2025)] == 9748
+    assert d[("wachtenden_nrtj", 2024)] == 9194
+    assert d[("aanmeldingen_a_document", 2025)] == 15446
+    assert d[("nieuwe_hulpvraag", 2025)] == 12897

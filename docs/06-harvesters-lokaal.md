@@ -92,6 +92,18 @@ kunnen andere kolomkoppen hebben ("Uitvoering 2024"). De parser bewaart de kolom
 regels worden overgeslagen. Controleer per document het aantal rijen in de uitvoer van `bbt-parse`; 0 rijen = lay-out
 afwijkend → meld het document in `docs/04-budgetbronnen.md`.
 
+## 4b. Opgroeien — jeugdhulp NRTJ en kinderopvang
+
+```powershell
+wachtlijst harvest opgroeien nrtj           # cijferrapport NRTJ -> data\staging\opgroeien_nrtj\bevindingen.csv (wachtenden, aanmeldingen, hulpvragen)
+wachtlijst harvest opgroeien kinderopvang   # Excel 'plaatsen en locaties' -> data\staging\opgroeien_kinderopvang\bevindingen.csv (plaatsen per jaar)
+wachtlijst promote data\staging\opgroeien_nrtj --door EB
+```
+
+Beide zijn op 1-10-2026 live gedraaid (4 resp. 26 kandidaat-bevindingen). Opvangvragen van de lokale loketten komen enkel uit de
+jaarlijkse schriftelijke vraag (Schryvers/Warnez, "Lokaal loket kinderopvang – Registratie"): zoek ze met
+`wachtlijst harvest vlpar "lokaal loket kinderopvang registratie"` en neem de cijfers op via `scripts\seed_opgroeien.py`.
+
 ## 5. Vlaamse Codex — regelgeving
 
 ```powershell

@@ -49,7 +49,17 @@ projectfinanciering (artikel QF0-1QD?5QK-IS, geen ESR-uitgave) vanaf 2021 in het
 mln. Vergelijk daarom op artikelniveau (tabblad Budget → tabel) en lees `docs/04-budgetbronnen.md` §begrippen.
 Primaire investeringsmaat blijft de FS3-toekenning uit het jaarverslag (997 mln 2024; 742 mln 2025).
 
-## 3. Andere wachtlijst-ISE's (beschikbaar in `kredieten.csv`, nog niet geïnterpreteerd)
+## 3. Jeugdhulp en kinderopvang (Opgroeien) — gekoppeld op 1-10-2026
+
+Jeugdhulp (ISE Jeugdhulp, GE-M, artikel GB0-1GEF2MX-IS): BA VAK 607,8 (2022) → 830,2 (2023) → 878,0 (2024) → 940,5 (2025); BO 2026
+945,5; uitvoering 693,9 / 948,3 / 949,4 (2022/2024/2025). Tegenover wachtenden NRTJ 7.448 → 9.748 (+31 % 2022→2025) staat +56 %
+budget (BA 2022 → BO 2026). Vóór 2022 zat jeugdhulp in een ander artikel (ISE-totaal 2019–2021 ≈ 0 in de parser: niet gebruiken).
+
+Kinderopvang zit in ISE Geïntegreerd gezinsbeleid (GE-U, GB0-1GEF2UX-IS) samen met preventieve gezinsondersteuning, adoptie en het
+Groeipakket-apparaat; de BBT splitst kinderopvang niet af. Gebruik voor kinderopvang de beleidsenveloppes (masterplan 200 mln/jaar
+tegen 2029; 115 mln 2023) en de uitvoeringscijfers van GDF-AGEF2UA-WT uit `budgetten.csv`.
+
+## 3b. Andere wachtlijst-ISE's (beschikbaar in `kredieten.csv`, nog niet geïnterpreteerd)
 
 Jeugdhulp (GE-M): BA VAK 607,8 (2022) → 830,2 (2023) → 878,0 (2024) → 940,5 (2025); BO 2026 945,5. Geïntegreerd
 gezinsbeleid/kinderopvang (GE-U), Woonzorg en eerste lijn (GD-K; vanaf 2026 GC-V), Gespecialiseerde zorg/CGG (GD-L),

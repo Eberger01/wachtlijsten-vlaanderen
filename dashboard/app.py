@@ -78,19 +78,27 @@ with tab_detail:
     statussen = st.multiselect("Toon controlestatus", list(STATUS_LABEL), default=list(STATUS_LABEL), format_func=STATUS_LABEL.get)
     b = b[b["controlestatus"].isin(statussen)]
 
-    # Reeksen 'wachtenden_*': vaste kleur per metriek (entiteit), nooit per rang herverdeeld.
+    # Reeksen in de hoofdgrafiek: vaste kleur per metriek (entiteit), nooit per rang herverdeeld.
+    # Metrieken die hier niet staan (bv. wachttijden, terbeschikkingstellingen, capaciteit) blijven in de tabel.
     REEKS_LABELS = {
         "wachtenden_vragen_pg1": "Prioriteitengroep 1", "wachtenden_vragen_pg2": "Prioriteitengroep 2",
         "wachtenden_vragen_pg3": "Prioriteitengroep 3", "wachtenden_vragen_totaal": "Totaal vragen",
-        "wachtenden_personen": "Personen", "wachtenden_kandidaten": "Kandidaat-huurders / kandidaten (CIR)",
+        "wachtenden_kandidaten": "Kandidaat-huurders / kandidaten (CIR)",
         "wachtenden_actieve_inschrijvingen": "Actieve inschrijvingen (CIR, incl. zittende huurders)",
+        "wachtenden_nrtj": "Wachtenden NRTJ (excl. PAB)", "wachtenden_nrtj_zonder_hulp": "Wachtenden zonder enige NRTJ-hulp",
+        "wachtenden_pab": "Wachtenden PAB (minderjarigen)", "wachtenden_nrtj_sector_jho": "Sector jeugdhulp Opgroeien (JHO)",
+        "wachtenden_nrtj_sector_vaph": "Sector VAPH (MFC)",
+        "opvangvragen_lokale_loketten": "Opvangvragen lokale loketten", "onbeantwoorde_opvangvragen": "Onbeantwoorde opvangvragen",
+        "onvervulde_behoefte_kinderen": "Kinderen met onvervulde behoefte (onderzoek)",
     }
+    PALET = [SERIES["pg1"], SERIES["pg2"], SERIES["pg3"], "#eda100", "#e87ba4", "#008300", SERIES["totaal"], "#e34948"]
     REEKS_KLEUR = {
-        "wachtenden_vragen_pg1": SERIES["pg1"], "wachtenden_vragen_pg2": SERIES["pg2"], "wachtenden_vragen_pg3": SERIES["pg3"],
-        "wachtenden_vragen_totaal": SERIES["totaal"], "wachtenden_personen": "#e87ba4",
-        "wachtenden_kandidaten": SERIES["pg1"], "wachtenden_actieve_inschrijvingen": SERIES["pg2"],
+        "wachtenden_vragen_pg1": PALET[0], "wachtenden_vragen_pg2": PALET[1], "wachtenden_vragen_pg3": PALET[2], "wachtenden_vragen_totaal": PALET[6],
+        "wachtenden_kandidaten": PALET[0], "wachtenden_actieve_inschrijvingen": PALET[1],
+        "wachtenden_nrtj": PALET[0], "wachtenden_nrtj_zonder_hulp": PALET[1], "wachtenden_pab": PALET[2], "wachtenden_nrtj_sector_jho": PALET[3], "wachtenden_nrtj_sector_vaph": PALET[4],
+        "opvangvragen_lokale_loketten": PALET[0], "onbeantwoorde_opvangvragen": PALET[1], "onvervulde_behoefte_kinderen": PALET[2],
     }
-    reeks = b[b["metriek"].str.startswith("wachtenden_") & (b["metriek"] != "wachtenden_personen")]
+    reeks = b[b["metriek"].isin(list(REEKS_LABELS))]
     if len(reeks):
         fig = go.Figure()
         for m in [k for k in REEKS_LABELS if k in set(reeks["metriek"])]:

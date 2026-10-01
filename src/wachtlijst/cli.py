@@ -5,6 +5,7 @@
   wachtlijst harvest vlpar wachtlijst      zoekt in de Vlaams Parlement Search API -> data/raw/vlpar/
   wachtlijst harvest vaph 2024             zoekt + parsed de VAPH-pagina Prioriteitengroepen -> data/staging/
   wachtlijst harvest codex wachtlijst      zoekt regelgeving in de Vlaamse Codex
+  wachtlijst harvest opgroeien nrtj|kinderopvang   Opgroeien cijferrapport / Excel -> data/staging/
   wachtlijst promote <staging-bestand>     neemt gecontroleerde staging-rijen op in data/curated
   wachtlijst controleer-kredieten          past config/kredieten_controles.csv toe op data/curated
 """
@@ -86,6 +87,28 @@ def harvest_vaph(
     base.mkdir(exist_ok=True)
     write_rows("bevindingen", bevindingen, base)
     typer.echo(f"{len(bevindingen)} kandidaat-bevindingen -> {base / 'bevindingen.csv'} (bron_id {bron_id!r}: voeg toe aan bronnen.csv indien nieuw)")
+
+
+@harvest.command("opgroeien")
+def harvest_opgroeien(
+    wat: str = typer.Argument("nrtj", help="nrtj (cijferrapport jeugdhulp) of kinderopvang (Excel plaatsen per jaar)"),
+) -> None:
+    """Opgroeien: NRTJ-wachtenden uit het cijferrapport, of kinderopvangcapaciteit uit de Excel -> data/staging/opgroeien_<wat>/."""
+    from .sources import opgroeien
+
+    if wat == "nrtj":
+        bevindingen = opgroeien.harvest_nrtj()
+    elif wat == "kinderopvang":
+        bevindingen = opgroeien.plaatsen_per_jaar(opgroeien.download_plaatsen_excel())
+    else:
+        raise typer.BadParameter("kies nrtj of kinderopvang")
+    if not bevindingen:
+        typer.secho("niets gevonden; controleer of de zinsstructuur van de pagina gewijzigd is", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+    base = STAGING_DIR / f"opgroeien_{wat}"
+    base.mkdir(parents=True, exist_ok=True)
+    write_rows("bevindingen", bevindingen, base)
+    typer.echo(f"{len(bevindingen)} kandidaat-bevindingen -> {base / 'bevindingen.csv'}; nalezen en 'wachtlijst promote {base} --door <initialen>'")
 
 
 @harvest.command("codex")
