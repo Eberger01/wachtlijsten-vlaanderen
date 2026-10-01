@@ -1,5 +1,5 @@
 {
-  "gepubliceerd_op": "2026-10-01T17:36:46",
+  "gepubliceerd_op": "2026-10-01T17:44:18",
   "aantallen": {
     "bronnen": 83,
     "voorzieningen": 20,
@@ -10,10 +10,10 @@
   "validatie_waarschuwingen": [],
   "controlestatus_verdeling": {
     "bevindingen": {
-      "gecontroleerd": 133,
-      "ongecontroleerd": 57,
-      "bron_gelezen": 17,
-      "betwist": 6
+      "gecontroleerd": 134,
+      "bron_gelezen": 50,
+      "ongecontroleerd": 24,
+      "betwist": 5
     },
     "budgetten": {
       "bron_gelezen": 48,

@@ -101,3 +101,18 @@ def test_opgroeien_nrtj_parser():
     assert d[("wachtenden_nrtj", 2024)] == 9194
     assert d[("aanmeldingen_a_document", 2025)] == 15446
     assert d[("nieuwe_hulpvraag", 2025)] == 12897
+
+
+def test_cgg_gewogen_gemiddelde():
+    import importlib.util
+
+    import pandas as pd
+
+    spec = importlib.util.spec_from_file_location("cgg_gewogen", ROOT / "scripts" / "cgg_gewogen.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    sleutel = {"leeftijd": "0-17", "jaar": 2023}
+    wacht = pd.DataFrame([{**sleutel, "cgg": "F1", "geslacht": "M", "waarde": 10.0}, {**sleutel, "cgg": "F2", "geslacht": "M", "waarde": 40.0}])
+    gewicht = pd.DataFrame([{**sleutel, "cgg": "F1", "geslacht": "M", "waarde": 300}, {**sleutel, "cgg": "F2", "geslacht": "M", "waarde": 100}])
+    r = mod.gewogen(wacht, gewicht, "ftf1").iloc[0]
+    assert r.gewogen == 17.5 and r.ongewogen == 25.0 and r.dekking_pct == 100.0

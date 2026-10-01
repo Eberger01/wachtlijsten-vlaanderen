@@ -26,3 +26,6 @@ Thumbs.db
 
 # Map van de Claude desktop-app
 Claude outputs/
+
+# Tijdelijke vergrendelingsbestanden van Office (bv. docs/~$Synthese….docx)
+~$*

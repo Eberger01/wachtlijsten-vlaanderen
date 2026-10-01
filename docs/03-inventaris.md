@@ -117,14 +117,15 @@ na herverdelingen; subsidies stedelijke agentschappen SJ0-1SFC2DA-WT 56,5 → 51
 ## I. Dossier CGG — wachttijden (uitgewerkt 1-10-2026)
 
 Geen centrale wachtlijst (EPD pas vanaf eerste contact; "elk CGG beheert zelf zijn wachtlijst"). Wel wachttijden in dagen uit Excel-bijlagen
-bij schriftelijke vragen (379, 382, 645, 107), per CGG × leeftijd × geslacht; sectorgemiddelden hieronder zijn **ongewogen eigen berekening**
-(`ongecontroleerd`); het officiële sectorgemiddelde staat enkel in het ZorgAtlas-Tableau-dashboard.
+bij schriftelijke vragen (379, 382, 645, 107), per CGG × leeftijd × geslacht; sectorgemiddelden hieronder zijn een **eigen berekening, gewogen naar actieve zorgperiodes**
+per cel (`scripts/cgg_gewogen.py`, status `bron_gelezen`); het officiële sectorgemiddelde staat enkel in het ZorgAtlas-Tableau-dashboard (niet exporteerbaar).
+Gewogen en ongewogen verschillen hooguit ± 3 dagen.
 
 | Aanmelding → 1e contact (dagen) | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 |
 |---|---|---|---|---|---|---|
-| 0-17 jaar | 56 | 60 | 64 | 48 | 42 | 42 |
-| 18-59 jaar (2024: 18-64) | 46 | 50 | 47 | 37 | 37 | 37 |
-| 60+ (2024: 65+) | 31 | 35 | 30 | 26 | 28 | 25 |
+| 0-17 jaar | 54 | 60 | 61 | 47 | 42 | 42 |
+| 18-59 jaar (2024: 18-64) | 47 | 52 | 50 | 39 | 39 | 38 |
+| 60+ (2024: 65+) | 31 | 36 | 30 | 26 | 28 | 25 |
 
 Trend bevestigd door de minister ("daalt licht"); breuken: ZorgAtlas 2022 (telefonische contacten tellen mee als contact), nieuwe leeftijdsgroepen
 2024; cijfers 2025 pas ± mei 2027. Volumes: actieve zorgperiodes 53.850 (2019) → 58.203 (2022) → 57.370 (2024); 55.202 unieke zorggebruikers
@@ -139,7 +140,7 @@ Justitiehuizen (niet-opgestarte mandaten), forensische zorg, CAW/verslavingszorg
 
 1. ~~Wonen in Vlaanderen jaarverslag 2025~~ — gedaan (215.337 actieve inschrijvingen, in curated).
 2. ~~AgII jaarverslag 2024/2025~~ — gelezen: KPI niet meer gepubliceerd sinds jaarverslag 2023 (§H).
-3. ~~Bijlage SV 379~~ — Excel-bijlagen 379/382/645/107 verwerkt (§I); nog te doen: gewogen sectorgemiddelde of ZorgAtlas-export ter vervanging van de ongewogen berekening.
+3. ~~Bijlage SV 379~~ — Excel-bijlagen 379/382/645/107 verwerkt (§I); gewogen sectorgemiddelde uitgewerkt (`scripts/cgg_gewogen.py`, 01-10-2026); ZorgAtlas biedt geen CSV-export van de datatabbladen.
 4. VAPH halfjaarverslag 2026 (PG-stand 30-06-2026): **nog niet online** op 1-10-2026 (404) — herhalen eind oktober/november met `wachtlijst harvest vaph 2026-eerste-jaarhelft`.
 5. Jaarverslag Jeugdhulp 2018 (exact cijfer 31-12-2018); discrepantie 2022 (7.397/7.448); cijfers lokale loketten kinderopvang 2025.
 6. Volgende kandidaten: collectief maatwerk (VDAB, SV-reeks), woonzorg (erkenningskalender als aanbodzijde-lijst), buitengewoon onderwijs (capaciteitsmonitor).
