@@ -49,8 +49,8 @@ st.caption(
     "elk cijfer draagt zijn bron, passage, peildatum, definitie en controlestatus."
 )
 
-tab_overzicht, tab_detail, tab_budget, tab_bronnen, tab_methode = st.tabs(
-    ["Inventaris", "Voorziening", "Budget", "Bronnen", "Methodiek"]
+tab_overzicht, tab_totalen, tab_detail, tab_budget, tab_bronnen, tab_methode = st.tabs(
+    ["Inventaris", "Totalen", "Voorziening", "Budget", "Bronnen", "Methodiek"]
 )
 
 # ------------------------------------------------------------------------------------------ Inventaris
@@ -69,6 +69,234 @@ with tab_overzicht:
         sel[["naam", "domein", "entiteit", "bevoegdheid", "wachtlijst_naam", "wachtlijst_type", "frequentie", "laatste_peildatum", "scan_status", "opmerking"]],
         width="stretch", hide_index=True, height=560,
     )
+
+# ------------------------------------------------------------------------------------------ Totalen
+with tab_totalen:
+    # Eén kerncijfer per voorziening, bewust gekozen (zoals REEKS_LABELS): een 'hoeveel wachten er'-metriek (aantal)
+    # en/of een wachttijdmetriek. Enkel aantal-metrieken worden opgeteld; wachttijden en voorzieningen zonder cijfer
+    # staan ernaast met de reden. Het totaal zegt dus altijd wat erin zit — eenheden en peildata verschillen.
+    KERN = {
+        "vaph-pvb": dict(aantal="wachtenden_personen", wachttijd="wachttijd_eerstvolgende_pg2_dagen",
+                         noot="personen met minstens één actieve vraag; wachttijd = eerstvolgende wachtende PG2"),
+        "opgroeien-nrtj": dict(aantal="wachtenden_nrtj", noot="excl. PAB (apart geteld onder PAB minderjarigen)"),
+        "wonen-sociale-huur": dict(aantal="wachtenden_kandidaten", wachttijd="wachttijd_bij_toewijzing_jaren", budget="nettofinanciering VMSW",
+                                   noot="eenheid wisselt per bron (kandidaat-huurders / kandidaten / huishoudens)"),
+        "wonen-huurpremie": dict(noot="rechtsgebonden, geen wachtlijst"),
+        "wonen-sociale-koop": dict(noot="afgesloten: enkel verkoopcijfers, geen wachtlijst"),
+        "agii-mo": dict(aantal="wachtenden_6_maanden", noot="KPI: > 6 maanden na contract nog niet gestart"),
+        "vdab-collectief-maatwerk": dict(aantal="wachtenden_advies_cmw", noot="werkzoekenden met advies, zonder plaats"),
+        "zorg-woonzorgcentra": dict(noot="geen wachtlijst, enkel erkenningskalender (zie Voorziening)"),
+        "zorg-cgg": dict(wachttijd="wachttijd_ftf1_0_17_dagen", budget="enveloppe-subsidie CGG", noot="wachttijd tot 1e contact 0-17 j; geen wachtlijsttelling"),
+        "zorg-cos": dict(wachttijd="wachttijd_antwerpen_maanden", noot="enkel per centrum (hier Antwerpen), geen Vlaams cijfer"),
+        "opgroeien-kinderopvang": dict(aantal="onbeantwoorde_opvangvragen", noot="vragen via lokale loketten, niet-unieke kinderen"),
+        "opgroeien-pleegzorg": dict(aantal="wachtenden_pleeggezin", noot="kinderen wachtend op een pleeggezin"),
+        "onderwijs-buitengewoon": dict(noot="decentraal; enkel lokale LOP-cijfers (bv. Antwerpen)"),
+        "nt2": dict(aantal="wachtenden_cbe_cvo", noot="afgesloten: geen wachtenden gemeld"),
+        "zorg-gezinszorg": dict(noot="rantsoenering via urencontingent, geen lijst"),
+        "vsb-zorgbudget": dict(noot="rechtsgebonden, geen wachtlijst"),
+        "ajh-justitiehuizen": dict(wachttijd="wachttijd_werkstraf_aanstelling_dagen", noot="wachttijd tot aanstelling justitieassistent (werkstraf)"),
+        "wonen-premies": dict(noot="afgesloten: premies op aanvraag, geen wachtlijst"),
+        "vwf-woonlening": dict(noot="afgesloten: geen wachtlijst"),
+        "vdab-ibo": dict(noot="afgesloten: geen wachtlijst"),
+        "vaph-pab-minderjarigen": dict(aantal="wachtenden_pab", noot="minderjarigen wachtend op PAB (Opgroeien-telling)"),
+        "vaph-rth-hulpmiddelen": dict(noot="geen lijst; deels verplaatste PVB-wachtlijst (zie PVB: onder cesuur)"),
+        "zorg-car": dict(noot="geen cijfers beschikbaar"),
+        "zorg-caw-verslavingszorg": dict(wachttijd="wachttijd_cgg_verslavingsteams_dagen", noot="geen wachtlijsttelling"),
+        "zorg-forensisch": dict(aantal="caw_wachtenden_gevangenissen", wachttijd="wachttijd_cgg_forensisch_dagen",
+                                noot="CAW in gevangenis, onvolledig (Oost-Vlaanderen zonder lijst)"),
+        "dwse-art60-wijkwerken": dict(noot="rantsoenering zonder lijst"),
+    }
+    # Referentiebudget per voorziening: één bedrag, geen som — meest recente begrotingsjaar, bij voorkeur het
+    # begrotingsartikel (VAK), anders de eigen begroting van de entiteit, anders een beleidsenveloppe, anders realisatie.
+    # Waar het grootste artikel niet de voorziening dekt (sociale huur, CGG), kiest KERN[...]["budget"] de budgetlijn op label.
+    NIVEAU_VOORKEUR = ["dept_artikel", "entiteit_begroting", "beleidsenveloppe", "realisatie"]
+
+    def _laatste(vid: str, metriek: str | None):
+        if not metriek:
+            return None, None
+        r = bev[(bev["voorziening_id"] == vid) & (bev["metriek"] == metriek)].dropna(subset=["peildatum"]).sort_values("peildatum")
+        return (r.iloc[0], r.iloc[-1]) if len(r) else (None, None)
+
+    def _budgetkandidaten(vid: str):
+        kand = bud[(bud["voorziening_id"] == vid) & bud["niveau"].isin(NIVEAU_VOORKEUR) & bud["kredietsoort"].isin(["VAK", "n.v.t."])].dropna(subset=["begrotingsjaar"])
+        label = KERN.get(vid, {}).get("budget")
+        return kand[kand["label"].str.contains(label, case=False, regex=False)] if label else kand
+
+    def _referentiebudget(vid: str):
+        kand = _budgetkandidaten(vid)
+        if not len(kand):
+            return None
+        kand = kand[kand["begrotingsjaar"] == kand["begrotingsjaar"].max()].copy()
+        kand["rang"] = kand["niveau"].map(NIVEAU_VOORKEUR.index)
+        return kand.sort_values(["rang", "bedrag_eur"], ascending=[True, False]).iloc[0]
+
+    def _budgetreeks(vid: str):
+        """Langste reeks met gelijk niveau en gelijke budgetlijn (≥ 2 jaren) — voor budgetgroei. Fases mogen mengen
+        (BA 2025 → BO 2026 is de gangbare vergelijking); het label wordt ontdaan van een suffix als '(uitvoering)'.
+        Uitbreidingsbeleid is uitgesloten: dat is een jaarlijkse enveloppe, geen stand."""
+        kand = _budgetkandidaten(vid).copy()
+        kand["lijn"] = kand["label"].str.replace(r"\s*\((uitvoering|realisatie)\)\s*$", "", regex=True).str.strip()
+        beste = None
+        FASE_RANG = {"BA": 0, "BO": 1, "AGENTSCHAP": 2, "BELEID": 3, "UITV": 4}  # per jaar één fase: begroting vóór uitvoering
+        kand["fase_rang"] = kand["fase"].map(FASE_RANG).fillna(9)
+        for (niveau, lijn), g in kand.groupby(["niveau", "lijn"]):
+            g = g.sort_values(["begrotingsjaar", "fase_rang"]).drop_duplicates("begrotingsjaar", keep="first")
+            if len(g) < 2:
+                continue
+            sleutel = (len(g), -NIVEAU_VOORKEUR.index(niveau), g["bedrag_eur"].iloc[-1])
+            if beste is None or sleutel > beste[0]:
+                beste = (sleutel, g)
+        return None if beste is None else beste[1]
+
+    rijen = []
+    for _, v in voorz.iterrows():
+        vid, k = v["voorziening_id"], KERN.get(v["voorziening_id"], {})
+        e0, e1 = _laatste(vid, k.get("aantal"))
+        w0, w1 = _laatste(vid, k.get("wachttijd"))
+        rb, br = _referentiebudget(vid), _budgetreeks(vid)
+        uitbr = bud[(bud["voorziening_id"] == vid) & (bud["niveau"] == "uitbreidingsbeleid")].dropna(subset=["begrotingsjaar"]).sort_values(["begrotingsjaar", "bedrag_eur"])
+        rijen.append({
+            "voorziening_id": vid, "voorziening": v["naam"], "domein": v["domein"],
+            "wachtenden": e1["waarde"] if e1 is not None else None,
+            "eenheid": e1["eenheid"] if e1 is not None else "",
+            "peildatum": e1["peildatum"] if e1 is not None else pd.NaT,
+            "status": STATUS_LABEL.get(e1["controlestatus"], "") if e1 is not None else "",
+            "eerste_waarde": e0["waarde"] if e0 is not None and e0["peildatum"] != e1["peildatum"] else None,
+            "eerste_peildatum": e0["peildatum"] if e0 is not None and e0["peildatum"] != e1["peildatum"] else pd.NaT,
+            "wachttijd": w1["waarde"] if w1 is not None else None,
+            "wachttijd_eenheid": w1["eenheid"] if w1 is not None else "",
+            "wachttijd_peildatum": w1["peildatum"] if w1 is not None else pd.NaT,
+            "wachttijd_eerste": w0["waarde"] if w0 is not None and w0["peildatum"] != w1["peildatum"] else None,
+            "budget_mln": rb["bedrag_eur"] / 1e6 if rb is not None else None,
+            "budget_jaar": int(rb["begrotingsjaar"]) if rb is not None else None,
+            "budget_niveau": f"{rb['niveau']} · {rb['fase']}" if rb is not None else "",
+            "budget_label": rb["label"] if rb is not None else "",
+            "budget_status": STATUS_LABEL.get(rb["controlestatus"], "") if rb is not None else "",
+            "uitbreiding_mln": uitbr["bedrag_eur"].iloc[-1] / 1e6 if len(uitbr) else None,
+            "uitbreiding_jaar": int(uitbr["begrotingsjaar"].iloc[-1]) if len(uitbr) else None,
+            "budgetreeks": br,
+            "noot": k.get("noot", ""),
+        })
+    T = pd.DataFrame(rijen)
+    T["groei_pct"] = (T["wachtenden"] / T["eerste_waarde"] - 1) * 100
+    T["budgetgroei_pct"] = T["budgetreeks"].map(lambda g: (g["bedrag_eur"].iloc[-1] / g["bedrag_eur"].iloc[0] - 1) * 100 if g is not None else None)
+    T["budgetperiode"] = T["budgetreeks"].map(lambda g: f"{int(g['begrotingsjaar'].iloc[0])}→{int(g['begrotingsjaar'].iloc[-1])}" if g is not None else "")
+    T["budgetreeks_label"] = T["budgetreeks"].map(lambda g: f"{g['niveau'].iloc[0]} · {g['lijn'].iloc[0]} ({' / '.join(dict.fromkeys(g['fase']))})" if g is not None else "")
+
+    met_aantal = T[T["wachtenden"].notna()]
+    met_budget = T[T["budget_mln"].notna()]
+    stijgend = met_aantal[met_aantal["groei_pct"] > 0]
+
+    st.markdown(
+        "Eén kerncijfer per voorziening: **hoeveel wachten er** (aantal) en/of **hoe lang** (wachttijd), plus één **referentiebudget** "
+        "(meest recente begrotingsjaar, bij voorkeur het begrotingsartikel). De totalen tellen enkel aantallen op; eenheden, definities en "
+        "peildata verschillen per voorziening — open *wat zit erin* vóór u een totaal citeert."
+    )
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Wachtenden, som", f"{met_aantal['wachtenden'].sum():,.0f}".replace(",", "."),
+              help=f"{len(met_aantal)} van {len(T)} voorzieningen met een telbaar kerncijfer; eenheden verschillen (zie 'wat zit erin').")
+    c2.metric("Voorzieningen met telbaar cijfer", f"{len(met_aantal)} / {len(T)}")
+    c3.metric("Lijsten die groeien", f"{len(stijgend)} / {int(met_aantal['groei_pct'].notna().sum())}",
+              help="Kerncijfer laatste peildatum hoger dan eerste peildatum in de reeks.")
+    c4.metric("Referentiebudget, som (mln €)", f"{met_budget['budget_mln'].sum():,.0f}".replace(",", "."),
+              help=f"{len(met_budget)} voorzieningen; niveaus verschillen en overlappen deels (bv. PAB binnen VAPH, pleegzorg binnen jeugdhulp). Indicatief.")
+
+    with st.expander("Wat zit erin — en wat niet"):
+        a, bcol = st.columns(2)
+        a.markdown("**In de som wachtenden**")
+        a.dataframe(
+            met_aantal.sort_values("wachtenden", ascending=False)[["voorziening", "wachtenden", "eenheid", "peildatum", "status", "noot"]],
+            hide_index=True, width="stretch",
+            column_config={"wachtenden": st.column_config.NumberColumn(format="localized"), "peildatum": st.column_config.DateColumn(format="DD-MM-YYYY")},
+        )
+        bcol.markdown("**Niet in de som** (geen telbaar cijfer)")
+        bcol.dataframe(T[T["wachtenden"].isna()][["voorziening", "wachttijd", "wachttijd_eenheid", "noot"]], hide_index=True, width="stretch",
+                       column_config={"wachttijd": st.column_config.NumberColumn(format="localized")})
+        st.caption("Overlap bewust vermeden: NRTJ telt excl. PAB; RTH-gebruikers onder de PVB-cesuur worden niet apart geteld. "
+                   "Kinderopvang telt vragen (niet-unieke kinderen); sociale huur telt huishoudens volgens de laatste bron.")
+
+    # ---- Tabel per voorziening
+    st.markdown("**Per voorziening** — kerncijfer, trend, wachttijd en referentiebudget")
+    toon_t = T[["voorziening", "domein", "wachtenden", "eenheid", "peildatum", "groei_pct", "eerste_peildatum", "status",
+                "wachttijd", "wachttijd_eenheid", "wachttijd_peildatum", "budget_mln", "budget_jaar", "budget_niveau", "budget_label",
+                "uitbreiding_mln", "uitbreiding_jaar", "noot"]]
+    st.dataframe(
+        toon_t.sort_values("wachtenden", ascending=False, na_position="last"), hide_index=True, width="stretch", height=560,
+        column_config={
+            "wachtenden": st.column_config.NumberColumn("wachtenden", format="localized"),
+            "peildatum": st.column_config.DateColumn("peildatum", format="DD-MM-YYYY"),
+            "groei_pct": st.column_config.NumberColumn("groei sinds eerste meting (%)", format="%+.0f %%"),
+            "eerste_peildatum": st.column_config.DateColumn("eerste meting", format="DD-MM-YYYY"),
+            "wachttijd": st.column_config.NumberColumn("wachttijd", format="localized"),
+            "wachttijd_eenheid": "eenheid ", "wachttijd_peildatum": st.column_config.DateColumn("peildatum ", format="DD-MM-YYYY"),
+            "budget_mln": st.column_config.NumberColumn("referentiebudget (mln €)", format="%.1f"),
+            "budget_jaar": st.column_config.NumberColumn("jaar", format="%d"),
+            "budget_niveau": "niveau · fase", "budget_label": "budgetlijn",
+            "uitbreiding_mln": st.column_config.NumberColumn("uitbreidingsbeleid (mln €)", format="%.1f"),
+            "uitbreiding_jaar": st.column_config.NumberColumn("jaar ", format="%d"),
+        },
+    )
+
+    # ---- Figuur 1: wachtenden per voorziening (log-as: sociale huur is 10× de rest)
+    g1 = met_aantal[met_aantal["wachtenden"] > 0].sort_values("wachtenden")
+    if len(g1):
+        fig_t1 = go.Figure(go.Bar(
+            x=g1["wachtenden"], y=g1["voorziening"], orientation="h", marker_color=SERIES["pg1"], marker_line_width=0,
+            text=[f"{x:,.0f}".replace(",", ".") + f" {e}" for x, e in zip(g1["wachtenden"], g1["eenheid"])], textposition="outside",
+            customdata=list(zip(g1["peildatum"].dt.strftime("%d-%m-%Y"), g1["status"], g1["noot"])),
+            hovertemplate="<b>%{y}</b><br>%{x:,.0f} (peildatum %{customdata[0]})<br>%{customdata[1]}<br><i>%{customdata[2]}</i><extra></extra>",
+        ))
+        fig_t1.update_layout(
+            title="Wachtenden per voorziening, laatste peildatum (logaritmische as — eenheden verschillen)",
+            plot_bgcolor=INK["surface"], paper_bgcolor=INK["surface"], font=dict(color=INK["primary"], family="system-ui, Segoe UI, sans-serif"),
+            margin=dict(l=40, r=160, t=60, b=40), height=60 + 38 * len(g1), showlegend=False,
+        )
+        fig_t1.update_xaxes(type="log", gridcolor=INK["grid"], tickfont=dict(color=INK["muted"]), separatethousands=True)
+        fig_t1.update_yaxes(showgrid=False, tickfont=dict(color=INK["primary"]))
+        st.plotly_chart(fig_t1, width="stretch")
+
+    # ---- Figuur 2: groei wachtlijst vs groei budget — de eigenlijke 'big picture'
+    g2 = T[T["groei_pct"].notna() | T["budgetgroei_pct"].notna()].copy()
+    g2 = g2[g2["wachtenden"].notna()].sort_values("groei_pct", ascending=False)
+    if len(g2):
+        lijstper = [f"{a:%Y}→{b:%Y}" if pd.notna(a) else "" for a, b in zip(g2["eerste_peildatum"], g2["peildatum"])]
+        fig_t2 = go.Figure()
+        fig_t2.add_trace(go.Bar(
+            name="wachtlijst (kerncijfer)", x=g2["voorziening"], y=g2["groei_pct"], marker_color=SERIES["pg2"], marker_line_width=0,
+            customdata=list(zip(lijstper, g2["eenheid"])),
+            hovertemplate="<b>%{x}</b><br>wachtlijst %{y:+.0f} % (%{customdata[0]}, %{customdata[1]})<extra></extra>",
+        ))
+        fig_t2.add_trace(go.Bar(
+            name="budget (langste gelijksoortige reeks)", x=g2["voorziening"], y=g2["budgetgroei_pct"], marker_color=SERIES["pg1"], marker_line_width=0,
+            customdata=list(zip(g2["budgetperiode"], g2["budgetreeks_label"])),
+            hovertemplate="<b>%{x}</b><br>budget %{y:+.0f} % (%{customdata[0]})<br><i>%{customdata[1]}</i><extra></extra>",
+        ))
+        fig_t2.update_layout(
+            title="Groei van de wachtlijst versus groei van het budget (%) — periodes verschillen per voorziening, zie hover",
+            barmode="group", bargap=0.3, plot_bgcolor=INK["surface"], paper_bgcolor=INK["surface"],
+            font=dict(color=INK["primary"], family="system-ui, Segoe UI, sans-serif"),
+            legend=dict(orientation="h", y=-0.45), margin=dict(l=40, r=20, t=60, b=140), height=480,
+        )
+        fig_t2.update_xaxes(showgrid=False, tickangle=-30, tickfont=dict(color=INK["primary"]))
+        fig_t2.update_yaxes(gridcolor=INK["grid"], zeroline=True, zerolinecolor=INK["muted"], ticksuffix=" %", tickfont=dict(color=INK["muted"]))
+        st.plotly_chart(fig_t2, width="stretch")
+        st.caption(
+            "Lezing: staat de oranje balk boven de blauwe, dan groeit de lijst sneller dan het budget (of krimpt het budget niet mee). "
+            "Budgetgroei is gemeten op de langste reeks met gelijk niveau en gelijke budgetlijn, begroting vóór uitvoering (uitbreidingsbeleid uitgesloten: een jaarlijkse "
+            "enveloppe, geen stand). Wachttijd-voorzieningen (CGG, justitiehuizen, forensische zorg) staan hier niet: een wachttijd is geen lijst."
+        )
+
+    # ---- Wachttijden apart: eerste vs laatste meting
+    wt = T[T["wachttijd"].notna()].copy()
+    if len(wt):
+        st.markdown("**Wachttijden** — eerste en laatste meting van het kerncijfer")
+        st.dataframe(
+            wt[["voorziening", "wachttijd_eerste", "wachttijd", "wachttijd_eenheid", "wachttijd_peildatum", "noot"]].sort_values("voorziening"),
+            hide_index=True, width="stretch",
+            column_config={"wachttijd_eerste": st.column_config.NumberColumn("eerste meting", format="localized"),
+                           "wachttijd": st.column_config.NumberColumn("laatste meting", format="localized"),
+                           "wachttijd_peildatum": st.column_config.DateColumn("peildatum", format="DD-MM-YYYY")},
+        )
 
 # ------------------------------------------------------------------------------------------ Voorziening
 with tab_detail:
