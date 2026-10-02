@@ -49,8 +49,8 @@ st.caption(
     "elk cijfer draagt zijn bron, passage, peildatum, definitie en controlestatus."
 )
 
-tab_overzicht, tab_totalen, tab_detail, tab_budget, tab_bronnen, tab_methode = st.tabs(
-    ["Inventaris", "Totalen", "Voorziening", "Budget", "Bronnen", "Methodiek"]
+tab_overzicht, tab_detail, tab_budget, tab_bronnen, tab_totalen, tab_methode = st.tabs(
+    ["Inventaris", "Voorziening", "Budget", "Bronnen", "Totalen", "Methodiek"]
 )
 
 # ------------------------------------------------------------------------------------------ Inventaris
